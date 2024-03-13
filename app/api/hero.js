@@ -24,6 +24,13 @@ export function getHeroList(params) {
   })
 }
 
+export function getAllHero() {
+  return request({
+    url: `/heroes/all`,
+    method: 'GET',
+  })
+}
+
 export function getHero(id) {
   return request({
     url: `/heroes/${id}`,

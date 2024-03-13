@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons'
 import { Layout, Menu, Button, theme } from 'antd'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function MainLayout({ children }) {
   const { Header, Sider, Content } = Layout
@@ -20,10 +20,10 @@ export default function MainLayout({ children }) {
   const {
     token: { colorBgContainer },
   } = theme.useToken()
-  const pathname = usePathname()
-  const selectedKey = ['/dashboard', '/heroes', '/regions', '/teams', '/players'].indexOf(pathname)
+  const pathname = usePathname().split('/')[1]
+  const selectedKey = ['dashboard', 'heroes', 'regions', 'teams', 'players', 'tournaments', 'stages', 'matches', 'games'].indexOf(pathname)
   const router = useRouter()
-  const username = localStorage.getItem('username') || 'Guest'
+  const username = !window ? 'Guest' : window.localStorage.getItem('username')
 
   const handleSignOut = async () => {
     localStorage.removeItem('token')
@@ -73,6 +73,34 @@ export default function MainLayout({ children }) {
               icon: <TeamOutlined />,
               label: (
                 <Link href='/players'>选手管理</Link>
+              ),
+            },
+            {
+              key: '5',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/tournaments'>赛事管理</Link>
+              ),
+            },
+            {
+              key: '6',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/stages'>阶段赛管理</Link>
+              ),
+            },
+            {
+              key: '7',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/matches'>系列赛管理</Link>
+              ),
+            },
+            {
+              key: '8',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/games'>比赛管理</Link>
               ),
             },
           ]}

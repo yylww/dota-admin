@@ -17,7 +17,7 @@ export const TableList = ({query, current, pageSize, onPageChange, onEdit}) => {
       title: '选手',
       key: 'player',
       render: (_, record) => {
-        const arr = record.players.map(item => item.gameId)
+        const arr = record.players.map(item => item.nickname)
         return arr.join(', ')
       }
     },

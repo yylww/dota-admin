@@ -24,6 +24,13 @@ export function getRegionList(params) {
   })
 }
 
+export function getAllRegion() {
+  return request({
+    url: `/regions/all`,
+    method: 'GET',
+  })
+}
+
 export function getRegion(id) {
   return request({
     url: `/regions/${id}`,

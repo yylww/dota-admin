@@ -24,6 +24,13 @@ export function getPlayerList(params) {
   })
 }
 
+export function getAllPlayer() {
+  return request({
+    url: `/players/all`,
+    method: 'GET',
+  })
+}
+
 export function getPlayer(id) {
   return request({
     url: `/players/${id}`,

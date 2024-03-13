@@ -1,46 +1,46 @@
 import request from '@/app/utils/request'
 
-export function createTeam(data) {
+export function createStage(data) {
   return request({
-    url: `/teams`,
+    url: `/stages`,
     method: 'POST',
     data,
   })
 }
 
-export function updateTeam(id, data) {
+export function updateStage(id, data) {
   return request({
-    url: `/teams/${id}`,
+    url: `/stages/${id}`,
     method: 'PATCH',
     data,
   })
 }
 
-export function getTeamList(params) {
+export function getStageList(params) {
   return request({
-    url: `/teams`,
+    url: `/stages`,
     method: 'GET',
     params,
   })
 }
 
-export function getAllTeam() {
+export function getAllStage() {
   return request({
-    url: `/teams/all`,
+    url: `/stages/all`,
     method: 'GET',
   })
 }
 
-export function getTeam(id) {
+export function getStage(id) {
   return request({
-    url: `/teams/${id}`,
+    url: `/stages/${id}`,
     method: 'GET',
   })
 }
 
-export function deleteTeam(id) {
+export function deleteStage(id) {
   return request({
-    url: `/teams/${id}`,
+    url: `/stages/${id}`,
     method: 'DELETE',
   })
 }

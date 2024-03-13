@@ -1,20 +1,21 @@
-import { Form, Modal, Input } from "antd"
+import { Form, Modal, Input, InputNumber } from "antd"
 import useSWR from "swr"
 import { updatePlayer, getPlayer } from "@/app/api/player"
 import { useEffect, useState } from "react"
 import { mutate } from "swr"
+import { SelectTeams } from "@/app/components/SelectTeams"
 
 export const UpdateForm = ({ open, playerId, onCancel }) => {
-  const {data} = useSWR(playerId ? ['/heroes', playerId] : null, () => getPlayer(playerId))
+  const {data, isLoading} = useSWR(playerId ? ['getPlayer', playerId] : null, () => getPlayer(playerId))
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const handleOk = () => {
     form
       .validateFields()
       .then(async (values) => {
-        setConfirmLoading(true)
-        await mutate(['/player', playerId], () => updatePlayer(playerId, values))
-        setConfirmLoading(false)
+        // setConfirmLoading(true)
+        await mutate(['updatePlayer', playerId], () => updatePlayer(playerId, values))
+        // setConfirmLoading(false)
         onCancel()
       })
       // .catch((info) => {
@@ -22,15 +23,19 @@ export const UpdateForm = ({ open, playerId, onCancel }) => {
       // })
   }
 
-  useEffect(() => {
-    function handler(data) {
-      if (data) {
-        const { name, gameId, position } = data
-        form.setFieldsValue({ name, gameId, position })
-      } 
-    }
-    handler(data)  
-  }, [data])
+  // useEffect(() => {
+  //   function handler(data) {
+  //     if (data) {
+  //       const { name, gameId, position } = data
+  //       form.setFieldsValue({ name, gameId, position })
+  //     } 
+  //   }
+  //   handler(data)  
+  // }, [data])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   
   return (
     <Modal
@@ -52,17 +57,18 @@ export const UpdateForm = ({ open, playerId, onCancel }) => {
           marginTop: 24,
         }}
         autoComplete="off"
+        initialValues={data}
       >
         <Form.Item
-          label="姓名"
-          name="name"
+          label="ID"
+          name="id"
           rules={[{ required: true, message: '必填' }]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
         <Form.Item
           label="游戏ID"
-          name="gameId"
+          name="nickname"
           rules={[{ required: true, message: '必填' },]}
         >
           <Input />
@@ -73,6 +79,20 @@ export const UpdateForm = ({ open, playerId, onCancel }) => {
           rules={[{ required: true, message: '必填' },]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          label="队伍"
+          name="teamId"
+          rules={[{ required: true, message: '必填' },]}
+        >
+          <SelectTeams />
+        </Form.Item>
+        <Form.Item
+          label="状态"
+          name="status"
+          rules={[{ required: true, message: '必填' },]}
+        >
+          <InputNumber />
         </Form.Item>
       </Form>
     </Modal>

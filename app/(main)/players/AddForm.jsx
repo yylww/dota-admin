@@ -1,7 +1,8 @@
-import { Form, Modal, Input } from "antd"
-import { createTeam } from "@/app/api/team"
+import { Form, Modal, Input, InputNumber } from "antd"
+import { createPlayer } from "@/app/api/player"
 import { useState } from "react"
 import { mutate } from "swr"
+import { SelectTeams } from "@/app/components/SelectTeams"
 
 export const AddForm = ({ open, onCancel }) => {
   const [form] = Form.useForm()
@@ -10,9 +11,9 @@ export const AddForm = ({ open, onCancel }) => {
     form
       .validateFields()
       .then(async (values) => {
-        setConfirmLoading(true)
-        await mutate('createTeam', () => createTeam(values))
-        setConfirmLoading(false)
+        // setConfirmLoading(true)
+        await mutate('createPlayer', () => createPlayer(values))
+        // setConfirmLoading(false)
         handleCancel()
       })
       // .catch((info) => {
@@ -46,15 +47,15 @@ export const AddForm = ({ open, onCancel }) => {
         autoComplete="off"
       >
         <Form.Item
-          label="姓名"
-          name="name"
+          label="ID"
+          name="id"
           rules={[{ required: true, message: '必填' }]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
         <Form.Item
           label="游戏ID"
-          name="gameId"
+          name="nickname"
           rules={[{ required: true, message: '必填' },]}
         >
           <Input />
@@ -65,6 +66,20 @@ export const AddForm = ({ open, onCancel }) => {
           rules={[{ required: true, message: '必填' },]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          label="队伍"
+          name="teamId"
+          rules={[{ required: true, message: '必填' },]}
+        >
+          <SelectTeams />
+        </Form.Item>
+        <Form.Item
+          label="状态"
+          name="status"
+          rules={[{ required: true, message: '必填' },]}
+        >
+          <InputNumber />
         </Form.Item>
       </Form>
     </Modal>

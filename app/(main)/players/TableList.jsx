@@ -7,10 +7,14 @@ export const TableList = ({query, current, pageSize, onPageChange, onEdit}) => {
   const {data, isLoading} = useSWR(['getPlayerList', query, current, pageSize], () => getPlayerList({query, current, pageSize}))
   const columns = [
     { title: 'ID', dataIndex: 'id' },
-    { title: '姓名', dataIndex: 'name' },
-    { title: '游戏ID', dataIndex: 'gameId' },
+    { title: '游戏ID', dataIndex: 'nickname' },
     { title: '所属队伍', dataIndex: ['team', 'name'] },
     { title: '队伍位置', dataIndex: 'position' },
+    { 
+      title: '状态', 
+      key: 'status',
+      render: (_, record) => <span>{['现役', '活跃', '退役'][record.status]}</span>
+    },
     {
       title: '操作',
       key: 'action',
