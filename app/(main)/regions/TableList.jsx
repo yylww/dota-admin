@@ -1,10 +1,11 @@
 import useSWR from "swr"
 import { Table, Pagination, Space } from "antd"
 import { getRegionList, deleteRegion } from "@/app/api/region"
-import { mutate } from "swr"
+import { useSWRConfig } from "swr"
 
 export const TableList = ({query, current, pageSize, onPageChange, onEdit}) => {
-  const {data, isLoading} = useSWR(['getRegionList', query, current, pageSize], () => getRegionList({query, current, pageSize}))
+  const { mutate } = useSWRConfig()
+  const {data, isLoading} = useSWR(['region', query, current, pageSize], () => getRegionList({query, current, pageSize}))
   const columns = [
     { title: 'ID', dataIndex: 'id' },
     { title: '中文名', dataIndex: 'cname' },
@@ -26,32 +27,28 @@ export const TableList = ({query, current, pageSize, onPageChange, onEdit}) => {
     }
   ]
   const handleDelete = async (id) => {
-    await mutate('deleteRegion', () => deleteRegion(id))
-    mutate(['getRegionList', query, current, pageSize])
+    await mutate(['region', id], () => deleteRegion(id))
+    mutate(key => Array.isArray(key) && key[0] === 'region', undefined, { revalidate: true })
+  }
+  if (isLoading) {
+    return <div>Loading...</div>
   }
   return (
     <>
-      { 
-        data ? 
-        <Table 
-          rowKey="id" 
-          dataSource={data.list} 
-          loading={isLoading} 
-          columns={columns} 
-          size="small" 
-          pagination={false}
-        /> : null 
-      }
-      { 
-        data ? 
-        <Pagination
-          style={{ marginTop: 16 }}
-          current={current} 
-          pageSize={pageSize} 
-          total={data.total}
-          onChange={onPageChange}
-        /> : null 
-      }
+      <Table 
+        rowKey="id" 
+        dataSource={data.list} 
+        columns={columns} 
+        size="small" 
+        pagination={false}
+      /> 
+      <Pagination
+        style={{ marginTop: 16 }}
+        current={current} 
+        pageSize={pageSize} 
+        total={data.total}
+        onChange={onPageChange}
+      />
     </>
   )
 }

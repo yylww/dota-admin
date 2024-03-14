@@ -1,23 +1,18 @@
 import { Form, Modal, Input } from "antd"
 import { createRegion } from "@/app/api/region"
-import { useState } from "react"
-import { mutate } from "swr"
+import { useSWRConfig } from "swr"
 
 export const AddForm = ({ open, onCancel }) => {
+  const { mutate } = useSWRConfig()
   const [form] = Form.useForm()
-  const [confirmLoading, setConfirmLoading] = useState(false)
   const handleOk = () => {
     form
       .validateFields()
       .then(async (values) => {
-        setConfirmLoading(true)
-        await mutate('createRegion', () => createRegion(values))
-        setConfirmLoading(false)
+        await mutate(['region'], () => createRegion(values))
+        mutate(key => Array.isArray(key) && key[0] === 'region', undefined, { revalidate: true })
         handleCancel()
       })
-      // .catch((info) => {
-      //   console.log('Validate Failed:', info);
-      // })
   }
   const handleCancel = () => {
     form.resetFields()
@@ -30,7 +25,6 @@ export const AddForm = ({ open, onCancel }) => {
       okText='确定'
       cancelText='取消'
       open={open}
-      confirmLoading={confirmLoading}
       onOk={handleOk}
       onCancel={handleCancel}
     >

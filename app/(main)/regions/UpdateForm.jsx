@@ -1,36 +1,40 @@
 import { Form, Modal, Input } from "antd"
 import useSWR from "swr"
 import { updateRegion, getRegion } from "@/app/api/region"
-import { useEffect, useState } from "react"
-import { mutate } from "swr"
+import { useEffect } from "react"
+import { useSWRConfig } from "swr"
 
 export const UpdateForm = ({ open, regionId, onCancel }) => {
-  const {data} = useSWR(regionId ? ['/regions', regionId] : null, () => getRegion(regionId))
+  console.log(regionId)
+  const { mutate } = useSWRConfig()
+  const {data, isLoading} = useSWR(regionId ? ['region', regionId] : null, () => getRegion(regionId))
   const [form] = Form.useForm()
-  const [confirmLoading, setConfirmLoading] = useState(false)
   const handleOk = () => {
     form
       .validateFields()
       .then(async (values) => {
-        setConfirmLoading(true)
-        await mutate(['/regions', regionId], () => updateRegion(regionId, values))
-        setConfirmLoading(false)
+        await mutate(['region', regionId], () => updateRegion(regionId, values))
+        mutate(key => Array.isArray(key) && key[0] === 'region', undefined, { revalidate: true })
         onCancel()
       })
-      // .catch((info) => {
-      //   console.log('Validate Failed:', info);
-      // })
   }
 
-  useEffect(() => {
-    function handler(data) {
-      if (data) {
-        const { cname, name } = data
-        form.setFieldsValue({ cname, name })
-      } 
-    }
-    handler(data)  
-  }, [data])
+  // useEffect(() => {
+  //   function handler(data) {
+  //     if (data) {
+  //       const { cname, name } = data
+  //       form.setFieldsValue({ cname, name })
+  //     } 
+  //   }
+  //   handler(data)  
+  // }, [data])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+  if (data) {
+    console.log(data);
+  }
   
   return (
     <Modal
@@ -38,7 +42,6 @@ export const UpdateForm = ({ open, regionId, onCancel }) => {
       okText='确定'
       cancelText='取消'
       open={open}
-      confirmLoading={confirmLoading}
       onOk={handleOk}
       onCancel={onCancel}
     >
@@ -52,6 +55,7 @@ export const UpdateForm = ({ open, regionId, onCancel }) => {
           marginTop: 24,
         }}
         autoComplete="off"
+        initialValues={data}
       >
         <Form.Item
           label="中文名"

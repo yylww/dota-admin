@@ -16,11 +16,11 @@ export const SearchForm = ({query, onSubmit, onReset, onCreate}) => {
     >
       <Row gutter={24}>
         <Col span={12}>
-          <Form.Item name="query" label="英雄名称">
-            <Input style={{ maxWidth: 200 }} placeholder="输入要搜索的英雄名" allowClear />
+          <Form.Item name="query">
+            <Input style={{ maxWidth: 200 }} placeholder="输入要搜索的内容" allowClear />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={12} style={{ textAlign: 'right' }}>
           <Button type="primary" htmlType="submit">搜索</Button>
           <Button style={{ margin: '0 12px' }} onClick={handleReset}>重置</Button>
           <Button type="primary" onClick={onCreate}>新建</Button>

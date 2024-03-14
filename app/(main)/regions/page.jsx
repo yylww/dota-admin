@@ -64,7 +64,6 @@ export default function Page() {
         open={createOpen}
         onCancel={() => {
           setCreateOpen(false)
-          mutate(['getRegionList', query, current, pageSize])
         }}
       />
       <UpdateForm 
@@ -72,7 +71,6 @@ export default function Page() {
         regionId={regionId}
         onCancel={() => {
           setUpdateOpen(false)
-          mutate(['getRegionList', query, current, pageSize])
         }}
       />
     </>
