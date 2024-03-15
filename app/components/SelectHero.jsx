@@ -1,17 +1,17 @@
 import { Select, Space } from "antd"
 import useSWR from "swr"
-import { getHeroList } from "../api/hero"
+import { getAllHero } from "../api/hero"
 
 export const SelectHero = ({ mode, values, onChange }) => {
   const staticURL = process.env.NEXT_PUBLIC_STATIC_URL
-  const { data, error, isLoading } = useSWR(['getHeroList'], () => getHeroList({ pageSize: 999 }))
+  const { data, error, isLoading } = useSWR(['hero'], getAllHero)
   if (error) {
     return <div>error</div>
   }
   if (isLoading) {
     return <div>Loading...</div>
   }
-  const options = data.list.map((item, index) => {
+  const options = data.map((item, index) => {
     return {
       value: item.id,
       label: item.cname,

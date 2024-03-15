@@ -24,6 +24,14 @@ export function getTournamentList(params) {
   })
 }
 
+export function getAllTournament(params) {
+  return request({
+    url: `/tournaments/all`,
+    method: 'GET',
+    params,
+  })
+}
+
 export function getTournament(id) {
   return request({
     url: `/tournaments/${id}`,

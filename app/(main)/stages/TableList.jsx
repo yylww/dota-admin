@@ -1,14 +1,8 @@
-import useSWR from "swr"
-import { Table, Pagination, Space } from "antd"
-import { getStageList, deleteStage } from "@/app/api/stage"
-import { mutate } from "swr"
+import { Table, Space } from "antd"
 import dayjs from "dayjs"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 
-export const TableList = ({query, current, pageSize, onPageChange}) => {
-  const router = useRouter()
-  const {data, isLoading} = useSWR(['getStageList', query, current, pageSize], () => getStageList({query, current, pageSize}))
+export const TableList = ({data, onDelete}) => {
   const columns = [
     { title: 'ID', dataIndex: 'id' },
     { title: '标题', dataIndex: 'title' },
@@ -29,42 +23,19 @@ export const TableList = ({query, current, pageSize, onPageChange}) => {
       render: (_, record) => (
         <Space size='middle' style={{ color: '#1677ff' }}>
           <Link href={`/stages/${record.id}`}>详情</Link>
-          <a onClick={() => handleEdit(record.id)}>编辑</a>
-          <a onClick={() => handleDelete(record.id)}>删除</a>
+          <Link href={`/stages/update/${record.id}`}>编辑</Link>
+          {/* <a onClick={() => onDelete(record.id)}>删除</a> */}
         </Space>
       )
     }
   ]
-  const handleDelete = async (id) => {
-    await mutate('deleteStage', () => deleteStage(id))
-    mutate(['getStageList', query, current, pageSize])
-  }
-  const handleEdit = (id) => {
-    router.push(`/stages/update/${id}`)
-  }
   return (
-    <>
-      { 
-        data ? 
-        <Table 
-          rowKey="id" 
-          dataSource={data.list} 
-          loading={isLoading} 
-          columns={columns} 
-          size="small" 
-          pagination={false}
-        /> : null 
-      }
-      { 
-        data ? 
-        <Pagination
-          style={{ marginTop: 16 }}
-          current={current} 
-          pageSize={pageSize} 
-          total={data.total}
-          onChange={onPageChange}
-        /> : null 
-      }
-    </>
+    <Table 
+      rowKey="id" 
+      dataSource={data} 
+      columns={columns} 
+      size="small" 
+      pagination={false}
+    />
   )
 }

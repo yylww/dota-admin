@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
+import { Pagination } from "antd"
+import useSWR from "swr"
+import { getStageList, deleteStage } from "@/app/api/stage"
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -13,6 +16,8 @@ export default function Page() {
   const [query, setQuery] = useState(searchParams.get('query') || '')
   const [current, setCurrent] = useState(Number(searchParams.get('current')) || 1)
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
+
+  const {data, isLoading} = useSWR(['stage', query, current, pageSize], () => getStageList({query, current, pageSize}))
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams)
@@ -35,15 +40,28 @@ export default function Page() {
           setQuery('')
         }}
       />
-      <TableList
-        query={query}
-        current={current}
-        pageSize={pageSize}
-        onPageChange={(current, pageSize) => {
-          setCurrent(current)
-          setPageSize(pageSize)
-        }}
-      />
+      {
+        isLoading ? '' :
+        <>
+          <TableList
+            data={data.list}
+            onDelete={async id => {
+              await mutate(['stage', id], () => deleteStage(id))
+              mutate(key => Array.isArray(key) && key[0] === 'stage')
+            }}    
+          />
+          <Pagination
+            style={{ marginTop: 16 }}
+            current={current} 
+            pageSize={pageSize} 
+            total={data.total}
+            onChange={(current, pageSize) => {
+              setCurrent(current)
+              setPageSize(pageSize)
+            }}
+          />
+        </>
+      }
     </>
   )
 }

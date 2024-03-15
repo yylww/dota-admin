@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { UpdateForm } from "./UpdateForm";
-import { AddForm } from "./AddForm"
+import { CollectionFormModal } from "./ModalForm";
 import { TableList } from "./TableList";
 import { SearchForm } from "./SearchForm";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
+import { updateTeam, createTeam, getTeam, deleteTeam, getTeamList } from "@/app/api/team"
+import { Pagination } from "antd";
 
 export default function Page() {
-  const { mutate } = useSWRConfig()
-
+  
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter() 
@@ -19,10 +19,12 @@ export default function Page() {
   const [current, setCurrent] = useState(Number(searchParams.get('current')) || 1)
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
   
-  const [createOpen, setCreateOpen] = useState(false)
-  const [updateOpen, setUpdateOpen] = useState(false)
-  const [teamId, setTeamId] = useState(null)
-
+  const [id, setId] = useState(null)
+  const [open, setOpen] = useState(false)
+  const { mutate } = useSWRConfig()
+  const detailData = useSWR(id ? ['team', id] : null, () => getTeam(id))
+  const listData = useSWR(['team', query, current, pageSize], () => getTeamList({query, current, pageSize}))
+  
   useEffect(() => {
     const params = new URLSearchParams(searchParams)
     query ? params.set('query', query) : params.delete('query')
@@ -44,37 +46,55 @@ export default function Page() {
           setQuery('')
         }}
         onCreate={() => {
-          setCreateOpen(true)
+          setId(null)
+          setOpen(true)
         }}
       />
-      <TableList
-        query={query}
-        current={current}
-        pageSize={pageSize}
-        onPageChange={(current, pageSize) => {
-          setCurrent(current)
-          setPageSize(pageSize)
-        }}
-        onEdit={id => {
-          setTeamId(id)
-          setUpdateOpen(true)
-        }}
-      />
-      <AddForm 
-        open={createOpen}
-        onCancel={() => {
-          setCreateOpen(false)
-          mutate(['getTeamList', query, current, pageSize])
-        }}
-      />
-      <UpdateForm 
-        open={updateOpen}
-        teamId={teamId}
-        onCancel={() => {
-          setUpdateOpen(false)
-          mutate(['getTeamList', query, current, pageSize])
-        }}
-      />
+      {
+        listData.isLoading ? '' : 
+        <>
+          <TableList
+            data={listData.data.list}
+            onEdit={id => {
+              setId(id)
+              setOpen(true)
+            }}
+            onDelete={async id => {
+              await mutate(['team', id], () => deleteTeam(id))
+              mutate(key => Array.isArray(key) && key[0] === 'team')
+            }}  
+          />
+          <Pagination
+            style={{ marginTop: 16 }}
+            current={current} 
+            pageSize={pageSize} 
+            total={listData.data.total}
+            onChange={(current, pageSize) => {
+              setCurrent(current)
+              setPageSize(pageSize)
+            }}
+          />
+        </>
+      }
+      {
+        detailData.isLoading ? '' :
+        <CollectionFormModal
+          open={open}
+          initialValues={detailData.data}
+          onSubmit={async values => {
+            if (id) {
+              await mutate(['team', id], () => updateTeam(id, values))
+            } else {
+              await mutate(['team'], () => createTeam(values))
+            }
+            mutate(key => Array.isArray(key) && key[0] === 'team')
+            setOpen(false)
+          }}
+          onCancel={() => {
+            setOpen(false)
+          }}
+        />
+      }
     </>
   )
 }

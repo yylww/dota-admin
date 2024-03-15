@@ -1,54 +1,33 @@
-'use client'
+import { Form, Input, Space, Button, DatePicker, Select, Flex } from "antd"
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { SelectTeam } from "@/app/components/SelectTeam"
+import { CascaderTournament } from "@/app/components/CascaderTournament"
 
-import { Form, Input, Space, Card, TextArea, Button, DatePicker, Select, InputNumber } from "antd"
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons'
-import { updateStage, getStage } from "@/app/api/stage"
-import useSWR, { mutate } from "swr"
-import { useRouter } from "next/navigation"
-import { SelectTeams } from "@/app/components/SelectTeam"
-import { SelectTournament } from "@/app/components/SelectTournament"
-import dayjs from "dayjs"
-
-export default function Page({ params }) {
-  const id = params.id
-  const { data, isLoading } = useSWR(['getStage', id], () => getStage(id))
-  const router = useRouter()
+export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
+  const { TextArea } = Input
   const [form] = Form.useForm()
-  const {TextArea} = Input
-  const handleChange = (values) => {
-    console.log(values);
-  }
-  const handleFinish = async (values) => {
-    console.log(values);
-    await mutate(['updateStage'], () => updateStage(id, values))
-    router.push('/stages')
-  }
-  const handleCancel = () => {
-    router.back()
-  }
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
   return (
     <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 18 }}
       form={form}
-      name="update-stage"
-      autoComplete="off"
-      initialValues={{
-        ...data,
-        startDate: dayjs(data.startDate),
-        endDate: dayjs(data.endDate),
+      name="form"
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 16 }}
+      style={{
+        maxWidth: 600,
+        marginTop: 24,
       }}
-      onFinish={handleFinish}
+      initialValues={initialValues}
+      onFinish={async () => {
+        const values = await form.validateFields()
+        onSubmit(values)
+      }}
     >
       <Form.Item
         label="所属赛事"
         name="tournamentId"
         rules={[{ required: true, message: '必填' }]}
       >
-        <SelectTournament value={data.tournamentId} />
+        <CascaderTournament level="tournament" />
       </Form.Item>
       <Form.Item
         label="标题"
@@ -91,23 +70,17 @@ export default function Page({ params }) {
       >
         <DatePicker />
       </Form.Item>
-      <Form.Item label="分组">
+      <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
         <Form.List name="groups">
           {(fields, { add, remove }, { errors }) => (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: 16,
-              }}
-            >
+            <Flex vertical gap="small">
               {fields.map((field, index) => (
                 <Space key={field.key}>
                   <Form.Item noStyle name={[field.name, 'teams']}>
                     { 
-                      data.groups[index] 
-                      ? <SelectTeams mode="multiple" values={data.groups[index].teams} />
-                      : <SelectTeams mode="multiple" />
+                      initialValues.groups && initialValues.groups[index] 
+                      ? <SelectTeam mode="multiple" value={initialValues.groups[index].teams} />
+                      : <SelectTeam mode="multiple" />
                     }
                   </Form.Item>
                   <CloseOutlined onClick={() => remove(field.name)} />
@@ -123,14 +96,14 @@ export default function Page({ params }) {
                   Add field
                 </Button>
               </Form.Item>
-            </div>
+            </Flex>
           )}
         </Form.List>
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
         <Space>
           <Button type="primary" htmlType="submit">提交</Button>
-          <Button htmlType="button" onClick={handleCancel}>取消</Button>
+          <Button htmlType="button" onClick={onCancel}>取消</Button>
         </Space>
       </Form.Item>
     </Form>

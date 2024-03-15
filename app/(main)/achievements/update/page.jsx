@@ -1,36 +1,53 @@
 'use client'
 
-import { updateMatch, getMatch } from "@/app/api/match"
+import { getTournament } from "@/app/api/tournament"
+import { updateAchievement, createAchievement } from "@/app/api/achievement"
+import { getAllTeam } from "@/app/api/team"
 import useSWR, { useSWRConfig } from "swr"
-import { useRouter } from "next/navigation"
-import dayjs from "dayjs"
-import { CollectionForm } from "../../CollectionForm"
+import { useRouter, useSearchParams } from "next/navigation"
+import { CollectionForm } from "../CollectionForm"
 
 export default function Page({ params }) {
-  const id = params.id
+  const searchParams = useSearchParams()
+  const id = searchParams.get('tournament')
   const { mutate } = useSWRConfig()
-  const { data, isLoading } = useSWR(['match', id], () => getMatch(id))
+  const { data, isLoading } = useSWR(['tournament', id], () => getTournament(id))
+  const teamData = useSWR(['team'], getAllTeam)
   const router = useRouter()
-  if (isLoading) {
+  if (isLoading || teamData.isLoading) {
     return <div>Loading...</div>
   }
   return (
     <CollectionForm
       initialValues={{
-        ...data,
-        stageId: [data.tournament.id, data.stage.id],
-        startTime: dayjs(data.startTime),
-        teams: [data.teams[0].id, data.teams[1].id],
+        ranks: data.result.map(item => ({ ...item, teams: item.teams.map(team => team.id)})),
+        tournamentId: [data.result[0].tournamentId],
       }}
       onSubmit={async values => {
         console.log(values)
-        await mutate(['match'], () => updateMatch(id, {
-          ...values,
-          tournamentId: values.stageId[0],
-          stageId: values.stageId[1],
-        }))
-        mutate(key => Array.isArray(key) && key[0] === 'match')
-        router.push('/matches')
+        for (const item of values.ranks) {
+          const players = []
+          item.teams.forEach(id => {
+            const filterTeam = teamData.data.filter(team => team.id === id)[0]
+            filterTeam.players.forEach(player => {
+              players.push(player.id)
+            })
+          })
+          const params = {
+            ...item,
+            tournamentId: values.tournamentId[0],
+            players,
+          }
+          if (item.id) {
+            // 更新已有achievement
+            await mutate(['achievement'], () => updateAchievement(item.id, params))
+          } else {
+            // 新增achievement
+            await mutate(['achievement'], () => createAchievement(params))
+          }
+        }
+        mutate(key => Array.isArray(key) && key[0] === 'achievement')
+        router.push('/achievements')
       }}
       onCancel={() => {
         router.back()

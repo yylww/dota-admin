@@ -61,7 +61,7 @@ export default function Page() {
             }}
             onDelete={async id => {
               await mutate(['hero', id], () => deleteHero(id))
-              mutate(key => Array.isArray(key) && key[0] === 'hero', undefined, { revalidate: true })
+              mutate(key => Array.isArray(key) && key[0] === 'hero')
             }}  
           />
           <Pagination
@@ -81,7 +81,7 @@ export default function Page() {
         <CollectionFormModal
           open={open}
           initialValues={detailData.data}
-          onCreate={async values => {
+          onSubmit={async values => {
             const params = {
               ...values,
               avatar: values.avatar.file ? values.avatar.file.response.data.url : values.avatar,
@@ -91,7 +91,7 @@ export default function Page() {
             } else {
               await mutate(['hero'], () => createHero(params))
             }
-            mutate(key => Array.isArray(key) && key[0] === 'hero', undefined, { revalidate: true })
+            mutate(key => Array.isArray(key) && key[0] === 'hero')
             setOpen(false)
           }}
           onCancel={() => {

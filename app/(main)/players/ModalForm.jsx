@@ -1,20 +1,11 @@
-import { Form, Modal, Input, Upload, Button, InputNumber } from "antd"
-import { UploadOutlined } from "@ant-design/icons"
+import { Form, Modal, Input, InputNumber, Select } from "antd"
 import { useEffect, useState } from "react"
+import { SelectTeam } from "@/app/components/SelectTeam"
 
 const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
-  const baseURL = process.env.NEXT_PUBLIC_API_URL
-  const staticURL = process.env.NEXT_PUBLIC_STATIC_URL
   const [form] = Form.useForm()
-  const [fileList, setFileList] = useState([])
   useEffect(() => {
     onFormInstanceReady(form)
-    setFileList(initialValues ? [{ 
-      uid: '-1', 
-      name: initialValues.name, 
-      url: `${staticURL}${initialValues.avatar}`, 
-      status: 'done' 
-    }] : [])
   }, [])
   return (
     <Form
@@ -33,49 +24,40 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
         name="id"
         rules={[{ required: true, message: '必填' }]}
       >
-        <InputNumber />
+        <InputNumber style={{ width: 200 }} />
       </Form.Item>
       <Form.Item
-        label="中文名"
-        name="cname"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="英文名"
-        name="name"
+        label="游戏ID"
+        name="nickname"
         rules={[{ required: true, message: '必填' },]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="英雄头像"
-        name="avatar"
+        label="位置"
+        name="position"
         rules={[{ required: true, message: '必填' },]}
       >
-        <Upload
-          action={`${baseURL}/heroes/avatar/upload`}
-          accept="image/*"
-          listType="picture"
-          fileList={fileList}
-          headers={{
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }}
-          onChange={({ file, fileList }) => {
-            let newFileList = [...fileList]
-            newFileList = newFileList.slice(-1)
-            newFileList.map(file => {
-              if (file.response) {
-                file.url = file.response.data.url
-              }
-              return file
-            })
-            setFileList(newFileList)
-          }}
-        >
-          <Button type="primary" icon={<UploadOutlined />}>上传</Button>
-        </Upload>
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="状态"
+        name="status"
+        rules={[{ required: true, message: '必填' },]}
+      >
+        <Select
+          options={[
+            { value: 0, label: '现役' },
+            { value: 1, label: '活跃' },
+            { value: 2, label: '退役' },
+          ]}
+        />
+      </Form.Item>
+      <Form.Item
+        label="队伍"
+        name="teamId"
+      >
+        <SelectTeam />
       </Form.Item>
     </Form>
   )

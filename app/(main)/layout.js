@@ -21,7 +21,7 @@ export default function MainLayout({ children }) {
     token: { colorBgContainer },
   } = theme.useToken()
   const pathname = usePathname().split('/')[1]
-  const selectedKey = ['dashboard', 'heroes', 'regions', 'teams', 'players', 'tournaments', 'stages', 'matches', 'games'].indexOf(pathname)
+  const selectedKey = ['dashboard', 'heroes', 'regions', 'teams', 'players', 'tournaments', 'stages', 'matches', 'games', 'achievements'].indexOf(pathname)
   const router = useRouter()
   const username = !window ? 'Guest' : window.localStorage.getItem('username')
 
@@ -101,6 +101,13 @@ export default function MainLayout({ children }) {
               icon: <TeamOutlined />,
               label: (
                 <Link href='/games'>比赛管理</Link>
+              ),
+            },
+            {
+              key: '9',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/achievements'>赛事排名管理</Link>
               ),
             },
           ]}

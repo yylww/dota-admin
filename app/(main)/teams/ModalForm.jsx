@@ -1,6 +1,7 @@
-import { Form, Modal, Input, Upload, Button, InputNumber } from "antd"
+import { Form, Modal, Input, Upload, Button } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
+import { SelectRegion } from "@/app/components/SelectRegion"
 
 const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
   const baseURL = process.env.NEXT_PUBLIC_API_URL
@@ -12,7 +13,7 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
     setFileList(initialValues ? [{ 
       uid: '-1', 
       name: initialValues.name, 
-      url: `${staticURL}${initialValues.avatar}`, 
+      url: `${staticURL}${initialValues.logo}`, 
       status: 'done' 
     }] : [])
   }, [])
@@ -29,33 +30,26 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
       initialValues={initialValues}
     >
       <Form.Item
-        label="ID"
-        name="id"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <InputNumber />
-      </Form.Item>
-      <Form.Item
-        label="中文名"
-        name="cname"
+        label="队名"
+        name="name"
         rules={[{ required: true, message: '必填' }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="英文名"
-        name="name"
+        label="赛区"
+        name="regionId"
         rules={[{ required: true, message: '必填' },]}
       >
-        <Input />
+        <SelectRegion />
       </Form.Item>
       <Form.Item
-        label="英雄头像"
-        name="avatar"
+        label="Logo"
+        name="logo"
         rules={[{ required: true, message: '必填' },]}
       >
         <Upload
-          action={`${baseURL}/heroes/avatar/upload`}
+          action={`${baseURL}/teams/logo/upload`}
           accept="image/*"
           listType="picture"
           fileList={fileList}
