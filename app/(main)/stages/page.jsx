@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
 import { Pagination } from "antd"
-import useSWR from "swr"
+import useSWR, { useSWRConfig } from "swr"
 import { getStageList, deleteStage } from "@/app/api/stage"
 
 export default function Page() {
@@ -17,6 +17,7 @@ export default function Page() {
   const [current, setCurrent] = useState(Number(searchParams.get('current')) || 1)
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
 
+  const { mutate } = useSWRConfig()
   const {data, isLoading} = useSWR(['stage', query, current, pageSize], () => getStageList({query, current, pageSize}))
 
   useEffect(() => {
@@ -48,10 +49,10 @@ export default function Page() {
             onDelete={async id => {
               await mutate(['stage', id], () => deleteStage(id))
               mutate(key => Array.isArray(key) && key[0] === 'stage')
-            }}    
+            }}  
           />
           <Pagination
-            style={{ marginTop: 16 }}
+            style={{ marginTop: 16, textAlign: 'right' }}
             current={current} 
             pageSize={pageSize} 
             total={data.total}

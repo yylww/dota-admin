@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
+import { Pagination } from "antd"
+import useSWR, { useSWRConfig } from "swr"
+import { getGameList, deleteGame } from "@/app/api/game"
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -13,6 +16,9 @@ export default function Page() {
   const [query, setQuery] = useState(searchParams.get('query') || '')
   const [current, setCurrent] = useState(Number(searchParams.get('current')) || 1)
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
+
+  const { mutate } = useSWRConfig()
+  const {data, isLoading} = useSWR(['game', query, current, pageSize], () => getGameList({query, current, pageSize}))
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams)
@@ -35,15 +41,29 @@ export default function Page() {
           setQuery('')
         }}
       />
-      <TableList
-        query={query}
-        current={current}
-        pageSize={pageSize}
-        onPageChange={(current, pageSize) => {
-          setCurrent(current)
-          setPageSize(pageSize)
-        }}
-      />
+      {
+        isLoading ? '' :
+        <>
+          <TableList
+            data={data.list}
+            onDelete={async (id, records) => {
+              await mutate(['game', id], () => deleteGame(id))
+              mutate(key => Array.isArray(key) && key[0] === 'record')
+              mutate(key => Array.isArray(key) && key[0] === 'game')
+            }}    
+          />
+          <Pagination
+            style={{ marginTop: 16, textAlign: 'right' }}
+            current={current} 
+            pageSize={pageSize} 
+            total={data.total}
+            onChange={(current, pageSize) => {
+              setCurrent(current)
+              setPageSize(pageSize)
+            }}
+          />
+        </>
+      }
     </>
   )
 }

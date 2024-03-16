@@ -10,11 +10,7 @@ export const TableList = ({data, onDelete}) => {
       title: '队伍', 
       key: 'teams',
       render: (_, record) => (
-        <Space>
-          {
-            record.teams.map(item => <span>{item.name}</span>)
-          }
-        </Space>
+        <Space>{ record.teams.map((item, index) => <span key={index}>{item.name}</span>)}</Space>
       )
     },
     { 

@@ -17,6 +17,7 @@ export const TableList = ({data, onDelete}) => {
       key: 'type',
       render: (_, record) => <span>{['循环赛', '双败淘汰赛', '单败淘汰赛'][record.type]}</span>
     },
+    { title: 'Bo', dataIndex: 'bo' },
     {
       title: '操作',
       key: 'action',
@@ -24,7 +25,7 @@ export const TableList = ({data, onDelete}) => {
         <Space size='middle' style={{ color: '#1677ff' }}>
           <Link href={`/stages/${record.id}`}>详情</Link>
           <Link href={`/stages/update/${record.id}`}>编辑</Link>
-          {/* <a onClick={() => onDelete(record.id)}>删除</a> */}
+          <a onClick={() => onDelete(record.id)}>删除</a>
         </Space>
       )
     }

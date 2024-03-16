@@ -1,11 +1,13 @@
-import { Form, Input, Space, Button, DatePicker, Select, Flex } from "antd"
+import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radio } from "antd"
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
+import { useState } from "react";
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input
   const [form] = Form.useForm()
+  const [mode, setMode] = useState(0)
   return (
     <Form
       form={form}
@@ -45,7 +47,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       </Form.Item>
       <Form.Item
         label="类型"
-        name="type"
+        name="mode"
         rules={[{ required: true, message: '必填' }]}
       >
         <Select
@@ -54,8 +56,32 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
             { value: 1, label: '双败淘汰赛' },
             { value: 2, label: '单败淘汰赛' },
           ]}
+          onChange={value => setMode(value)}
         />
       </Form.Item>
+      {
+        mode === 0 ?
+        <>
+          <Form.Item
+            label="Bo"
+            name="bo"
+            rules={[{ required: true, message: '必填' }]}
+          >
+            <InputNumber />
+          </Form.Item>
+          <Form.Item
+            label="比赛类型"
+            name="type"
+            rules={[{ required: true, message: '必填' }]}
+          >
+            <Radio.Group>
+              <Radio value={0}>线下赛</Radio>
+              <Radio value={1}>线上赛</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </>
+        : null
+      }
       <Form.Item
         label="开始时间"
         name="startDate"

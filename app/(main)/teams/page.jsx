@@ -65,7 +65,7 @@ export default function Page() {
             }}  
           />
           <Pagination
-            style={{ marginTop: 16 }}
+            style={{ marginTop: 16, textAlign: 'right' }}
             current={current} 
             pageSize={pageSize} 
             total={listData.data.total}

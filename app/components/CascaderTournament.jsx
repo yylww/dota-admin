@@ -11,35 +11,47 @@ export const CascaderTournament = ({ level, value, onChange }) => {
     return <div>Loading...</div>
   }
   const options = data.map((tournament) => {
-    if (level === 'tournament') {
-      return {
-        value: tournament.id,
-        label: tournament.title,
-      }
-    }
-    if (level === 'stage') {
-      return {
-        value: tournament.id,
-        label: tournament.title,
-        children: tournament.stages.map(stage => ({
-          value: stage.id,
-          label: stage.title,
-        }))
-      }
-    }
-    if (level === 'match') {
-      return {
-        value: tournament.id,
-        label: tournament.title,
-        children: tournament.stages.map(stage => ({
-          value: stage.id,
-          label: stage.title,
-          children: stage.matches.map(match => ({
-            value: match.id,
-            label: <span>{match.teams[0].tag} vs {match.teams[1].tag}</span>
+    switch (level) {
+      case 'tournament':
+        return {
+          value: tournament.id,
+          label: tournament.title,
+        }
+      case 'stage':
+        return {
+          value: tournament.id,
+          label: tournament.title,
+          children: tournament.stages.map(stage => ({
+            value: stage.id,
+            label: stage.title,
           }))
-        }))
-      }
+        }
+      case 'match':
+        return {
+          value: tournament.id,
+          label: tournament.title,
+          children: tournament.stages.map(stage => ({
+            value: stage.id,
+            label: stage.title,
+            children: stage.matches.map(match => ({
+              value: match.id,
+              label: <span style={{ textAlign: 'center' }}>{match.teams[0].name} vs {match.teams[1].name}</span>
+            }))
+          }))
+        }
+      default:
+        return {
+          value: tournament.id,
+          label: tournament.title,
+          children: tournament.stages.map(stage => ({
+            value: stage.id,
+            label: stage.title,
+            children: stage.matches.map(match => ({
+              value: match.id,
+              label: <span>{match.teams[0].tag} vs {match.teams[1].tag}</span>
+            }))
+          }))
+        }
     }
   })
 

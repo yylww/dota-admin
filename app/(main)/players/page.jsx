@@ -65,7 +65,7 @@ export default function Page() {
             }}  
           />
           <Pagination
-            style={{ marginTop: 16 }}
+            style={{ marginTop: 16, textAlign: 'right' }}
             current={current} 
             pageSize={pageSize} 
             total={listData.data.total}
@@ -83,9 +83,15 @@ export default function Page() {
           initialValues={detailData.data}
           onSubmit={async values => {
             if (id) {
-              await mutate(['player', id], () => updatePlayer(id, values))
+              await mutate(['player', id], () => updatePlayer(id, {
+                ...values,
+                teamId: values.teamId || null,
+              }))
             } else {
-              await mutate(['player'], () => createPlayer(values))
+              await mutate(['player'], () => createPlayer({
+                ...values,
+                teamId: values.teamId || null,
+              }))
             }
             mutate(key => Array.isArray(key) && key[0] === 'player')
             setOpen(false)

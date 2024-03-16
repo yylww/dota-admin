@@ -1,6 +1,6 @@
 import { Table, Space } from "antd"
 
-export const TableList = ({data, onEdit, onDelete}) => {
+export const TableList = ({data, onEdit, onDelete, pagination}) => {
   const columns = [
     { title: 'ID', dataIndex: 'id' },
     { title: '中文名', dataIndex: 'cname' },

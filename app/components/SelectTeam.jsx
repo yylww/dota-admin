@@ -36,7 +36,7 @@ export const SelectTeam = ({ mode, valueType, value, onChange }) => {
       filterOption={filterOption}
       optionLabelProp="label"
       options={[
-        { value: null, label: '无', logo: <StopOutlined /> },
+        { value: 0, label: '无', logo: <StopOutlined /> },
         ...options,
       ]}
       optionRender={(option) => (

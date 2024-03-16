@@ -18,12 +18,16 @@ export default function Page({ params }) {
     <CollectionForm
       initialValues={{
         ...data,
+        tournament: [data.tournamentId],
         startDate: dayjs(data.startDate),
         endDate: dayjs(data.endDate),
       }}
       onSubmit={async values => {
         console.log(values)
-        await mutate(['stage'], () => updateStage(id, values))
+        await mutate(['stage'], () => updateStage(id, {
+          ...values,
+          tournamentId: values.tournamentId[0],
+        }))
         mutate(key => Array.isArray(key) && key[0] === 'stage')
         router.push('/stages')
       }}

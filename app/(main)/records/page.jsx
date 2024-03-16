@@ -6,7 +6,7 @@ import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
 import { Pagination } from "antd"
 import useSWR, { useSWRConfig } from "swr"
-import { getTournamentList, deleteTournament } from "@/app/api/tournament"
+import { getRecordList, deleteRecord } from "@/app/api/record"
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -18,7 +18,7 @@ export default function Page() {
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
 
   const { mutate } = useSWRConfig()
-  const {data, isLoading} = useSWR(['tournament', query, current, pageSize], () => getTournamentList({query, current, pageSize}))
+  const {data, isLoading} = useSWR(['record', query, current, pageSize], () => getRecordList({query, current, pageSize}))
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams)
@@ -47,8 +47,8 @@ export default function Page() {
           <TableList
             data={data.list}
             onDelete={async id => {
-              await mutate(['tournament', id], () => deleteTournament(id))
-              mutate(key => Array.isArray(key) && key[0] === 'tournament')
+              await mutate(['record', id], () => deleteRecord(id))
+              mutate(key => Array.isArray(key) && key[0] === 'record')
             }}    
           />
           <Pagination

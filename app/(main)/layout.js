@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -21,15 +21,21 @@ export default function MainLayout({ children }) {
     token: { colorBgContainer },
   } = theme.useToken()
   const pathname = usePathname().split('/')[1]
-  const selectedKey = ['dashboard', 'heroes', 'regions', 'teams', 'players', 'tournaments', 'stages', 'matches', 'games', 'achievements'].indexOf(pathname)
+  const selectedKey = ['dashboard', 'heroes', 'regions', 'teams', 'players', 'tournaments', 'stages', 'matches', 'games', 'achievements', 'records'].indexOf(pathname)
   const router = useRouter()
-  const username = !window ? 'Guest' : window.localStorage.getItem('username')
+  const [username, setUsername] = useState('Guest')
 
   const handleSignOut = async () => {
     localStorage.removeItem('token')
     localStorage.removeItem('username')
     router.push(`/login?callbackUrl=${pathname}${location.search}`)
   }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUsername(window.localStorage.getItem('username'))
+    }
+  })
 
   return (
     <Layout style={{height: '100vh'}}>
@@ -108,6 +114,13 @@ export default function MainLayout({ children }) {
               icon: <TeamOutlined />,
               label: (
                 <Link href='/achievements'>赛事排名管理</Link>
+              ),
+            },
+            {
+              key: '10',
+              icon: <TeamOutlined />,
+              label: (
+                <Link href='/records'>数据统计管理</Link>
               ),
             },
           ]}

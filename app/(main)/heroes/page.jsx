@@ -63,9 +63,13 @@ export default function Page() {
               await mutate(['hero', id], () => deleteHero(id))
               mutate(key => Array.isArray(key) && key[0] === 'hero')
             }}  
+            onChange={(current, pageSize) => {
+              setCurrent(current)
+              setPageSize(pageSize)
+            }}
           />
           <Pagination
-            style={{ marginTop: 16 }}
+            style={{ marginTop: 16, textAlign: 'right' }}
             current={current} 
             pageSize={pageSize} 
             total={listData.data.total}

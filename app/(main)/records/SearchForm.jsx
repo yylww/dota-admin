@@ -25,7 +25,7 @@ export const SearchForm = ({query, onSubmit, onReset}) => {
           <Button type="primary" htmlType="submit">搜索</Button>
           <Button style={{ margin: '0 12px' }} onClick={handleReset}>重置</Button>
           <Button type="primary">
-            <Link href="/games/create">新建</Link>
+            <Link href="/records/create">新建</Link>
           </Button>
         </Col>
       </Row>
