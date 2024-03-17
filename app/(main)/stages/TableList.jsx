@@ -15,9 +15,8 @@ export const TableList = ({data, onDelete}) => {
     { 
       title: '类型',
       key: 'type',
-      render: (_, record) => <span>{['循环赛', '双败淘汰赛', '单败淘汰赛'][record.type]}</span>
+      render: (_, record) => <span>{['循环赛', '双败淘汰赛', '单败淘汰赛'][record.mode]}</span>
     },
-    { title: 'Bo', dataIndex: 'bo' },
     {
       title: '操作',
       key: 'action',

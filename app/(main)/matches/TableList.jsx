@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { Table, Space, Form, DatePicker } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
-import { updateMatch } from "@/app/api/match"
-import { useSWRConfig } from "swr"
 
 const EditableContext = React.createContext(null)
 const EditeableRow = ({ index, ...props }) => {
@@ -56,7 +54,7 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   return <td {...restProps}>{ childNode }</td>
 }
 
-export const TableList = ({data, onDelete}) => {
+export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
   const defaultColumns = [
     { title: 'ID', dataIndex: 'id' },
     { 
@@ -76,29 +74,7 @@ export const TableList = ({data, onDelete}) => {
       render: (_, record) => <span>{ dayjs(record.startTime).format('YYYY-MM-DD HH:mm') }</span>,
       editable: true,
     },
-    // { 
-    //   title: '比分',
-    //   key: 'games',
-    //   render: (_, record) => {
-    //     let arr = [0, 0]
-    //     record.games.map(item => {
-    //       if (item.winner === 0) {
-    //         if (item.radiant.teamId === record.teams[0].id) {
-    //           arr[0] += 1
-    //         } else {
-    //           arr[1] += 1
-    //         }
-    //       } else {
-    //         if (item.dire.teamId === record.teams[1].id) {
-    //           arr[1] += 1
-    //         } else {
-    //           arr[0] += 1
-    //         }
-    //       }
-    //     }) 
-    //     return arr.join(':')
-    //   }
-    // },
+    { title: '比分', dataIndex: 'score' },
     { 
       title: '类型',
       key: 'type',
@@ -112,20 +88,23 @@ export const TableList = ({data, onDelete}) => {
     {
       title: '操作',
       key: 'action',
-      render: (_, record) => (
-        <Space size='middle' style={{ color: '#1677ff' }}>
-          <Link href={`/matches/${record.id}`}>详情</Link>
-          <Link href={`/matches/update/${record.id}`}>编辑</Link>
-          <a onClick={() => onDelete(record.id)}>删除</a>
-        </Space>
-      )
+      render: (_, record) => {
+        let flag = false
+        if (record.games && record.games.length === record.bo) {
+          flag = true
+        } else {
+          flag = record.score.split(':').some(item => Number(item) > (record.bo / 2))
+        }
+        return (
+          <Space size='middle' style={{ color: '#1677ff' }}>
+            { flag ? null : <a onClick={() => onEdit(record)}>添加比赛</a> }
+            <Link href={`/matches/update/${record.id}`}>编辑</Link>
+            <a onClick={() => onDelete(record.id)}>删除</a>
+          </Space>
+        )
+      }
     }
   ]
-  const { mutate } = useSWRConfig()
-  const handleSave = async (id, values) => {
-    await mutate(['match'], () => updateMatch(id, values))
-    mutate(key => Array.isArray(key) && key[0] === 'match')
-  }
   const components = {
     body: {
       row: EditeableRow,
@@ -143,7 +122,7 @@ export const TableList = ({data, onDelete}) => {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSave,
+        handleSave: onCellSave,
       })
     }
   })

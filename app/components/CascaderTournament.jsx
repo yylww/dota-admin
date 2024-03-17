@@ -35,7 +35,7 @@ export const CascaderTournament = ({ level, value, onChange }) => {
             label: stage.title,
             children: stage.matches.map(match => ({
               value: match.id,
-              label: <span style={{ textAlign: 'center' }}>{match.teams[0].name} vs {match.teams[1].name}</span>
+              label: `${match.teams[0].tag} vs ${match.teams[1].tag}`,
             }))
           }))
         }
@@ -48,16 +48,16 @@ export const CascaderTournament = ({ level, value, onChange }) => {
             label: stage.title,
             children: stage.matches.map(match => ({
               value: match.id,
-              label: <span>{match.teams[0].tag} vs {match.teams[1].tag}</span>
+              label: `${match.teams[0].tag} vs ${match.teams[1].tag}`,
             }))
           }))
         }
     }
   })
-
+  console.log(options);
+  const filter = (inputValue, path) => path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
   return (
     <Cascader
-      showSearch
       defaultValue={value}
       style={{
         minWidth: '200px',
@@ -65,6 +65,7 @@ export const CascaderTournament = ({ level, value, onChange }) => {
       placeholder="选择所属赛事"
       onChange={onChange}
       options={options}
+      showSearch={{ filter }}
     />
   )
 }

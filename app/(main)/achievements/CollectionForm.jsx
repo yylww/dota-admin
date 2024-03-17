@@ -50,7 +50,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'teams']}>
                     {
-                      initialValues.ranks && initialValues.ranks[index]
+                      initialValues && initialValues.ranks[index]
                       ? <SelectTeam mode="multiple" value={initialValues.ranks[index].teams} />
                       : <SelectTeam mode="multiple" />
                     }

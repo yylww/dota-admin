@@ -1,13 +1,10 @@
 import { Form, Input, Space, Button, Radio } from "antd"
-import { useState } from "react"
 import axios from "axios"
-import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
 import dayjs from "dayjs"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm()
-  const [url, setUrl] = useState('')
   const generateData = (fetchData) => {
     const startTime = dayjs(fetchData.start_time * 1000)
     const duration = fetchData.duration
@@ -56,16 +53,20 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       }}
       initialValues={initialValues}
       onFinish={async () => {
-        const res = await axios.get(url)
-        const data = generateData(res.data)
         const values = await form.validateFields()
-        onSubmit({
-          ...data,
-          ...values,
-          tournamentId: values.matchId[0],
-          stageId: values.matchId[1],
-          matchId: values.matchId[2],
-        })
+        const gameIds = values.gameId.split(' ')
+        for (const gameId of gameIds) {
+          const res = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
+          const data = generateData(res.data)
+          onSubmit({
+            ...data,
+            ...values,
+            id: gameId,
+            tournamentId: values.matchId[0],
+            stageId: values.matchId[1],
+            matchId: values.matchId[2],
+          })
+        }
       }}
     >
       <Form.Item
@@ -75,20 +76,6 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       >
         <CascaderTournament level="match" />
       </Form.Item>
-      {/* <Form.Item
-        label="天辉"
-        name="radiantTeamId"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <SelectTeam />
-      </Form.Item>
-      <Form.Item
-        label="夜魇"
-        name="direTeamId"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <SelectTeam />
-      </Form.Item> */}
       <Form.Item
         label="类型"
         name="type"
@@ -99,8 +86,12 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
           <Radio value={1}>Solo赛</Radio>
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="比赛数据">
-        <Input onChange={e => setUrl(e.target.value)} placeholder="输入比赛链接" />
+      <Form.Item
+        label="比赛数据"
+        name="gameId"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <Input placeholder="比赛ID，多个以空格分隔" />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
         <Space>
