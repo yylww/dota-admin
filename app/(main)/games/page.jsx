@@ -14,19 +14,21 @@ export default function Page() {
   const { replace } = useRouter() 
 
   const [query, setQuery] = useState(searchParams.get('query') || '')
+  const [matchId, setMatchId] = useState(searchParams.get('matchId') || '')
   const [current, setCurrent] = useState(Number(searchParams.get('current')) || 1)
   const [pageSize, setPageSize] = useState(Number(searchParams.get('pageSize')) || 10)
 
   const { mutate } = useSWRConfig()
-  const {data, isLoading} = useSWR(['game', query, current, pageSize], () => getGameList({query, current, pageSize}))
+  const {data, isLoading} = useSWR(['game', query, matchId, current, pageSize], () => getGameList({query, matchId, current, pageSize}))
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams)
     query ? params.set('query', query) : params.delete('query')
+    matchId ? params.set('matchId', matchId) : params.delete('matchId')
     current ? params.set('current', current) : params.delete('current')
     pageSize ? params.set('pageSize', pageSize) : params.delete('pageSize')
     replace(`${pathname}?${params.toString()}`)
-  }, [query, current, pageSize])
+  }, [query, matchId, current, pageSize])
   
   return (
     <>
@@ -35,10 +37,12 @@ export default function Page() {
         onSubmit={values => {
           setCurrent(1)
           setQuery(values.query)
+          setMatchId(values.match[2])
         }}
         onReset={() => {
           setCurrent(1)
           setQuery('')
+          setMatchId('')
         }}
       />
       {

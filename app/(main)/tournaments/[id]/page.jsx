@@ -1,6 +1,6 @@
 'use client'
 
-import { Form, Space, Button, Flex } from "antd"
+import { Form, Space, Button, Flex, Table } from "antd"
 import { getTournament } from "@/app/api/tournament"
 import useSWR from "swr"
 import { useRouter } from "next/navigation"
@@ -13,41 +13,52 @@ export default function Page({ params }) {
   if (isLoading) {
     return <div>Loading...</div>
   }
+  const columns = [
+    { 
+      title: '排名',
+      key: 'rank',
+      render: (_, record) => `第${record.rank}名`,
+    },
+    { 
+      title: '队伍',
+      key: 'teams',
+      render: (_, record) => (
+        <Flex vertical>
+          {
+            record.teams.map(item => (
+              <Flex align="center">
+                <img style={{ width: 20, marginRight: 6 }} src={`${process.env.NEXT_PUBLIC_STATIC_URL}${item.logo}`} alt="" />
+                <span>{ item.name }</span>
+              </Flex>
+            ))
+          }
+        </Flex>
+      )
+    },
+    { 
+      title: '奖金',
+      key: 'bonus',
+      render: (_, record) => `${record.bonus}美元`
+    },
+    { title: '积分', dataIndex: 'point' },
+  ]
   return (
     <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 18 }}
+      labelCol={{ span: 3 }}
+      wrapperCol={{ span: 21 }}
       name="tournament"
     >
-      <Form.Item
-        label="标题"
-        name="title"
-      >
+      <Form.Item label="标题">
         <span>{ data.title }</span>
       </Form.Item>
-      <Form.Item
-        label="赛事介绍"
-        name="description"
-      >
+      <Form.Item label="赛事介绍">
         <div>{ data.description }</div>
       </Form.Item>
-      <Form.Item
-        label="赛事介绍"
-        name="bonus"
-      >
+      <Form.Item label="赛事奖金">
         <span>{ data.bonus }美元</span>
       </Form.Item>
-      <Form.Item
-        label="开始时间"
-        name="startDate"
-      >
-        <span>{ dayjs(data.startDate).format('YYYY-MM-DD') }</span>
-      </Form.Item>
-      <Form.Item
-        label="结束时间"
-        name="endDate"
-      >
-        <span>{ dayjs(data.endDate).format('YYYY-MM-DD') }</span>
+      <Form.Item label="赛程">
+        <span>{ dayjs(data.startDate).format('YYYY-MM-DD') } 至 { dayjs(data.endDate).format('YYYY-MM-DD') }</span>
       </Form.Item>
       <Form.Item label="参赛队伍">
         <Flex wrap="wrap" gap="small">
@@ -61,7 +72,16 @@ export default function Page({ params }) {
           }
         </Flex>
       </Form.Item>
-      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+      <Form.Item label="赛事排名">
+        <Table 
+          rowKey="rank" 
+          dataSource={data.result} 
+          columns={columns} 
+          size="small" 
+          pagination={false}
+        />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
         <Space>
           <Button type="primary">
             <Link href={`/tournaments/update/${params.id}`}>编辑</Link>

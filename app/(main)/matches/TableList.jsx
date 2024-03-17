@@ -83,7 +83,7 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
     { 
       title: '是否加赛',
       key: 'overtime',
-      render: (_, record) => <span>{record.overtime ? '是' : '否'}</span>
+      render: (_, record) => <span>{record.extra ? '是' : '否'}</span>
     },
     {
       title: '操作',
@@ -98,6 +98,7 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
             { flag ? null : <a onClick={() => onEdit(record)}>添加比赛</a> }
+            <Link href={`/games?matchId=${record.id}`}>比赛</Link>
             <Link href={`/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>
           </Space>
