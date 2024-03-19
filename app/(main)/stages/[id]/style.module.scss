@@ -1,0 +1,36 @@
+.table {
+  border-collapse: collapse;
+}
+
+.td {
+  width: 80px;
+  height: 30px; 
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.win {
+  background-color: #ddf4dd;
+}
+
+.equal {
+  background-color: #ffffcc;
+}
+
+.lose {
+  background-color: #fad1d1;
+}
+
+.empty {
+  background-color: #dfe2eb;
+}
+
+.white {
+  background-color: #fff;
+}
+
+
+
+

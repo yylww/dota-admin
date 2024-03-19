@@ -55,6 +55,28 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
 }
 
 export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
+  const handleMatchScore = (teams, games) => {
+    const arr = [0, 0]
+    if (games && games.length > 0) {
+      games.map(game => {
+        const radiant = game.records.filter(record => record.radiant)
+        if (teams[0].id === game.radiantTeamId) {
+          if (radiant[0].win) {
+            arr[0] += 1
+          } else {
+            arr[1] += 1
+          }
+        } else {
+          if (!radiant[0].win) {
+            arr[0] += 1
+          } else {
+            arr[1] += 1
+          }
+        }
+      }) 
+    }
+    return arr
+  }
   const defaultColumns = [
     { title: 'ID', dataIndex: 'id' },
     { 
@@ -74,7 +96,15 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
       render: (_, record) => <span>{ dayjs(record.startTime).format('YYYY-MM-DD HH:mm') }</span>,
       editable: true,
     },
-    { title: '比分', dataIndex: 'score' },
+    { 
+      title: '比分', 
+      key: 'score',
+      render: (_, record) => {
+        const { games, teams } = record
+        const arr = handleMatchScore(teams, games)
+        return arr.join(':')
+      }
+    },
     { 
       title: '类型',
       key: 'type',
@@ -82,7 +112,7 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
     },
     { 
       title: '是否加赛',
-      key: 'overtime',
+      key: 'extra',
       render: (_, record) => <span>{record.extra ? '是' : '否'}</span>
     },
     {
@@ -90,10 +120,11 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
       key: 'action',
       render: (_, record) => {
         let flag = false
+        const scores = handleMatchScore(record.teams, record.games)
         if (record.games && record.games.length === record.bo) {
           flag = true
         } else {
-          flag = record.score.split(':').some(item => Number(item) > (record.bo / 2))
+          flag = scores.some(item => Number(item) > (record.bo / 2))
         }
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>

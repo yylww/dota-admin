@@ -118,12 +118,18 @@ export default function Page() {
               const gameIds = values.ids.split(' ')
               for (const gameId of gameIds) {
                 const matchTeamIds = rowData.teams.map(item => item.id)
-                const { data } = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
-                if (!matchTeamIds.includes(data.radiant_team_id) || !matchTeamIds.includes(data.dire_team_id)) {
+                let opendota = null
+                try {
+                  const res = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
+                  opendota = res.data
+                } catch (error) {
+                  message.error('opendata error: ', error.message)
+                }
+                if (!matchTeamIds.includes(opendota.radiant_team_id) || !matchTeamIds.includes(opendota.dire_team_id)) {
                   message.error(`ID不匹配: ${gameId}`)
                   return false
                 }
-                const gameData = generateData(data)
+                const gameData = generateData(opendota)
                 await mutate(['game'], () => createGame({
                   ...gameData,
                   id: gameId,

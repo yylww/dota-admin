@@ -15,7 +15,6 @@ export default function Page() {
         extra: false,
       }}
       onSubmit={async values => {
-        console.log(values)
         await mutate(['match'], () => createMatch({
           ...values,
           tournamentId: values.stageId[0],
