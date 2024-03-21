@@ -38,7 +38,6 @@ export default function Page() {
         mode: 0,
       }}
       onSubmit={async values => {
-        // console.log(values)
         const stage = await mutate(['stage'], () => createStage({
           ...values, 
           tournamentId: values.tournamentId[0],
@@ -46,7 +45,6 @@ export default function Page() {
         if (values.mode === 0) {
           // 自动创建循环赛中所有系列赛
           const data = handleMatchData(values, stage.id)
-          console.log(data);
           for (const item of data) {
             await mutate(['match'], () => createMatch(item))
           }

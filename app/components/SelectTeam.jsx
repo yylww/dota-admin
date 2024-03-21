@@ -28,9 +28,9 @@ export const SelectTeam = ({ mode, valueType, value, onChange }) => {
       showSearch
       mode={mode}
       defaultValue={value}
-      style={{
-        minWidth: '200px',
-      }}
+      // style={{
+      //   minWidth: '200px',
+      // }}
       placeholder="选择队伍"
       onChange={onChange}
       filterOption={filterOption}

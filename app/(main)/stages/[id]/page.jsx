@@ -7,7 +7,9 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import dayjs from "dayjs"
 import { Group } from "./Group"
-import { DoubleElimination } from "./DoubleElimination"
+import { DoubleElimination } from "@/app/components/DoubleElimination"
+import { SingleElimination } from "@/app/components/SingleElimination"
+
 
 export default function Page({ params }) {
   const { data, isLoading } = useSWR(['stage', params.id], () => getStage(params.id))
@@ -44,7 +46,8 @@ export default function Page({ params }) {
       {
         data.mode === 1 ?
         <Form.Item label="对阵图">
-          <DoubleElimination groups={data.groups} matches={data.matches} />
+          {/* <DoubleElimination editable={true} /> */}
+          <SingleElimination />
         </Form.Item> : null
       }
       

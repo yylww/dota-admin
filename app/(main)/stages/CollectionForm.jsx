@@ -2,12 +2,19 @@ import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radi
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
+import { DoubleElimination, getMatchMapData } from "@/app/components/DoubleElimination";
 import { useState } from "react";
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input
   const [form] = Form.useForm()
   const [mode, setMode] = useState(0)
+  const [initData, setInitData] = useState(null)
+  const handleChange = (values) => {
+    const [upperLen, lowerLen] = values.split(',')
+    const result = getMatchMapData(Number(upperLen), Number(lowerLen))
+    setInitData(result)
+  }
   return (
     <Form
       form={form}
@@ -21,7 +28,8 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       initialValues={initialValues}
       onFinish={async () => {
         const values = await form.validateFields()
-        onSubmit(values)
+        console.log(values);
+        // onSubmit(values)
       }}
     >
       <Form.Item
@@ -44,6 +52,20 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         rules={[{ required: true, message: '必填' }]}
       >
         <TextArea rows={3} />
+      </Form.Item>
+      <Form.Item
+        label="开始时间"
+        name="startDate"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <DatePicker />
+      </Form.Item>
+      <Form.Item
+        label="结束时间"
+        name="endDate"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <DatePicker />
       </Form.Item>
       <Form.Item
         label="类型"
@@ -79,53 +101,51 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               <Radio value={1}>线上赛</Radio>
             </Radio.Group>
           </Form.Item>
+          <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
+            <Form.List name="groups">
+              {(fields, { add, remove }, { errors }) => (
+                <Flex vertical gap="small">
+                  {fields.map((field, index) => (
+                    <Space key={field.key}>
+                      <Form.Item noStyle name={[field.name, 'teams']}>
+                        { 
+                          initialValues.groups && initialValues.groups[index] 
+                          ? <SelectTeam mode="multiple" value={initialValues.groups[index].teams} />
+                          : <SelectTeam mode="multiple" />
+                        }
+                      </Form.Item>
+                      <CloseOutlined onClick={() => remove(field.name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      icon={<PlusOutlined />}
+                      block
+                    >
+                      Add field
+                    </Button>
+                  </Form.Item>
+                </Flex>
+              )}
+            </Form.List>
+          </Form.Item>
         </>
         : null
       }
-      <Form.Item
-        label="开始时间"
-        name="startDate"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <DatePicker />
-      </Form.Item>
-      <Form.Item
-        label="结束时间"
-        name="endDate"
-        rules={[{ required: true, message: '必填' }]}
-      >
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
-        <Form.List name="groups">
-          {(fields, { add, remove }, { errors }) => (
-            <Flex vertical gap="small">
-              {fields.map((field, index) => (
-                <Space key={field.key}>
-                  <Form.Item noStyle name={[field.name, 'teams']}>
-                    { 
-                      initialValues.groups && initialValues.groups[index] 
-                      ? <SelectTeam mode="multiple" value={initialValues.groups[index].teams} />
-                      : <SelectTeam mode="multiple" />
-                    }
-                  </Form.Item>
-                  <CloseOutlined onClick={() => remove(field.name)} />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  icon={<PlusOutlined />}
-                  block
-                >
-                  Add field
-                </Button>
-              </Form.Item>
-            </Flex>
-          )}
-        </Form.List>
-      </Form.Item>
+      {
+        mode === 1 ?
+        <>
+          <Form.Item label="初始数据">
+            <Input onBlur={e => handleChange(e.target.value)} />
+          </Form.Item>
+          <Form.Item label="对阵图" name="groups">
+            <DoubleElimination initData={initData} editable={true} width={150} />
+          </Form.Item>
+        </>
+        : null
+      }
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
         <Space>
           <Button type="primary" htmlType="submit">提交</Button>
