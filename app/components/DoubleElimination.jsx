@@ -1,4 +1,3 @@
-import { Button } from "antd"
 import { Line } from "./LineComponent"
 import { MatchComponent } from "./MatchComponent"
 
@@ -6,7 +5,7 @@ import { MatchComponent } from "./MatchComponent"
 const makeArr = (number) => {
   const arr = []
   for (let i = 0; i < number; i++) {
-    arr[i] = { teams: [], score: [0,0] }
+    arr[i] = { teams: [] }
   }
   return arr
 }
@@ -30,7 +29,7 @@ export const getMatchMapData = (upperLength, lowerLength = 0) => {
     } else if (i < stageNum - 1) {
       result[i] = { upper: [], lower: [] }
     } else {
-      result[i] = { final: [{ teams: [], score: [0,0] }] }
+      result[i] = { final: [{ teams: [] }] }
     }
   }
   for (let i = 0; i < stageNum - 2; i++) {
@@ -57,25 +56,26 @@ export const getMatchMapData = (upperLength, lowerLength = 0) => {
 }
 
 export const DoubleElimination = ({
-  initData, 
-  status = 'create',
+  matchMap, 
+  status = 'editable',
+  matches = [],
   onChange,
-  width = 120, // 比赛组件宽度
+  width = 160, // 比赛组件宽度
   height = 30, // 比赛组件中队伍高度，比赛组件高度为 height * 2
   lineSpacing = 10, // 行间隔
   columnSpacing = 20, // 列间隔
 }) => {
-  if (!initData) return <div>TBD</div>
+  if (!matchMap) return <div>TBD</div>
   
-  const upperLen = initData[0].upper.length > 0 ? initData[0].upper.length : initData[1].upper.length
-  const lowerLen = initData[0].lower.length
+  const upperLen = matchMap[0].upper.length > 0 ? matchMap[0].upper.length : matchMap[1].upper.length
+  const lowerLen = matchMap[0].lower.length
   const matchHeight = height * 2 // 比赛组件高度 
   // 根据初始数据中胜者组比赛场次和败者组比赛场次来计算出单列最多组件数量
   const maxComponentNum = upperLen + lowerLen
   // 根据最多组件数量和行间隙计算容器高度
   const containerHeight = (maxComponentNum + 1) * matchHeight + maxComponentNum * lineSpacing
   // 根据单列组件宽度和列间隙计算容器宽度
-  const containerWidth = (width + columnSpacing) * initData.length - columnSpacing
+  const containerWidth = (width + columnSpacing) * matchMap.length - columnSpacing
   
   // 第二步，计算各比赛组件位置数据
   const handleComponentPosition = (result) => {
@@ -160,63 +160,53 @@ export const DoubleElimination = ({
     }
     return result
   }
-  let result = initData
-  // if (status !== 'display') {
-  //   result = handleComponentPosition(initData)
-  // }
-  const handleUpperChange = (values, i, j, index) => {
-    result[i].upper[j].teams[index] = values
-  }
-  const handleLowerChange = (values, i, j, index) => {
-    result[i].lower[j].teams[index] = values
-  }
-  const handleFinalChange = (values, i, j, index) => {
-    result[i].final[j].teams[index] = values
+  const result = matchMap
+  const dataWithPosition = handleComponentPosition(JSON.parse(JSON.stringify(matchMap)))
+  const handleChange = (target, values, i, j, k) => {
+    result[i][target][j].teams[k] = values
+    onChange(result)
   }
 
   return (
-    <>
-      <Button type="primary" onClick={() => onChange(result)}>完成</Button>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, width: containerWidth, height: containerHeight }}>
-        {
-          result.map(({ upper, lower, final }, i) => (
-            <div key={i} style={{ position: 'relative', width }}>
-              {
-                (upper && upper.length > 0) ? 
-                upper.map((item, j) => (
-                  <div key={j}>
-                    <div style={{ position: 'absolute', top: item.top, width: width }}>
-                      <MatchComponent onChange={((values, index) => handleUpperChange(values, i, j, index))} status={status} teams={item.teams} score={item.score} height={height} />
-                    </div>
-                    <Line direction="top" position={item.position} columnSpacing={columnSpacing} />
+    <div style={{ display: 'flex', justifyContent: 'space-between', width: containerWidth, height: containerHeight }}>
+      {
+        dataWithPosition.map(({ upper, lower, final }, i) => (
+          <div key={i} style={{ position: 'relative', width }}>
+            {
+              (upper && upper.length > 0) ? 
+              upper.map((item, j) => (
+                <div key={j}>
+                  <div style={{ position: 'absolute', top: item.top, width: width, height: height * 2 }}>
+                    <MatchComponent onChange={((values, k) => handleChange('upper', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 1)} />
                   </div>
-                )) : null
-              }
-              {
-                (lower && lower.length > 0) ? 
-                lower.map((item, j) => (
-                  <div key={j}>
-                    <div style={{ position: 'absolute', bottom: item.bottom, width: width }}>
-                      <MatchComponent onChange={((values, index) => handleLowerChange(values, i, j, index))} status={status} teams={item.teams} score={item.score} height={height} />
-                    </div>
-                    <Line direction="bottom" position={item.position} columnSpacing={columnSpacing} />
+                  <Line direction="top" position={item.position} columnSpacing={columnSpacing} />
+                </div>
+              )) : null
+            }
+            {
+              (lower && lower.length > 0) ? 
+              lower.map((item, j) => (
+                <div key={j}>
+                  <div style={{ position: 'absolute', bottom: item.bottom, width: width, height: height * 2 }}>
+                    <MatchComponent onChange={((values, k) => handleChange('lower', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 2)} />
                   </div>
-                  
-                )) : null
-              }
-              {
-                final ? 
-                final.map((item, j) => (
-                  <div key={j} style={{ position: 'absolute', top: item.top, width: width }}>
-                    <MatchComponent onChange={((values, index) => handleFinalChange(values, i, j, index))} status={status} teams={item.teams} score={item.score} height={height} />
-                  </div>
-                )) : null
-              }
-            </div>
-          ))
-        }
-      </div>
-    </>
+                  <Line direction="bottom" position={item.position} columnSpacing={columnSpacing} />
+                </div>
+                
+              )) : null
+            }
+            {
+              final ? 
+              final.map((item, j) => (
+                <div key={j} style={{ position: 'absolute', top: item.top, width: width, height: height * 2 }}>
+                  <MatchComponent onChange={((values, k) => handleChange('final', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 3)} />
+                </div>
+              )) : null
+            }
+          </div>
+        ))
+      }
+    </div>
   )
 }
 

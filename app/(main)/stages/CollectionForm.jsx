@@ -8,12 +8,12 @@ import { useState } from "react";
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input
   const [form] = Form.useForm()
-  const [mode, setMode] = useState(0)
-  const [initData, setInitData] = useState(null)
+  const [mode, setMode] = useState(initialValues ? initialValues.mode : 0)
+  const [matchMap, setMatchMap] = useState(initialValues ? initialValues.groups : null)
   const handleChange = (values) => {
     const [upperLen, lowerLen] = values.split(',')
     const result = getMatchMapData(Number(upperLen), Number(lowerLen))
-    setInitData(result)
+    setMatchMap(result)
   }
   return (
     <Form
@@ -29,7 +29,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       onFinish={async () => {
         const values = await form.validateFields()
         console.log(values);
-        // onSubmit(values)
+        onSubmit(values)
       }}
     >
       <Form.Item
@@ -137,11 +137,14 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       {
         mode === 1 ?
         <>
-          <Form.Item label="初始数据">
-            <Input onBlur={e => handleChange(e.target.value)} />
-          </Form.Item>
+          {
+            initialValues.id ? null :
+            <Form.Item label="初始数据">
+              <Input onBlur={e => handleChange(e.target.value)} />
+            </Form.Item>
+          }
           <Form.Item label="对阵图" name="groups">
-            <DoubleElimination initData={initData} editable={true} width={150} />
+            <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} width={150} />
           </Form.Item>
         </>
         : null

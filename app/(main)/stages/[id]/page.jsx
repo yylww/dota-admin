@@ -8,7 +8,7 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import { Group } from "./Group"
 import { DoubleElimination } from "@/app/components/DoubleElimination"
-import { SingleElimination } from "@/app/components/SingleElimination"
+// import { SingleElimination } from "@/app/components/SingleElimination"
 
 
 export default function Page({ params }) {
@@ -46,8 +46,8 @@ export default function Page({ params }) {
       {
         data.mode === 1 ?
         <Form.Item label="对阵图">
-          {/* <DoubleElimination editable={true} /> */}
-          <SingleElimination />
+          <DoubleElimination matchMap={data.groups} matches={data.matches} status="display" />
+          {/* <SingleElimination /> */}
         </Form.Item> : null
       }
       

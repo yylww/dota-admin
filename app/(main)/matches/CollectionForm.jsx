@@ -52,6 +52,18 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         </Radio.Group>
       </Form.Item>
       <Form.Item
+        label="淘汰赛分组"
+        name="group"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <Radio.Group>
+          <Radio value={0}>其他</Radio>
+          <Radio value={1}>胜者组</Radio>
+          <Radio value={2}>败者组</Radio>
+          <Radio value={3}>总决赛</Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
         label="是否加赛"
         name="extra"
         rules={[{ required: true, message: '必填' }]}

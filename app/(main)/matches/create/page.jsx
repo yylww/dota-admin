@@ -12,6 +12,7 @@ export default function Page() {
     <CollectionForm
       initialValues={{
         type: 0,
+        group: 0,
         extra: false,
       }}
       onSubmit={async values => {
