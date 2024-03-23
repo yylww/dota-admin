@@ -36,17 +36,17 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               {fields.map((field, index) => (
                 <Space key={field.key}>
                   <Form.Item noStyle name={[field.name, 'rank']}>
-                    <Input placeholder="rank" />
+                    <Input style={{ width: 60 }} placeholder="rank" />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'bonus']}>
                     <InputNumber
                       placeholder="bonus"
-                      style={{ width: 100 }}
+                      style={{ width: 110 }}
                       formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'point']}>
-                    <InputNumber placeholder="point" />
+                    <InputNumber style={{ width: 80 }} placeholder="point" />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'teams']}>
                     {

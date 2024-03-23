@@ -1,6 +1,7 @@
 import styles from './style.module.scss'
 
-export const Group = ({ teams, matches }) => {
+export const Group = ({ list, matches, width = 40 }) => {
+  const staticURL = process.env.NEXT_PUBLIC_STATIC_URL
   const tableData = []
   const lastRow = [null]
   const getMatch = (teamA, teamB, matches) => {
@@ -47,25 +48,25 @@ export const Group = ({ teams, matches }) => {
     }
   }
   
-  teams.forEach((teamA, i) => {
+  list.forEach((teamA, i) => {
     let rowData = []
     let match = null
-    teams.forEach((teamB, j) => {
-      if (teamA === teamB) {
+    list.forEach((teamB, j) => {
+      if (teamA.teamId === teamB.teamId) {
         rowData.push(null)
       } else {
-        match = getMatch(teamA, teamB, matches)
-        rowData.push(handleCellData([teamA, teamB], match.games))
+        match = getMatch(teamA.teamId, teamB.teamId, matches)
+        rowData.push(handleCellData([teamA.teamId, teamB.teamId], match.games))
       }
     })
-    const teamData = match.teams.filter(team => team.id === teamA)[0]
+    const teamData = match.teams.filter(team => team.id === teamA.teamId)[0]
     lastRow.push(teamData)
     tableData.push([teamData, ...rowData])
   })
   tableData.push(lastRow)
   
   return (
-    <table className={styles.table}>
+    <table className={styles.table} style={{ width: tableData.length * width }}>
       <tbody>
         {
           tableData.map((rowData, i) => (
@@ -76,9 +77,9 @@ export const Group = ({ teams, matches }) => {
                   let style = styles.empty
                   if (colData) {
                     style = colData.tag ? styles.white : [styles.win, styles.equal, styles.lose][colData.status]
-                    content = colData.tag ? <img width={15} src={`${process.env.NEXT_PUBLIC_STATIC_URL}${colData.logo}`} /> : colData.score
+                    content = colData.tag ? <div className={styles.image}><img src={`${staticURL}${colData.logo}`} /></div> : colData.score
                   }
-                  return <td className={`${style} ${styles.td}`} key={j}>{ content }</td>
+                  return <td style={{ width }} className={`${style} ${styles.td}`} key={j}>{ content }</td>
                 })
               }
             </tr>

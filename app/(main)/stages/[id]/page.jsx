@@ -8,6 +8,7 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import { Group } from "./Group"
 import { DoubleElimination } from "@/app/components/DoubleElimination"
+import { Standings } from "./Standings"
 // import { SingleElimination } from "@/app/components/SingleElimination"
 
 
@@ -38,9 +39,14 @@ export default function Page({ params }) {
       {
         data.mode === 0 ?
         data.groups.map((group, index) => (
-          <Form.Item label={`小组${index + 1}`} key={index}>
-            <Group teams={group.teams} matches={data.matches} />
-          </Form.Item>
+          <div key={index}>
+            <Form.Item label={`积分榜${index + 1}`}>
+              <Standings list={group.list} matches={data.matches} />
+            </Form.Item>
+            <Form.Item label={`小组${index + 1}`}>
+              <Group list={group.list} matches={data.matches} />
+            </Form.Item>
+          </div>
         )) : null
       }
       {
@@ -51,14 +57,14 @@ export default function Page({ params }) {
         </Form.Item> : null
       }
       
-      {/* <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
+      <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
         <Space>
           <Button type="primary">
             <Link href={`/stages/update/${params.id}`}>编辑</Link>
           </Button>
           <Button htmlType="button" onClick={() => router.push('/stages')}>返回列表</Button>
         </Space>
-      </Form.Item> */}
+      </Form.Item>
     </Form>
   )
 }

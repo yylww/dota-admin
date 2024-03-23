@@ -1,4 +1,4 @@
-import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radio } from "antd"
+import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radio, Card } from "antd"
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
@@ -22,7 +22,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 16 }}
       style={{
-        maxWidth: 600,
+        maxWidth: 800,
         marginTop: 24,
       }}
       initialValues={initialValues}
@@ -101,7 +101,73 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               <Radio value={1}>线上赛</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
+          <Form.Item label="分组">
+            <Form.List name="groups">
+              {(fields, { add, remove }) => (
+                <Flex vertical gap='small'>
+                  {fields.map((field) => (
+                    <Card
+                      size="small"
+                      key={field.key}
+                      extra={
+                        <CloseOutlined
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
+                      }
+                    >
+                      <Form.Item labelCol={{ span: 4 }} label="Name" name={[field.name, 'name']}>
+                        <Input />
+                      </Form.Item>
+
+                      {/* Nest Form.List */}
+                      <Form.Item labelCol={{ span: 4 }} label="List">
+                        <Form.List name={[field.name, 'list']}>
+                          {(subFields, subOpt) => (
+                            <Flex vertical gap="small">
+                              {subFields.map((subField) => (
+                                <Flex gap="small" key={subField.key}>
+                                  <Form.Item noStyle name={[subField.name, 'teamId']}>
+                                    <SelectTeam />
+                                  </Form.Item>
+                                  <Form.Item noStyle name={[subField.name, 'status']}>
+                                    <Select
+                                      defaultValue={0}
+                                      options={[
+                                        { value: 0, label: '晋级' },
+                                        { value: 1, label: '淘汰' },
+                                        { value: 2, label: '加赛' },
+                                        { value: 3, label: '胜者组' },
+                                        { value: 4, label: '败者组' },
+                                      ]}
+                                    />
+                                  </Form.Item>
+                                  <CloseOutlined
+                                    onClick={() => {
+                                      subOpt.remove(subField.name);
+                                    }}
+                                  />
+                                </Flex>
+                              ))}
+                              <Button type="dashed" onClick={() => subOpt.add()} block>
+                                + Add Sub Item
+                              </Button>
+                            </Flex>
+                          )}
+                        </Form.List>
+                      </Form.Item>
+                    </Card>
+                  ))}
+
+                  <Button type="dashed" onClick={() => add()} block>
+                    + Add Item
+                  </Button>
+                </Flex>
+              )}
+            </Form.List>
+          </Form.Item>
+          {/* <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
             <Form.List name="groups">
               {(fields, { add, remove }, { errors }) => (
                 <Flex vertical gap="small">
@@ -130,7 +196,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                 </Flex>
               )}
             </Form.List>
-          </Form.Item>
+          </Form.Item> */}
         </>
         : null
       }

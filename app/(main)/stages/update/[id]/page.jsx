@@ -24,6 +24,10 @@ export default function Page({ params }) {
       }}
       onSubmit={async values => {
         console.log(values)
+        values.groups.map(group => {
+          delete group.teams
+          return group
+        })
         await mutate(['stage'], () => updateStage(id, {
           ...values,
           tournamentId: values.tournamentId[0],

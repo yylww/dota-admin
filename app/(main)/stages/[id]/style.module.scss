@@ -2,25 +2,37 @@
   border-collapse: collapse;
 }
 
+.th {
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .td {
-  width: 80px;
   height: 30px; 
   border: 1px solid #ddd;
   text-align: center;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
-.win {
+.win,
+.upper {
   background-color: #ddf4dd;
 }
 
-.equal {
+.equal,
+.lower {
   background-color: #ffffcc;
 }
 
 .lose {
   background-color: #fad1d1;
+}
+
+.extra {
+  background-color: red;
 }
 
 .empty {
@@ -29,6 +41,16 @@
 
 .white {
   background-color: #fff;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > img {
+    width: 20px;
+  }
 }
 
 
