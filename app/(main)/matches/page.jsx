@@ -36,12 +36,16 @@ export default function Page() {
   }, [query, current, pageSize])
 
   const generateData = (fetchData) => {
-    const startTime = dayjs(fetchData.start_time * 1000)
-    const duration = fetchData.duration
-    const radiantTeamId = fetchData.radiant_team_id
-    const direTeamId = fetchData.dire_team_id
-    const bans = fetchData.picks_bans.filter(item => item.is_pick === false).map(item => item.hero_id)
-    const picks = fetchData.picks_bans.filter(item => item.is_pick === true).map(item => item.hero_id)
+    const bans = fetchData.picks_bans.filter(item => !item.is_pick).map(item => ({
+      order: item.order,
+      heroId: item.hero_id,
+      radiant: item.team === 0,
+    }))
+    const picks = fetchData.picks_bans.filter(item => item.is_pick).map(item => ({
+      order: item.order,
+      heroId: item.hero_id,
+      radiant: item.team === 0,
+    }))
     const records = fetchData.players.map(item => ({
       playerId: item.account_id,
       heroId: item.hero_id,

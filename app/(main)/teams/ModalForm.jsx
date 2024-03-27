@@ -1,4 +1,4 @@
-import { Form, Modal, Input, Upload, Button } from "antd"
+import { Form, Modal, Input, Upload, Button, InputNumber } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import { SelectRegion } from "@/app/components/SelectRegion"
@@ -30,8 +30,22 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
       initialValues={initialValues}
     >
       <Form.Item
+        label="队伍ID"
+        name="id"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <InputNumber controls={false} style={{ width: '100%' }} />
+      </Form.Item>
+      <Form.Item
         label="队名"
         name="name"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="简称"
+        name="tag"
         rules={[{ required: true, message: '必填' }]}
       >
         <Input />
@@ -56,12 +70,12 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
           headers={{
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }}
-          onChange={({ file, fileList }) => {
-            let newFileList = [...fileList]
+          onChange={(info) => {
+            let newFileList = [...info.fileList]
             newFileList = newFileList.slice(-1)
             newFileList.map(file => {
               if (file.response) {
-                file.url = file.response.data.url
+                file.url = `${staticURL}${file.response.data.url}`
               }
               return file
             })
@@ -85,7 +99,7 @@ export const CollectionFormModal = ({ open, initialValues, onSubmit, onCancel })
       open={open}
       onOk={async () => {
         const values = await formInstance?.validateFields()
-        // formInstance?.resetFields()
+        values.logo = values.logo.file ? values.logo.file.response.data.url : values.logo
         onSubmit(values)
       }}
       onCancel={onCancel}

@@ -13,7 +13,7 @@ export default function Page() {
   const handleMatchData = (values, stageId) => {
     const arr = []
     values.groups.forEach(group => {
-      const teams = group.list.map(item => item.team)
+      const teams = group.list.map(item => item.teamId)
       for (let i = 0; i < teams.length - 1; i++) {
         const sliceTeams = teams.slice(i+1)
         for (let j = 0; j < sliceTeams.length; j++) {

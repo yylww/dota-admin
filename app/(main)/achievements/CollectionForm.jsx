@@ -34,19 +34,20 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
           {(fields, { add, remove }, { errors }) => (
             <Flex vertical gap="small">
               {fields.map((field, index) => (
-                <Space key={field.key}>
+                <Flex gap="small" key={field.key}>
                   <Form.Item noStyle name={[field.name, 'rank']}>
-                    <Input style={{ width: 60 }} placeholder="rank" />
+                    <Input style={{ width: 100 }} placeholder="rank" />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'bonus']}>
                     <InputNumber
                       placeholder="bonus"
-                      style={{ width: 110 }}
+                      controls={false}
+                      style={{ width: 180 }}
                       formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'point']}>
-                    <InputNumber style={{ width: 80 }} placeholder="point" />
+                    <InputNumber controls={false} style={{ width: 120 }} placeholder="point" />
                   </Form.Item>
                   <Form.Item noStyle name={[field.name, 'teams']}>
                     {
@@ -56,7 +57,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                     }
                   </Form.Item>
                   <CloseOutlined onClick={() => remove(field.name)} />
-                </Space>
+                </Flex>
               ))}
               <Form.Item>
                 <Button

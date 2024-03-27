@@ -24,7 +24,7 @@ export const SelectRegion = ({ value, onChange }) => {
       style={{
         minWidth: '200px',
       }}
-      placeholder="选择英雄"
+      placeholder="选择赛区"
       onChange={onChange}
       options={options}
     />

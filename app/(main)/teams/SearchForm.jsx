@@ -1,4 +1,5 @@
-import { Form, Col, Row, Button, Input } from "antd"
+import { Form, Col, Row, Button, Input, Flex } from "antd"
+import Link from "next/link"
 import { useForm } from "antd/es/form/Form"
 
 export const SearchForm = ({query, onSubmit, onReset, onCreate}) => {
@@ -20,10 +21,12 @@ export const SearchForm = ({query, onSubmit, onReset, onCreate}) => {
             <Input style={{ maxWidth: 200 }} placeholder="输入要搜索的内容" allowClear />
           </Form.Item>
         </Col>
-        <Col span={12} style={{ textAlign: 'right' }}>
-          <Button type="primary" htmlType="submit">搜索</Button>
-          <Button style={{ margin: '0 12px' }} onClick={handleReset}>重置</Button>
-          <Button type="primary" onClick={onCreate}>新建</Button>
+        <Col span={12}>
+          <Flex justify="flex-end" gap="small">
+            <Button type="primary" htmlType="submit">搜索</Button>
+            <Button onClick={handleReset}>重置</Button>
+            <Button type="primary" onClick={onCreate}>新建</Button>
+          </Flex>
         </Col>
       </Row>
     </Form>

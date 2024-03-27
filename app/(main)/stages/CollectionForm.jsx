@@ -2,18 +2,52 @@ import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radi
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
-import { DoubleElimination, getMatchMapData } from "@/app/components/DoubleElimination";
+import { DoubleElimination } from "@/app/components/DoubleElimination";
 import { useState } from "react";
+import { SingleElimination } from "@/app/components/SingleElimination";
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input
   const [form] = Form.useForm()
   const [mode, setMode] = useState(initialValues ? initialValues.mode : 0)
   const [matchMap, setMatchMap] = useState(initialValues ? initialValues.groups : null)
-  const handleChange = (values) => {
-    const [upperLen, lowerLen] = values.split(',')
-    const result = getMatchMapData(Number(upperLen), Number(lowerLen))
+  const [upper, setUpper] = useState([])
+  const [lower, setLower] = useState([])
+  const [single, setSingle] = useState([])
+  // 填充数据
+  const makeArr = (number) => {
+    const arr = []
+    for (let i = 0; i < number; i++) {
+      arr[i] = { teams: [] }
+    }
+    return arr
+  }
+  const handleUpperChange = (values) => {
+    const arr = values.split(',')
+    setUpper(arr.map(item => ({ upper: makeArr(item) })))
+  }
+  const handleLowerChange = (values) => {
+    const arr = values.split(',')
+    setLower(arr.map(item => ({ lower: makeArr(item) })))
+  }
+  const handleSingleChange = (values) => {
+    const arr = values.split(',')
+    setSingle(arr.map(item => makeArr(item)))
+  }
+  const handleDouble = () => {
+    const result = upper.map((item, index) => {
+      return {
+        upper: item.upper,
+        lower: lower[index].lower
+      }
+    })
+    result.push({ final: [{ teams: [] }] })
+    console.log(result);
     setMatchMap(result)
+  }
+  const handleSingle = () => {
+    console.log(single);
+    setMatchMap(single)
   }
   return (
     <Form
@@ -77,12 +111,13 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
             { value: 0, label: '循环赛' },
             { value: 1, label: '双败淘汰赛' },
             { value: 2, label: '单败淘汰赛' },
+            { value: 3, label: 'GSL赛制' },
           ]}
           onChange={value => setMode(value)}
         />
       </Form.Item>
       {
-        mode === 0 ?
+        (mode === 0 || mode === 3) ?
         <>
           <Form.Item
             label="Bo"
@@ -167,36 +202,6 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               )}
             </Form.List>
           </Form.Item>
-          {/* <Form.Item label="分组" rules={[{ required: true, message: '必填' }]}>
-            <Form.List name="groups">
-              {(fields, { add, remove }, { errors }) => (
-                <Flex vertical gap="small">
-                  {fields.map((field, index) => (
-                    <Space key={field.key}>
-                      <Form.Item noStyle name={[field.name, 'teams']}>
-                        { 
-                          initialValues.groups && initialValues.groups[index] 
-                          ? <SelectTeam mode="multiple" value={initialValues.groups[index].teams} />
-                          : <SelectTeam mode="multiple" />
-                        }
-                      </Form.Item>
-                      <CloseOutlined onClick={() => remove(field.name)} />
-                    </Space>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      icon={<PlusOutlined />}
-                      block
-                    >
-                      Add field
-                    </Button>
-                  </Form.Item>
-                </Flex>
-              )}
-            </Form.List>
-          </Form.Item> */}
         </>
         : null
       }
@@ -204,13 +209,35 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         mode === 1 ?
         <>
           {
-            initialValues.id ? null :
-            <Form.Item label="初始数据">
-              <Input onBlur={e => handleChange(e.target.value)} />
+            initialValues.id ? null : 
+            <Form.Item label="对阵图数据">
+              <Flex gap="small">
+                <Input onChange={e => handleUpperChange(e.target.value)} />
+                <Input onChange={e => handleLowerChange(e.target.value)} />
+                <Button type="primary" onClick={handleDouble}>生成对阵图</Button>
+              </Flex>
             </Form.Item>
           }
           <Form.Item label="对阵图" name="groups">
-            <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} width={150} />
+            <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} />
+          </Form.Item>
+        </>
+        : null
+      }
+      {
+        mode === 2 ?
+        <>
+          {
+            initialValues.id ? null : 
+            <Form.Item label="对阵图数据">
+              <Flex gap="small">
+                <Input onChange={e => handleSingleChange(e.target.value)} />
+                <Button type="primary" onClick={handleSingle}>生成对阵图</Button>
+              </Flex>
+            </Form.Item>
+          }
+          <Form.Item label="对阵图" name="groups">
+            <SingleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} />
           </Form.Item>
         </>
         : null

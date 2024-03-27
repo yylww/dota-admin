@@ -67,7 +67,7 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
             newFileList = newFileList.slice(-1)
             newFileList.map(file => {
               if (file.response) {
-                file.url = file.response.data.url
+                file.url = `${staticURL}${file.response.data.url}`
               }
               return file
             })
@@ -91,7 +91,7 @@ export const CollectionFormModal = ({ open, initialValues, onSubmit, onCancel })
       open={open}
       onOk={async () => {
         const values = await formInstance?.validateFields()
-        // formInstance?.resetFields()
+        values.logo = values.logo.file ? values.logo.file.response.data.url : values.logo
         onSubmit(values)
       }}
       onCancel={onCancel}

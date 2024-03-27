@@ -1,66 +1,12 @@
 import { Line } from "./LineComponent"
 import { MatchComponent } from "./MatchComponent"
 
-// 填充数据
-const makeArr = (number) => {
-  const arr = []
-  for (let i = 0; i < number; i++) {
-    arr[i] = { teams: [] }
-  }
-  return arr
-}
-
-export const getMatchMapData = (upperLength, lowerLength = 0) => {
-  if (!upperLength) return false
-  // 根据初始数据中胜者组比赛场次和败者组比赛场次来计算出总的列数
-  const stageNum = Math.log2((upperLength + lowerLength)) * 2 + 1
-  const result = []
-  for (let i = 0; i < stageNum; i++) {
-    if (i === 0) {
-      result[i] = {
-        upper: lowerLength === 0 ? makeArr(upperLength) : [],
-        lower: lowerLength === 0 ? makeArr(upperLength / 2) : makeArr(lowerLength)
-      }
-    } else if (i === 1) {
-      result[i] = {
-        upper: lowerLength === 0 ? makeArr(upperLength / 2) : makeArr(upperLength),
-        lower: [],
-      }
-    } else if (i < stageNum - 1) {
-      result[i] = { upper: [], lower: [] }
-    } else {
-      result[i] = { final: [{ teams: [] }] }
-    }
-  }
-  for (let i = 0; i < stageNum - 2; i++) {
-    const upperLen = result[i].upper.length
-    const lowerLen = result[i].lower.length
-    if (upperLen > 1) {
-      if (i === 0) {
-        // 第一列胜者组数量大于1，下一列胜者组数量减半，当前列败者组数量为当前列胜者组数量的一半
-        result[i + 1].upper = makeArr(upperLen / 2)
-        result[i + 1].lower = makeArr(upperLen / 2) 
-      } else {
-        // 胜者组数量大于1且不为第一列，下一列胜者组数量为0，下下一列胜者组数量减半，下一列败者组数量为当前列败者组数量的一半
-        result[i + 2].upper = makeArr(upperLen / 2)
-        result[i + 1].lower = makeArr(lowerLen / 2) 
-      }
-    } else if (upperLen === 0) {
-      // 无胜者组，下一列败者组数量不变
-      result[i + 1].lower = makeArr(lowerLen)
-    } else if (upperLen === 1) {
-      // 胜者组数量为1，即为胜者组决赛，无需处理
-    }
-  }
-  return result
-}
-
 export const DoubleElimination = ({
   matchMap, 
   status = 'editable',
   matches = [],
   onChange,
-  width = 160, // 比赛组件宽度
+  width = 170, // 比赛组件宽度
   height = 30, // 比赛组件中队伍高度，比赛组件高度为 height * 2
   lineSpacing = 10, // 行间隔
   columnSpacing = 20, // 列间隔
@@ -68,7 +14,7 @@ export const DoubleElimination = ({
   if (!matchMap) return <div>TBD</div>
   
   const upperLen = matchMap[0].upper.length > 0 ? matchMap[0].upper.length : matchMap[1].upper.length
-  const lowerLen = matchMap[0].lower.length
+  const lowerLen = matchMap[0].lower.length > 0 ? matchMap[0].lower.length : matchMap[1].lower.length
   const matchHeight = height * 2 // 比赛组件高度 
   // 根据初始数据中胜者组比赛场次和败者组比赛场次来计算出单列最多组件数量
   const maxComponentNum = upperLen + lowerLen
@@ -87,7 +33,10 @@ export const DoubleElimination = ({
         const prevLower = result[i - 1].lower // 上一轮败者组数据
         const gap = containerHeight - (prevUpper[0].top + matchHeight) - (prevLower[0].bottom + matchHeight)
         const top = prevUpper[0].top + (gap / 2) + matchHeight - height
-        result[i].final[0].top = top
+        result[i].final[0] = {
+          ...result[i].final[0],
+          top,
+        }
         prevUpper[0].position[1] = {
           top: top + (height / 2),
           left: width + columnSpacing,
@@ -125,19 +74,18 @@ export const DoubleElimination = ({
         // 败者组
         for (let j = 0; j < lower.length; j++) {
           let bottom = j * (matchHeight + lineSpacing)
-          // 从第二轮开始，根据是否有胜者组比赛来区分败者组第二轮的位置
           // 上一轮败者组数据
           const prevLower = result[i - 1] ? result[i - 1].lower : null
           if (prevLower) {
-            if (upper.length > 0) {
-              // 有胜者组比赛，下一轮败者组比赛根据上一轮位置上调 height / 2
+            if (prevLower.length === lower.length) {
+              // 如果上一轮数量跟本轮相同，下一轮败者组比赛根据上一轮位置上调 height / 2
               bottom = prevLower[j].bottom + (height / 2)
               prevLower[j].position[1] = {
                 bottom: bottom + (height / 2),
                 left: width + columnSpacing,
               }
             } else {
-              // 无胜者组比赛，下一轮败者组比赛位置为上一轮的两组比赛的居中位置
+              // 如果上一轮数量跟本轮不相同，下一轮败者组比赛位置为上一轮的两组比赛的居中位置
               const gap = prevLower[j * 2].bottom - (prevLower[j * 2 + 1].bottom + matchHeight)
               bottom = prevLower[j * 2].bottom - (gap / 2) - height
               prevLower[j * 2].position[1] = {
@@ -160,8 +108,10 @@ export const DoubleElimination = ({
     }
     return result
   }
+  
   const result = matchMap
   const dataWithPosition = handleComponentPosition(JSON.parse(JSON.stringify(matchMap)))
+  console.log(dataWithPosition);
   const handleChange = (target, values, i, j, k) => {
     result[i][target][j].teams[k] = values
     onChange(result)

@@ -24,7 +24,7 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
         name="id"
         rules={[{ required: true, message: '必填' }]}
       >
-        <InputNumber style={{ width: 200 }} />
+        <InputNumber style={{ width: '100%' }} />
       </Form.Item>
       <Form.Item
         label="游戏ID"
