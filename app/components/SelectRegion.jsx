@@ -1,13 +1,15 @@
 import { Select } from "antd"
-import useSWR from "swr"
-import { getAllRegion } from "../api/region"
+import { getRegions } from "@/app/lib/region"
 
 export const SelectRegion = ({ value, onChange }) => {
-  const { data, error, isLoading } = useSWR(['region'], getAllRegion)
-  if (error) {
-    return <div>error</div>
-  }
-  if (isLoading) {
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    (async () => {
+      const data = await getRegions()
+      setData(data)
+    })()
+  }, [])
+  if (!data) {
     return <div>Loading...</div>
   }
   const options = data.map((item) => {

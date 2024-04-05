@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import StypedComponentsRegistry from '@/app/lib/AntdRegistry'
-import { SWRProvider } from './swr-provider'
+import { AntdRegistry } from '@ant-design/nextjs-registry'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,11 +13,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StypedComponentsRegistry>
-          <SWRProvider>
-            {children}
-          </SWRProvider>
-        </StypedComponentsRegistry>
+        <AntdRegistry>
+          {children}
+        </AntdRegistry>
       </body>
     </html>
   )

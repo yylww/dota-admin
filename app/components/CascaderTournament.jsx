@@ -1,16 +1,21 @@
 import { Cascader } from "antd"
-import useSWR from "swr"
-import { getAllTournament } from "../api/tournament"
+import { getTournaments } from "@/app/lib/tournament"
+import { useEffect, useState } from "react"
 
 export const CascaderTournament = ({ level, value, onChange }) => {
-  const { data, error, isLoading } = useSWR(['tournament'], getAllTournament)
-  if (error) {
-    return <div>error</div>
-  }
-  if (isLoading) {
+  const [tournaments, setTournaments] = useState(null)
+  useEffect(() => {
+    console.log(11233);
+    async function handler() {
+      const data = await getTournaments()
+      setTournaments(data)
+    }
+    handler()
+  }, [])
+  if (!tournaments) {
     return <div>Loading...</div>
   }
-  const options = data.map((tournament) => {
+  const options = tournaments.map((tournament) => {
     switch (level) {
       case 'tournament':
         return {
@@ -35,7 +40,7 @@ export const CascaderTournament = ({ level, value, onChange }) => {
             label: stage.title,
             children: stage.matches.map(match => ({
               value: match.id,
-              label: `${match.teams[0].tag} vs ${match.teams[1].tag}`,
+              label: `${match.homeTeam.tag} vs ${match.awayTeam.tag}`,
             }))
           }))
         }

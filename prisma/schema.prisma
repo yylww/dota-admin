@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hero {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  cname     String   @unique
+  avatar    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bans      Ban[]
+  picks     Pick[]
+  records   Record[]
+}
+
+model Region {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  cname     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teams     Team[]
+}
+
+model Team {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  tag          String?
+  logo         String
+  status       Int           @default(0)
+  regionId     Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  dires        Game[]        @relation("dire")
+  radiants     Game[]        @relation("radiant")
+  players      Player[]
+  region       Region        @relation(fields: [regionId], references: [id])
+  achievements Achievement[] @relation("AchievementToTeam")
+  homeMatches  Match[]       @relation("homeTeam")
+  awayMatches  Match[]       @relation("awayTeam")
+  tournament   Tournament[]  @relation("TeamToTournament")
+}
+
+model Player {
+  id           Int           @id @default(autoincrement())
+  nickname     String
+  position     String
+  status       Int
+  teamId       Int?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  team         Team?         @relation(fields: [teamId], references: [id])
+  records      Record[]
+  achievements Achievement[] @relation("AchievementToPlayer")
+}
+
+model Tournament {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  startDate    DateTime
+  endDate      DateTime
+  bonus        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  achievements Achievement[]
+  games        Game[]
+  matches      Match[]
+  stages       Stage[]
+  teams        Team[]        @relation("TeamToTournament")
+}
+
+model Achievement {
+  id           Int        @id @default(autoincrement())
+  rank         String
+  bonus        Int
+  point        Int?
+  tournamentId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  players      Player[]   @relation("AchievementToPlayer")
+  teams        Team[]     @relation("AchievementToTeam")
+}
+
+model Stage {
+  id           Int        @id @default(autoincrement())
+  title        String
+  rule         String
+  startDate    DateTime
+  endDate      DateTime
+  groups       Json
+  mode         Int
+  bo           Int?
+  type         Int?
+  tournamentId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  games        Game[]
+  matches      Match[]
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+}
+
+model Match {
+  id           Int        @id @default(autoincrement())
+  startTime    DateTime
+  status       Int        @default(0)
+  bo           Int
+  type         Int
+  extra        Boolean    @default(false)
+  tournamentId Int
+  stageId      Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  group        Int        @default(0)
+  games        Game[]
+  stage        Stage      @relation(fields: [stageId], references: [id])
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  homeTeam     Team       @relation(name: "homeTeam", fields: [homeTeamId], references: [id])
+  homeTeamId   Int
+  awayTeam     Team       @relation(name: "awayTeam", fields: [awayTeamId], references: [id])
+  awayTeamId   Int
+  homeScore    Int  @default(0)
+  awayScore    Int  @default(0)
+}
+
+model Game {
+  id            String     @id
+  type          Int
+  startTime     DateTime
+  duration      Int
+  radiantTeamId Int
+  direTeamId    Int
+  tournamentId  Int
+  stageId       Int
+  matchId       Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  bans          Ban[]
+  dire          Team       @relation("dire", fields: [direTeamId], references: [id])
+  match         Match      @relation(fields: [matchId], references: [id])
+  radiant       Team       @relation("radiant", fields: [radiantTeamId], references: [id])
+  stage         Stage      @relation(fields: [stageId], references: [id])
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  picks         Pick[]
+  records       Record[]
+}
+
+model Ban {
+  id        Int      @id @default(autoincrement())
+  gameId    String
+  heroId    Int
+  order     Int
+  radiant   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  game      Game     @relation(fields: [gameId], references: [id])
+  hero      Hero     @relation(fields: [heroId], references: [id])
+}
+
+model Pick {
+  id        Int      @id @default(autoincrement())
+  gameId    String
+  heroId    Int
+  order     Int
+  radiant   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  game      Game     @relation(fields: [gameId], references: [id])
+  hero      Hero     @relation(fields: [heroId], references: [id])
+}
+
+model Record {
+  id          Int      @id @default(autoincrement())
+  playerId    Int
+  gameId      String
+  heroId      Int
+  radiant     Boolean
+  win         Boolean
+  xpm         Int
+  gpm         Int
+  kills       Int
+  deaths      Int
+  assists     Int
+  level       Int
+  heroDamage  Int
+  towerDamage Int
+  lastHits    Int
+  denies      Int
+  netWorth    Int
+  healing     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  game        Game     @relation(fields: [gameId], references: [id])
+  hero        Hero     @relation(fields: [heroId], references: [id])
+  player      Player   @relation(fields: [playerId], references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

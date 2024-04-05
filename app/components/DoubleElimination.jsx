@@ -111,10 +111,19 @@ export const DoubleElimination = ({
   
   const result = matchMap
   const dataWithPosition = handleComponentPosition(JSON.parse(JSON.stringify(matchMap)))
-  console.log(dataWithPosition);
   const handleChange = (target, values, i, j, k) => {
     result[i][target][j].teams[k] = values
     onChange(result)
+  }
+
+  const filterMatch = (group, teams, matches) => {
+    const groupMatches = matches.filter(item => item.group === group)
+    const match = groupMatches.find(item => {
+      const { homeTeamId, awayTeamId } = item
+      return teams.includes(homeTeamId) && teams.includes(awayTeamId)
+    })
+
+    return match
   }
 
   return (
@@ -127,7 +136,7 @@ export const DoubleElimination = ({
               upper.map((item, j) => (
                 <div key={j}>
                   <div style={{ position: 'absolute', top: item.top, width: width, height: height * 2 }}>
-                    <MatchComponent onChange={((values, k) => handleChange('upper', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 1)} />
+                    <MatchComponent onChange={((values, k) => handleChange('upper', values, i, j, k))} status={status} teams={item.teams} match={filterMatch(1, item.teams, matches)} />
                   </div>
                   <Line direction="top" position={item.position} columnSpacing={columnSpacing} />
                 </div>
@@ -138,7 +147,7 @@ export const DoubleElimination = ({
               lower.map((item, j) => (
                 <div key={j}>
                   <div style={{ position: 'absolute', bottom: item.bottom, width: width, height: height * 2 }}>
-                    <MatchComponent onChange={((values, k) => handleChange('lower', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 2)} />
+                    <MatchComponent onChange={((values, k) => handleChange('lower', values, i, j, k))} status={status} teams={item.teams} match={filterMatch(2, item.teams, matches)} />
                   </div>
                   <Line direction="bottom" position={item.position} columnSpacing={columnSpacing} />
                 </div>
@@ -149,7 +158,7 @@ export const DoubleElimination = ({
               final ? 
               final.map((item, j) => (
                 <div key={j} style={{ position: 'absolute', top: item.top, width: width, height: height * 2 }}>
-                  <MatchComponent onChange={((values, k) => handleChange('final', values, i, j, k))} status={status} teams={item.teams} matches={matches.filter(match => match.group === 3)} />
+                  <MatchComponent onChange={((values, k) => handleChange('final', values, i, j, k))} status={status} teams={item.teams} match={filterMatch(3, item.teams, matches)} />
                 </div>
               )) : null
             }

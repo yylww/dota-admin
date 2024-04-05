@@ -1,88 +1,46 @@
 import { SelectTeam } from "./SelectTeam"
-import { getAllTeam } from "../api/team"
-import useSWR from "swr"
+import { getTeams } from "@/app/lib/team"
+import Image from "next/image"
+import { useEffect, useState } from "react"
 
-export const MatchComponent = ({ onChange, status, teams, matches = [] }) => {
-  const staticURL = process.env.NEXT_PUBLIC_STATIC_URL
-  const { data, isLoading } = useSWR(['team'], getAllTeam)
-  if (isLoading) {
+export const MatchComponent = ({ onChange, status, teams, match, teamData }) => {
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    (async () => {
+      const data = await getTeams()
+      setData(data)
+    })()
+  }, [])
+  if (!data) {
     return <div>Loading...</div>
   }
-  const handleMatchScore = (ids) => {
-    const match = matches.find(match => {
-      const teamIds = match.teams.map(team => team.id)
-      return teamIds.includes(ids[0]) && teamIds.includes(ids[1])
-    })
-    const arr = [0, 0]
-    if (!match) {
-      return arr
-    }
-    const { games } = match
-    if (games && games.length > 0) {
-      games.map(game => {
-        const radiant = game.records.find(record => record.radiant)
-        if (ids[0] === game.radiantTeamId) {
-          if (radiant.win) {
-            arr[0] += 1
-          } else {
-            arr[1] += 1
-          }
-        } else {
-          if (!radiant.win) {
-            arr[0] += 1
-          } else {
-            arr[1] += 1
-          }
-        }
-      }) 
-    }
-    return arr
-  }
-  const upper = data.find(team => team.id === teams[0])
-  const lower = data.find(team => team.id === teams[1])
-  const score = handleMatchScore(teams)
+  const { homeTeamId, homeTeam, homeScore, awayTeam, awayScore } = match
+  const upper = teams[0] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
+  const lower = teams[1] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', fontSize: 12 }}>
+    <div className="flex flex-col w-full h-full text-sm">
       {
         [upper, lower].map((item, index) => (
-          <div key={index} style={{ flex: 1, display: 'flex' }}>
+          <div key={index} className="flex flex-1">
             {
               status === 'display' ? 
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center', 
-                flex: 1,
-                border: '1px solid #eee', 
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 30 }}>
-                  { item ? <img style={{ width: 15 }} src={`${staticURL}${item.logo}`} /> : null }
+              <div className="flex flex-1 justify-between items-center border">
+                <div className="flex justify-center items-center w-[30px]">
+                  { item ? <Image src={item.logo} width={15} height={15} style={{ width: "15px", height: "auto" }} alt={item.name} /> : null }
                 </div>
-                <div style={{ flex: 1, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
                   { item ? item.name : 'TBD' }
                 </div>
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  width: 30,
-                  height: '100%',
-                  borderLeft: '1px solid #eee',
-                }}>
-                  { score[index] }
+                <div className="flex justify-center items-center w-[30px] h-full border-l">
+                  { item.score }
                 </div>
               </div>
               : null
             } 
             {
               status === 'editable' ? 
-              <div style={{ 
-                flex: 1,
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',  
-              }}>
+              <div className="flex flex-1 justify-between items-center">
                 <SelectTeam value={teams[index]} onChange={(teamId) => onChange(teamId, index)} />
               </div> : null
             } 
