@@ -42,6 +42,17 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         <InputNumber />
       </Form.Item>
       <Form.Item
+        label="状态"
+        name="status"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <Radio.Group>
+          <Radio value={0}>未开始</Radio>
+          <Radio value={1}>进行中</Radio>
+          <Radio value={2}>已结束</Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
         label="类型"
         name="type"
         rules={[{ required: true, message: '必填' }]}
@@ -74,11 +85,18 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         </Radio.Group>
       </Form.Item>
       <Form.Item 
-        label="比赛队伍" 
-        name="teams"
+        label="主队" 
+        name="homeTeamId"
         rules={[{ required: true, message: '必选' }]}
       >
-        <SelectTeam mode="multiple" />
+        <SelectTeam />
+      </Form.Item>
+      <Form.Item 
+        label="客队" 
+        name="awayTeamId"
+        rules={[{ required: true, message: '必选' }]}
+      >
+        <SelectTeam />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
         <Space>

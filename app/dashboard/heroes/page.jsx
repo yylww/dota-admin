@@ -8,7 +8,6 @@ import { Pagination } from "antd";
 import { getHeroList, getHero, createHero, updateHero, deleteHero } from "@/app/lib/hero";
 
 export default function Page() {
-  
   const [query, setQuery] = useState('')
   const [current, setCurrent] = useState(1)
   const [pageSize, setPageSize] = useState(10)

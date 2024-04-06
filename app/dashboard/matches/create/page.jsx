@@ -9,6 +9,7 @@ export default function Page() {
   return (
     <CollectionForm
       initialValues={{
+        status: 0,
         type: 0,
         group: 0,
         extra: false,

@@ -9,7 +9,12 @@ export async function getTeam(id) {
 }
 
 export async function getTeams() {
-  return prisma.team.findMany()
+  try {
+    return prisma.team.findMany()
+  } catch (error) {
+    console.log('Failed', error)
+    throw new Error(error)
+  }
 }
 
 export async function getTeamList(query, take, skip) {

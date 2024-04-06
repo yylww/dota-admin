@@ -6,6 +6,7 @@ import { getTournament } from "@/app/lib/tournament"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import dayjs from "dayjs"
+import Image from "next/image"
 
 export default function Page({ params }) {
   const id = params.id
@@ -30,16 +31,18 @@ export default function Page({ params }) {
       title: '队伍',
       key: 'teams',
       render: (_, record) => (
-        <Flex vertical>
+        <div className="items-center">
           {
-            record.teams.map(item => (
-              <Flex align="center">
-                <img style={{ width: 20, marginRight: 6 }} src={`${process.env.NEXT_PUBLIC_STATIC_URL}${item.logo}`} alt="" />
-                <span>{ item.name }</span>
-              </Flex>
+            record.teams.map((item, i) => (
+              <div key={i} className="flex items-center">
+                <div className="relative w-[20px] h-[20px]">
+                  <Image src={`${item.logo}`} fill sizes="100% 100%" alt={`${item.name}`} />
+                </div>
+                <span className="ml-2">{ item.name }</span>
+              </div>
             ))
           }
-        </Flex>
+        </div>
       )
     },
     { 
@@ -68,16 +71,18 @@ export default function Page({ params }) {
         <span>{ dayjs(data.startDate).format('YYYY-MM-DD') } 至 { dayjs(data.endDate).format('YYYY-MM-DD') }</span>
       </Form.Item>
       <Form.Item label="参赛队伍">
-        <Flex wrap="wrap" gap="small">
+        <div className="flex flex-wrap gap-1">
           {
             data.teams.map((item, index) => (
-              <Flex key={index} gap="small" align="center" style={{ border: '1px solid #ddd', padding: 6 }}>
-                <img width={20} height={20} src={`${process.env.NEXT_PUBLIC_STATIC_URL}${item.logo}`} alt={`${item.name} logo`} />
+              <div key={index} className="flex items-center border p-1 w-[160px]">
+                <div className="relative w-[20px] h-[20px] mx-2">
+                  <Image src={`${item.logo}`} fill sizes="100% 100%" alt={`${item.name}`} />
+                </div>
                 <span>{ item.name }</span>
-              </Flex>
+              </div>
             ))
           }
-        </Flex>
+        </div>
       </Form.Item>
       <Form.Item label="赛事排名">
         <Table 

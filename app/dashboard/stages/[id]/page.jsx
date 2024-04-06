@@ -18,7 +18,6 @@ export default function Page({ params }) {
   useEffect(() => {
     (async () => {
       const data = await getStage(+id)
-      console.log(data);
       setData(data)
     })()
   }, [])

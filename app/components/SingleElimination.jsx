@@ -8,7 +8,7 @@ export const SingleElimination = ({
   status = 'editable', 
   matches = [],
   onChange,
-  width = 160, // 比赛组件宽度
+  width = 170, // 比赛组件宽度
   height = 30, // 比赛组件中队伍高度，比赛组件高度为 height * 2
   lineSpacing = 10, // 行间隔
   columnSpacing = 20, // 列间隔
@@ -74,6 +74,14 @@ export const SingleElimination = ({
     onChange(result)
   }
 
+  const filterMatch = (teams, matches) => {
+    const match = matches.find(item => {
+      const { homeTeamId, awayTeamId } = item
+      return teams.includes(homeTeamId) && teams.includes(awayTeamId)
+    })
+    return match
+  }
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', width: containerWidth, height: containerHeight }}>
       {
@@ -83,7 +91,7 @@ export const SingleElimination = ({
               columns.map((item, j) => (
                 <div key={j}>
                   <div style={{ position: 'absolute', top: item.top, width: width, height: height * 2 }}>
-                    <MatchComponent onChange={((values, k) => handleChange(values, i, j, k))} status={status} teams={item.teams} matches={matches} />
+                    <MatchComponent onChange={((values, k) => handleChange(values, i, j, k))} status={status} teams={item.teams} match={filterMatch(item.teams, matches)} />
                   </div>
                   {
                     (i < result.length - 1) ? 

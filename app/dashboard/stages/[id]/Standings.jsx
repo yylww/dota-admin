@@ -1,59 +1,41 @@
-import { Flex } from 'antd'
-import styles from './style.module.scss'
+
+import Image from 'next/image'
+import clsx from 'clsx'
 
 export const Standings = ({ list, matches, width = 400 }) => {
-  const staticURL = process.env.NEXT_PUBLIC_STATIC_URL
   const tableData = list.map((item, i) => {
     const filterMatches = matches.filter(match => {
-      const teamIds = match.teams.map(team => team.id)
+      const teamIds = [match.homeTeamId, match.awayTeamId]
       if (teamIds.includes(item.teamId)) {
         return match
       }
     })
-    const bo = filterMatches[0].bo
-    const team = filterMatches[0].teams.find(team => team.id === item.teamId)
+    const { bo, homeTeam, homeTeamId, awayTeam } = filterMatches[0]
+    const team = item.teamId === homeTeamId ? homeTeam : awayTeam
     const matchPoints = (bo % 2 === 0) ? [0, 0, 0] : [0, 0]
     const gamePoints = [0, 0]
 
     filterMatches.forEach(match => {
-      const games = match.games
-      const arr = [0, 0]
-      if (games && games.length > 0) {
-        games.map(game => {
-          const radiant = game.records.find(record => record.radiant)
-          if (item.teamId === game.radiantTeamId) {
-            if (radiant.win) {
-              arr[0] += 1
-            } else {
-              arr[1] += 1
-            }
-          } else {
-            if (!radiant.win) {
-              arr[0] += 1
-            } else {
-              arr[1] += 1
-            }
-          }
-        }) 
-      }
+      const { bo, homeTeamId, homeScore, awayScore } = match
+      const score = item.teamId === homeTeamId ? [homeScore, awayScore] : [awayScore, homeScore] 
       if (bo % 2 === 0) {
-        if (arr[0] > arr[1]) {
+        if (score[0] > score[1]) {
           matchPoints[0] += 1
-        } else if (arr[0] === arr[1]) {
+        } else if (score[0] === score[1]) {
           matchPoints[1] += 1
         } else {
           matchPoints[2] += 1
         }
       } else {
-        if (arr[0] > arr[1]) {
+        if (score[0] > score[1]) {
           matchPoints[0] += 1
         } else {
           matchPoints[1] += 1
         }
       }
       
-      gamePoints[0] += arr[0]
-      gamePoints[1] += arr[1]
+      gamePoints[0] += score[0]
+      gamePoints[1] += score[1]
     })
 
     return {
@@ -65,21 +47,27 @@ export const Standings = ({ list, matches, width = 400 }) => {
   })
   
   return (
-    <table className={styles.table} style={{ width }}>
+    <table className="border-collapse" style={{ width }}>
+      <thead>
+        <tr>
+          <th colSpan={7} className="h-[30px] font-bold border text-center">积分榜</th>
+        </tr>
+      </thead>
       <tbody>
-        <th colSpan={7} className={styles.th}>积分榜</th>
         {
           tableData.map((rowData, i) => (
-            <tr key={i} className={[styles.win, styles.lose, styles.extra, styles.upper, styles.lower][rowData.status]}>
-              <td className={styles.td} style={{ width: 40 }}>{i + 1}</td>
-              <td colSpan={4} className={styles.td}>
-                <Flex align='center'>
-                  <img style={{ width: 20, margin: '0 16px' }} src={`${staticURL}${rowData.team.logo}`} />
+            <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100"][rowData.status])}>
+              <td className="w-[40px] h-[30px] border text-center">{i + 1}</td>
+              <td colSpan={4} className="h-[30px] border text-center">
+                <div className="flex items-center">
+                  <div className="relative mx-4 w-[20px] h-[20px]">
+                    <Image src={`${rowData.team.logo}`} fill sizes="100% 100%" alt={rowData.team.name} />
+                  </div>
                   <span>{ rowData.team.name }</span>
-                </Flex>
+                </div>
               </td>
-              <td className={styles.td}>{ rowData.matchPoints.join('-') }</td>
-              <td className={styles.td}>{ rowData.gamePoints.join('-') }</td>
+              <td className="h-[30px] border text-center">{ rowData.matchPoints.join('-') }</td>
+              <td className="h-[30px] border text-center">{ rowData.gamePoints.join('-') }</td>
             </tr>
           ))
         }

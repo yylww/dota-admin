@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 export const CascaderTournament = ({ level, value, onChange }) => {
   const [tournaments, setTournaments] = useState(null)
   useEffect(() => {
-    console.log(11233);
     async function handler() {
       const data = await getTournaments()
       setTournaments(data)

@@ -7,7 +7,6 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from 'antd';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/user';
 
@@ -81,8 +80,8 @@ export default function LoginForm() {
 function LoginButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="primary" htmlType="submit" className="mt-6 w-full" loading={pending}>
+    <button htmlType="submit" className="flex w-full h-10 text-center mt-6 items-center rounded-md bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50" aria-disabled={pending}>
       Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
+    </button>
   );
 }

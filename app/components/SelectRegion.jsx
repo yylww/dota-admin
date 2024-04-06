@@ -1,5 +1,6 @@
 import { Select } from "antd"
 import { getRegions } from "@/app/lib/region"
+import { useEffect, useState } from "react"
 
 export const SelectRegion = ({ value, onChange }) => {
   const [data, setData] = useState(null)

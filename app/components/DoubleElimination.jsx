@@ -122,7 +122,6 @@ export const DoubleElimination = ({
       const { homeTeamId, awayTeamId } = item
       return teams.includes(homeTeamId) && teams.includes(awayTeamId)
     })
-
     return match
   }
 

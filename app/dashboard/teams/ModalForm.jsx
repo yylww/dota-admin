@@ -62,6 +62,7 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
       >
         <Upload
           action="/api/upload?des=teams"
+          name="file"
           accept="image/*"
           listType="picture"
           fileList={fileList}

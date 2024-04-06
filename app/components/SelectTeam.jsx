@@ -2,19 +2,13 @@ import { Flex, Select } from "antd"
 import { getTeams } from "@/app/lib/team"
 import { StopOutlined } from "@ant-design/icons"
 import Image from "next/image"
-import { useState, useEffect } from "react"
 import useSWR from "swr"
 
 export const SelectTeam = ({ mode, value, onChange }) => {
-  const fetcher = url => fetch(url).then(res => res.json())
-  const { data, isLoading } = useSWR('/api/teams', fetcher)
-  // const [data, setData] = useState(null)
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await getTeams()
-  //     setData(data)
-  //   })()
-  // }, [])
+  const { data, isLoading, error } = useSWR('teams', getTeams)
+  if (error) {
+    return <div>Error</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }

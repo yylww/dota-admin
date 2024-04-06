@@ -83,6 +83,11 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
       }
     },
     { 
+      title: '状态', 
+      key: 'status',
+      render: (_, record) => ['未开始', '进行中', '已结束'][record.status]
+    },
+    { 
       title: '类型',
       key: 'type',
       render: (_, record) => <span>{['线下赛', '线上赛'][record.type]}</span>

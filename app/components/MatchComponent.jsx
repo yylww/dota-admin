@@ -1,19 +1,7 @@
 import { SelectTeam } from "./SelectTeam"
-import { getTeams } from "@/app/lib/team"
 import Image from "next/image"
-import { useEffect, useState } from "react"
 
-export const MatchComponent = ({ onChange, status, teams, match, teamData }) => {
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getTeams()
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
-    return <div>Loading...</div>
-  }
+export const MatchComponent = ({ onChange, status, teams, match }) => {
   const { homeTeamId, homeTeam, homeScore, awayTeam, awayScore } = match
   const upper = teams[0] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
   const lower = teams[1] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }

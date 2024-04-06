@@ -25,7 +25,6 @@ export default function Page({ params }) {
         ...data,
         stageId: [data.tournament.id, data.stage.id],
         startTime: dayjs(data.startTime),
-        teams: [data.teams[0].id, data.teams[1].id],
       }}
       onSubmit={async values => {
         console.log(values)
