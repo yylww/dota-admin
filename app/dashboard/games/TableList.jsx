@@ -10,8 +10,7 @@ export const TableList = ({data, onDelete}) => {
       key: 'radiant',
       render: (_, record) => {
         const teamName = record.radiant.tag
-        const win = record.records.filter(item => item.radiant)[0].win
-        return <span>{teamName} {win ? '胜者' : ''}</span>
+        return <span>{teamName} {record.radiantWin ? '胜者' : ''}</span>
       }
     },
     { 
@@ -19,8 +18,7 @@ export const TableList = ({data, onDelete}) => {
       key: 'dire',
       render: (_, record) => {
         const teamName = record.dire.tag
-        const win = record.records.filter(item => !item.radiant)[0].win
-        return <span>{teamName} {win ? '胜者' : ''}</span>
+        return <span>{teamName} {record.radiantWin ? '' : '胜者'}</span>
       }
     },
     { 

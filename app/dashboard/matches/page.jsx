@@ -6,14 +6,16 @@ import { SearchForm } from "./SearchForm"
 import { Pagination, message } from "antd"
 import { CollectionFormModal } from "./ModalForm"
 import axios from 'axios'
+import dayjs from "dayjs"
 import { getMatchList, deleteMatch, updateMatch } from "@/app/lib/match"
 import { createGame } from "@/app/lib/game"
 
 export default function Page() {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState({})
   const [current, setCurrent] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [open, setOpen] = useState(false)
+  const [rowData, setRowData] = useState({})
   const [tableData, setTableData] = useState({
     list: [],
     total: 0,
@@ -27,9 +29,13 @@ export default function Page() {
 
   useEffect(() => {
     handleTableData()
-  }, [query, current, pageSize])
+  }, [query.stageId, query.teamId, current, pageSize])
 
   const generateData = (fetchData) => {
+    const startTime = dayjs(fetchData.start_time * 1000)
+    const duration = fetchData.duration
+    const radiantTeamId = fetchData.radiant_team_id
+    const direTeamId = fetchData.dire_team_id
     const bans = fetchData.picks_bans.filter(item => !item.is_pick).map(item => ({
       order: item.order,
       heroId: item.hero_id,
@@ -62,6 +68,7 @@ export default function Page() {
     return {
       startTime,
       duration,
+      radiantWin: records.filter(item => item.radiant)[0].win,
       radiantTeamId,
       direTeamId,
       bans,
@@ -75,11 +82,11 @@ export default function Page() {
         query={query}
         onSubmit={values => {
           setCurrent(1)
-          setQuery(values.query)
+          setQuery(values)
         }}
         onReset={() => {
           setCurrent(1)
-          setQuery('')
+          setQuery({})
         }}
       />
       <TableList
@@ -88,7 +95,7 @@ export default function Page() {
           await updateMatch(id, values)
           handleTableData()
         }}
-        onEdit={(values) => {
+        onAddGame={(values) => {
           setOpen(true)
           setRowData(values)
         }}
@@ -113,7 +120,7 @@ export default function Page() {
         onSubmit={async (values) => {
           const gameIds = values.ids.split(' ')
           for (const gameId of gameIds) {
-            const matchTeamIds = rowData.teams.map(item => item.id)
+            const matchTeamIds = [rowData.homeTeamId, rowData.awayTeamId]
             let opendota = null
             try {
               const res = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
@@ -134,8 +141,8 @@ export default function Page() {
               matchId: rowData.id,
               type: values.type,
             })
-            await handleTableData()
           }
+          await handleTableData()
           setOpen(false)
         }}
         onCancel={() => {

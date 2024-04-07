@@ -5,8 +5,9 @@ import { AntdRegistry } from '@ant-design/nextjs-registry'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: '雯逸小岛',
-  description: '一家想做什么就做什么的店',
+  title: 'DOTA2赛事',
+  description: 'DOTA2赛事预告，赛事资讯',
+  keywords: ['DOTA', 'DOTA2', '赛事', '预告', '资讯', '比赛', 'TI', '统计'],
 }
 
 export default function RootLayout({ children }) {

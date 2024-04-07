@@ -54,7 +54,7 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   return <td {...restProps}>{ childNode }</td>
 }
 
-export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
+export const TableList = ({data, onCellSave, onAddGame, onDelete}) => {
   const defaultColumns = [
     { title: 'ID', dataIndex: 'id' },
     { 
@@ -110,7 +110,7 @@ export const TableList = ({data, onCellSave, onEdit, onDelete}) => {
         }
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
-            { flag ? null : <a onClick={() => onEdit(record)}>添加比赛</a> }
+            { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> }
             <Link href={`/dashboard/games?matchId=${record.id}`}>比赛</Link>
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>

@@ -1,20 +1,16 @@
 import { Cascader } from "antd"
+import useSWR from "swr"
 import { getTournaments } from "@/app/lib/tournament"
-import { useEffect, useState } from "react"
 
 export const CascaderTournament = ({ level, value, onChange }) => {
-  const [tournaments, setTournaments] = useState(null)
-  useEffect(() => {
-    async function handler() {
-      const data = await getTournaments()
-      setTournaments(data)
-    }
-    handler()
-  }, [])
-  if (!tournaments) {
+  const { data, isLoading, error } = useSWR('tournaments', getTournaments)
+  if (error) {
+    return <div>Error</div>
+  }
+  if (isLoading) {
     return <div>Loading...</div>
   }
-  const options = tournaments.map((tournament) => {
+  const options = data.map((tournament) => {
     switch (level) {
       case 'tournament':
         return {

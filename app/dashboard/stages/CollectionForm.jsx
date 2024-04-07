@@ -168,13 +168,14 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                                   </Form.Item>
                                   <Form.Item noStyle name={[subField.name, 'status']}>
                                     <Select
-                                      defaultValue={0}
+                                      defaultValue={5}
                                       options={[
                                         { value: 0, label: '晋级' },
                                         { value: 1, label: '淘汰' },
                                         { value: 2, label: '加赛' },
                                         { value: 3, label: '胜者组' },
                                         { value: 4, label: '败者组' },
+                                        { value: 5, label: '待定' },
                                       ]}
                                     />
                                   </Form.Item>

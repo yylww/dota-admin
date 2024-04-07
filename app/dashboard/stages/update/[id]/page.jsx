@@ -7,7 +7,7 @@ import dayjs from "dayjs"
 import { CollectionForm } from "../../CollectionForm"
 
 export default function Page({ params }) {
-  const id = params.id
+  const id = Number(params.id)
   const router = useRouter()
   const [data, setData] = useState(null)
   useEffect(() => {

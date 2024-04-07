@@ -140,6 +140,7 @@ model Game {
   tournamentId  Int
   stageId       Int
   matchId       Int
+  radiantWin    Boolean    @default(true)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   bans          Ban[]

@@ -56,7 +56,7 @@ export const Standings = ({ list, matches, width = 400 }) => {
       <tbody>
         {
           tableData.map((rowData, i) => (
-            <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100"][rowData.status])}>
+            <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
               <td className="w-[40px] h-[30px] border text-center">{i + 1}</td>
               <td colSpan={4} className="h-[30px] border text-center">
                 <div className="flex items-center">

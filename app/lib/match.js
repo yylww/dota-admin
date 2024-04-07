@@ -25,12 +25,14 @@ export async function getMatches() {
 }
 
 export async function getMatchList(query, take, skip) {
-  const whereCondition = query ? {
-    OR: [
-      { homeTeam: { name: { contains: query } }},
-      { awayTeam: { name: { contains: query } }},
-    ],
+  const { stageId, teamId } = query
+  const or = !!teamId ? {
+    OR: [{ homeTeamId: teamId }, { awayTeamId: teamId }],
   } : {}
+  const whereCondition = {
+    stageId,
+    ...or,
+  }
   return {
     list: await prisma.match.findMany({
       where: whereCondition,
@@ -53,16 +55,26 @@ export async function getMatchList(query, take, skip) {
 }
 
 export async function createMatch(data) {
-  return prisma.match.create({
-    data,
-  })
+  try {
+    const match = await prisma.match.create({ data })
+    return match
+  } catch (error) {
+    console.log('Failed', error)
+    throw new Error(error)
+  }
 }
 
 export async function updateMatch(id, data) {
-  return prisma.match.update({
-    where: { id },
-    data,
-  })
+  try {
+    const match = await prisma.match.update({ 
+      where: { id },
+      data, 
+    })
+    return match
+  } catch (error) {
+    console.log('Failed', error)
+    throw new Error(error)
+  }
 }
 
 export async function deleteMatch(id) {

@@ -15,7 +15,10 @@ export default function Page() {
       for (let i = 0; i < teams.length - 1; i++) {
         const sliceTeams = teams.slice(i+1)
         for (let j = 0; j < sliceTeams.length; j++) {
-          arr.push([teams[i], sliceTeams[j]])
+          arr.push({
+            homeTeamId: teams[i],
+            awayTeamId: sliceTeams[j]
+          })
         }
       }
     })
@@ -26,7 +29,7 @@ export default function Page() {
       extra: false,
       tournamentId: values.tournamentId[0],
       stageId,  
-      teams: item,
+      ...item,
     }))
   }
  

@@ -51,9 +51,20 @@ export async function getTournamentList(query, take, skip) {
 }
 
 export async function createTournament(data) {
-  return prisma.tournament.create({
-    data,
-  })
+  try {
+    const tournament = await prisma.tournament.create({
+      data: {
+        ...data,
+        teams: {
+          connect: data.teams.map(id => ({ id })),
+        },
+      }
+    })
+    return tournament
+  } catch (error) {
+    console.log('Failed', error)
+    throw new Error(error)
+  }
 }
 
 export async function updateTournament(id, data) {
