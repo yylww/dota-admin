@@ -1,26 +1,21 @@
 'use client'
 
-import { useEffect, useState } from "react"
-import { Form, Space, Button, Flex, Table } from "antd"
-import { getTournament } from "@/app/lib/tournament"
+import { Form, Space, Button, Table } from "antd"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import dayjs from "dayjs"
 import Image from "next/image"
+import useSWR from "swr"
 
 export default function Page({ params }) {
-  const id = params.id
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading } = useSWR(`/api/tournaments/${params.id}`, fetcher)
   const router = useRouter()
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getTournament(+id)
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
+
+  if (isLoading) {
     return <div>Loading...</div>
   }
+  
   const columns = [
     { 
       title: '排名',
@@ -95,9 +90,9 @@ export default function Page({ params }) {
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
         <Space>
-          <Button type="primary">
-            <Link href={`/dashboard/tournaments/update/${params.id}`}>编辑</Link>
-          </Button>
+          <Link href={`/dashboard/tournaments/update/${params.id}`}>
+            <Button type="primary">编辑</Button>
+          </Link>
           <Button htmlType="button" onClick={() => router.back()}>返回列表</Button>
         </Space>
       </Form.Item>

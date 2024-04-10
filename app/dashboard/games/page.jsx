@@ -1,64 +1,56 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
-import { Pagination } from "antd"
-import { getGameList, deleteGame } from "@/app/lib/game"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, usePathname, useRouter } from "next/navigation"
+import useSWR from "swr"
 
 export default function Page() {
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState(Number(searchParams.get('matchId')) || null)
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  const handleTableData = async () => {
-    const take = pageSize
-    const skip = (current - 1) * pageSize
-    const data = await getGameList(query, take, skip)
-    setTableData(data)
+  const pathname = usePathname();
+  const { replace } = useRouter()
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, mutate, isLoading } = useSWR('/api/games', fetcher)
+  const [query, setQuery] = useState({ matchId: Number(searchParams.get('matchId')) })
+  const filterData = ({ stageId, matchId, teamId }) => {
+    let result = data
+    if (stageId) {
+      result = result.filter(item => item.stageId === stageId)
+    }
+    if (matchId) {
+      result = result.filter(item => item.matchId === matchId)
+    }
+    if (teamId) {
+      result = result.filter(item => item.radiantTeamId === teamId || item.direTeamId === teamId)
+    }
+    return result
   }
-
-  useEffect(() => {
-    handleTableData()
-  }, [query, current, pageSize])
+  
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   
   return (
     <>
       <SearchForm
-        query={query}
         onSubmit={values => {
-          console.log(values);
-          setCurrent(1)
-          setQuery(values.query[2])
+          setQuery(values)
         }}
         onReset={() => {
-          setCurrent(1)
-          setQuery(null)
+          const params = new URLSearchParams(searchParams)
+          params.delete('matchId')
+          replace(`${pathname}?${params.toString()}`)
+          setQuery({})
         }}
       />
       <TableList
-        data={tableData.list}
+        data={filterData(query)}
         onDelete={async (id) => {
-          await deleteGame(id)
-          handleTableData()
+          await fetch(`/api/games/${id}`, { method: 'DELETE' })
+          mutate()
         }}    
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          current={current} 
-          pageSize={pageSize} 
-          total={tableData.total}
-          onChange={(current, pageSize) => {
-            setCurrent(current)
-            setPageSize(pageSize)
-          }}
-        />
-      </div>
     </>
   )
 }

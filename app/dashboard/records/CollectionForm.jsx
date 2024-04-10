@@ -4,7 +4,6 @@ import { SelectTeam } from "@/app/components/SelectTeam"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
-  console.log(initialValues);
   const [form] = Form.useForm()
   return (
     <Form

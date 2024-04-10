@@ -17,7 +17,7 @@ export const TableList = ({data, onEdit, onDelete}) => {
       render: (_, record) => (
         <Space size='middle' style={{ color: '#1677ff' }}>
           <a onClick={() => onEdit(record.id)}>编辑</a>
-          {/* <a onClick={() => onDelete(record.id)}>删除</a> */}
+          <a onClick={() => onDelete(record.id)}>删除</a>
         </Space>
       )
     }
@@ -28,7 +28,9 @@ export const TableList = ({data, onEdit, onDelete}) => {
       dataSource={data} 
       columns={columns} 
       size="small" 
-      pagination={false}
+      pagination={{
+        size: 'default',
+      }}
     />
   )
 }

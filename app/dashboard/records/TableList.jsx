@@ -49,7 +49,9 @@ export const TableList = ({data, onDelete}) => {
       dataSource={data} 
       columns={columns} 
       size="small" 
-      pagination={false}
+      pagination={{
+        size: 'default',
+      }}
     />
   )
 }

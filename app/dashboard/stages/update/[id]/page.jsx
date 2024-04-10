@@ -1,22 +1,16 @@
 'use client'
 
-import { useEffect, useState } from "react"
-import { updateStage, getStage } from "@/app/lib/stage"
 import { useRouter } from "next/navigation"
 import dayjs from "dayjs"
+import useSWR from "swr"
 import { CollectionForm } from "../../CollectionForm"
 
 export default function Page({ params }) {
-  const id = Number(params.id)
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading, mutate } = useSWR(`/api/stages/${params.id}`, fetcher)
   const router = useRouter()
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getStage(+id)
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
+
+  if (isLoading) {
     return <div>Loading...</div>
   }
   return (
@@ -29,10 +23,12 @@ export default function Page({ params }) {
       }}
       onSubmit={async values => {
         console.log(values)
-        await updateStage(id, {
+        const params ={
           ...values,
           tournamentId: values.tournamentId[0],
-        })
+        }
+        await fetch(`/api/stages/${params.id}`, { method: 'POST', body: JSON.stringify(params) })
+        mutate()
         router.push('/dashboard/stages')
       }}
       onCancel={() => {

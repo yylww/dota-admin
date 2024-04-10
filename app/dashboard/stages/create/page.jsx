@@ -1,8 +1,6 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { createStage } from "@/app/lib/stage"
-import { createMatch } from "@/app/lib/match"
 import { CollectionForm } from "../CollectionForm"
 
 export default function Page() {
@@ -37,17 +35,20 @@ export default function Page() {
     <CollectionForm
       initialValues={{
         mode: 0,
+        bo: 3,
+        type: 0,
       }}
       onSubmit={async values => {
-        const stage = await createStage({
+        const params = {
           ...values, 
           tournamentId: values.tournamentId[0],
-        })
+        }
+        const stage = await fetch('/api/stages', { method: 'POST', body: JSON.stringify(params) })
         if (values.mode === 0) {
           // 自动创建循环赛中所有系列赛
           const data = handleMatchData(values, stage.id)
           for (const item of data) {
-            await createMatch(item)
+            await fetch('/api/matches', { method: 'POST', body: JSON.stringify(item) })
           }
         }
         router.push('/dashboard/stages')

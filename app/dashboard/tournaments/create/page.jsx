@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { createTournament } from "@/app/lib/tournament"
 import { CollectionForm } from "../CollectionForm"
 
 export default function Page() {
@@ -9,8 +8,7 @@ export default function Page() {
   return (
     <CollectionForm
       onSubmit={async values => {
-        console.log(values)
-        await createTournament(values)
+        await fetch('/api/tournaments', { method: 'POST', body: JSON.stringify(values) })
         router.push('/dashboard/tournaments')
       }}
       onCancel={() => {

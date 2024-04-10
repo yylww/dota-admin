@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { createMatch } from "@/app/lib/match"
 import { CollectionForm } from "../CollectionForm"
 
 export default function Page() {
@@ -9,17 +8,19 @@ export default function Page() {
   return (
     <CollectionForm
       initialValues={{
+        bo: 3,
         status: 0,
         type: 0,
         group: 0,
         extra: false,
       }}
       onSubmit={async values => {
-        await createMatch({
+        const params = {
           ...values,
           tournamentId: values.stageId[0],
           stageId: values.stageId[1],
-        })
+        }
+        await fetch('/api/matches', { method: 'POST', body: JSON.stringify(params) })
         router.push('/dashboard/matches')
       }}
       onCancel={() => {

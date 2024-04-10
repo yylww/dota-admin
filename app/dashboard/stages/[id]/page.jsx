@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import useSWR from "swr"
 import { Form, Space, Button } from "antd"
-import { getStage } from "@/app/lib/stage"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import dayjs from "dayjs"
@@ -12,16 +11,11 @@ import { Standings } from "./Standings"
 import { SingleElimination } from "@/app/components/SingleElimination"
 
 export default function Page({ params }) {
-  const id = params.id
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading } = useSWR(`/api/stages/${params.id}`, fetcher)
   const router = useRouter()
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getStage(+id)
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
+
+  if (isLoading) {
     return <div>Loading...</div>
   }
   return (
@@ -80,9 +74,9 @@ export default function Page({ params }) {
       
       <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
         <Space>
-          <Button type="primary">
-            <Link href={`/dashboard/stages/update/${params.id}`}>编辑</Link>
-          </Button>
+          <Link href={`/dashboard/stages/update/${params.id}`}>
+            <Button type="primary">编辑</Button>
+          </Link>
           <Button htmlType="button" onClick={() => router.back()}>返回列表</Button>
         </Space>
       </Form.Item>

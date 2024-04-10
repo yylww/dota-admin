@@ -2,17 +2,16 @@ import { Form, Col, Row, Button, Input } from "antd"
 import { useForm } from "antd/es/form/Form"
 import Link from "next/link"
 
-export const SearchForm = ({query, onSubmit, onReset}) => {
+export const SearchForm = ({onSubmit, onReset}) => {
   const [form] = useForm()
   const handleReset = () => {
-    form.setFieldValue('query', '')
+    form.resetFields()
     onReset()
   }
   return (
     <Form
       form={form}
       name="searchForm"
-      initialValues={{ query }}
       onFinish={onSubmit}
     >
       <Row gutter={24}>
@@ -24,9 +23,9 @@ export const SearchForm = ({query, onSubmit, onReset}) => {
         <Col span={12} style={{ textAlign: 'right' }}>
           <Button type="primary" htmlType="submit">搜索</Button>
           <Button style={{ margin: '0 12px' }} onClick={handleReset}>重置</Button>
-          <Button type="primary">
-            <Link href="/dashboard/tournaments/create">新建</Link>
-          </Button>
+          <Link href="/dashboard/tournaments/create">
+            <Button type="primary">新建</Button>
+          </Link>
         </Col>
       </Row>
     </Form>

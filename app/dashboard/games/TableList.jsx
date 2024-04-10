@@ -33,7 +33,7 @@ export const TableList = ({data, onDelete}) => {
     { 
       title: '开始时间',
       key: 'startTime',
-      render: (_, record) => <span>{dayjs(record.startTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+      render: (_, record) => <span>{dayjs(record.startTime).format('YYYY-MM-DD HH:mm')}</span>
     },
     { 
       title: '比赛时长',
@@ -49,9 +49,9 @@ export const TableList = ({data, onDelete}) => {
       key: 'action',
       render: (_, record) => (
         <Space size='middle' style={{ color: '#1677ff' }}>
-          <Link href={`/games/${record.id}`}>详情</Link>
-          <Link href={`/games/update/${record.id}`}>编辑</Link>
-          <a onClick={() => onDelete(record.id, record.records)}>删除</a>
+          <Link href={`/dashboard/games/${record.id}`}>详情</Link>
+          <Link href={`/dashboard/games/update/${record.id}`}>编辑</Link>
+          {/* <a onClick={() => onDelete(record.id)}>删除</a> */}
         </Space>
       )
     }
@@ -62,7 +62,9 @@ export const TableList = ({data, onDelete}) => {
       dataSource={data} 
       columns={columns} 
       size="small" 
-      pagination={false}
+      pagination={{
+        size: 'default',
+      }}
     />
   )
 }

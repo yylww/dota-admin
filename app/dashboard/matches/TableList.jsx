@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { Table, Space, Form, DatePicker } from "antd"
+import { Table, Space, Form, DatePicker, Select, Spin } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
 
@@ -27,7 +27,7 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   const toggleEdit = () => {
     setEditing(!editing)
     form.setFieldsValue({
-      [dataIndex]: dayjs(record[dataIndex]),
+      [dataIndex]: dataIndex === 'startTime' ? dayjs(record[dataIndex]) : record[dataIndex],
     })
   }
   const save = async (id) => {
@@ -43,7 +43,19 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   if (editable) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0 }} name={dataIndex}>
-        <DatePicker showTime format="YYYY-MM-DD HH:mm" ref={inputRef} onOk={() => save(record.id)} />
+        {
+          dataIndex === 'startTime' ?
+          <DatePicker showTime format="YYYY-MM-DD HH:mm" ref={inputRef} onOk={() => save(record.id)} /> :
+          <Select
+            onBlur={() => save(record.id)}
+            ref={inputRef} 
+            options={[
+              {value: 0, label: '未开始'}, 
+              {value: 1, label: '进行中'}, 
+              {value: 2, label: '已结束'},
+            ]} 
+          />
+        }
       </Form.Item>
     ) : (
       <div onClick={toggleEdit}>
@@ -54,7 +66,7 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   return <td {...restProps}>{ childNode }</td>
 }
 
-export const TableList = ({data, onCellSave, onAddGame, onDelete}) => {
+export const TableList = ({data, onCellSave, onAddGame, onSyncGame, syncLoading, onDelete}) => {
   const defaultColumns = [
     { title: 'ID', dataIndex: 'id' },
     { 
@@ -79,18 +91,19 @@ export const TableList = ({data, onCellSave, onAddGame, onDelete}) => {
       key: 'score',
       render: (_, record) => {
         const arr = [record.homeScore, record.awayScore]
-        return arr.join(':')
-      }
+        return <Link href={`/dashboard/games?matchId=${record.id}`}>{arr.join(':')}</Link>
+      },
     },
     { 
       title: '状态', 
-      key: 'status',
-      render: (_, record) => ['未开始', '进行中', '已结束'][record.status]
+      dataIndex: 'status',
+      render: (_, record) => ['未开始', '进行中', '已结束'][record.status],
+      editable: true,
     },
     { 
       title: '类型',
       key: 'type',
-      render: (_, record) => <span>{['线下赛', '线上赛'][record.type]}</span>
+      render: (_, record) => <span>{['线下', '线上'][record.type]}</span>
     },
     { 
       title: '是否加赛',
@@ -111,7 +124,7 @@ export const TableList = ({data, onCellSave, onAddGame, onDelete}) => {
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
             { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> }
-            <Link href={`/dashboard/games?matchId=${record.id}`}>比赛</Link>
+            { flag ? null : <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a> }
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>
           </Space>
@@ -147,7 +160,9 @@ export const TableList = ({data, onCellSave, onAddGame, onDelete}) => {
       dataSource={data} 
       columns={columns} 
       size="small" 
-      pagination={false}
+      pagination={{
+        size: 'default',
+      }}
     />
   )
 }

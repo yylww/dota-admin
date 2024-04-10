@@ -10,7 +10,7 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       const isOnLogin = nextUrl.pathname.startsWith('/login');
-      const callbackUrl = decodeURIComponent(nextUrl.search.split('callbackUrl=')[1])
+      const callbackUrl = nextUrl.search.split('callbackUrl=')[1] ? decodeURIComponent(nextUrl.search.split('callbackUrl=')[1]) : new URL('/dashboard', nextUrl)
       if (isOnDashboard) {
         if (isLoggedIn) return true;
         return false;

@@ -1,35 +1,36 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
-import { Pagination, message } from "antd"
+import { message } from "antd"
 import { CollectionFormModal } from "./ModalForm"
-import axios from 'axios'
 import dayjs from "dayjs"
-import { getMatchList, deleteMatch, updateMatch } from "@/app/lib/match"
-import { createGame } from "@/app/lib/game"
+import useSWR from "swr"
+import { getRecentGames, getGameData } from "@/app/utils/opendata"
 
 export default function Page() {
-  const [query, setQuery] = useState({})
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [open, setOpen] = useState(false)
-  const [rowData, setRowData] = useState({})
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  const handleTableData = async () => {
-    const take = pageSize
-    const skip = (current - 1) * pageSize
-    const data = await getMatchList(query, take, skip)
-    setTableData(data)
-  }
 
-  useEffect(() => {
-    handleTableData()
-  }, [query.stageId, query.teamId, current, pageSize])
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, mutate, isLoading } = useSWR('/api/matches', fetcher)
+  const [query, setQuery] = useState({})
+  const [open, setOpen] = useState(false)
+  const [syncLoading, setSyncLoading] = useState(false)
+  const [rowData, setRowData] = useState({})
+  const filterData = ({ stageId, teamId }) => {
+    let result = data
+    if (stageId) {
+      result = result.filter(item => item.stageId === stageId)
+    }
+    if (teamId) {
+      result = result.filter(item => item.homeTeamId === teamId || item.awayTeamId === teamId)
+    }
+    return result
+  }
+  
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   const generateData = (fetchData) => {
     const startTime = dayjs(fetchData.start_time * 1000)
@@ -76,65 +77,82 @@ export default function Page() {
       records,
     }
   }
+
+  const createGame = async (data) => {
+    fetch('/api/games', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+  }
+  const handleSyncGame = async (match) => {
+    const games = await getRecentGames(match)
+    if (games.length > 0) {
+      const gameIds = games.map(item => `${item.match_id}`)
+      for (const gameId of gameIds) {
+        const game = await fetch(`/api/games/${gameId}`).then(r => r.json())
+        if (!game) {
+          const gameData = await getGameData(gameId)
+          const gameParams = generateData(gameData)
+          await createGame({
+            ...gameParams,
+            id: gameId,
+            tournamentId: match.tournamentId,
+            stageId: match.stageId,
+            matchId: match.id,
+            type: match.type,
+          })
+        }
+      }
+      mutate()
+    } else {
+      message.warning('暂无相关比赛')
+    }
+    setSyncLoading(false)
+  }
   return (
     <>
       <SearchForm
-        query={query}
         onSubmit={values => {
-          setCurrent(1)
           setQuery(values)
         }}
         onReset={() => {
-          setCurrent(1)
           setQuery({})
         }}
       />
       <TableList
-        data={tableData.list}
+        data={filterData(query)}
         onCellSave={async (id, values) => {
-          await updateMatch(id, values)
-          handleTableData()
+          await fetch(`/api/matches/${id}`, { method: 'POST', body: JSON.stringify(values)})
+          mutate()
         }}
         onAddGame={(values) => {
           setOpen(true)
           setRowData(values)
         }}
+        onSyncGame={(values) => {
+          setSyncLoading(true)
+          handleSyncGame(values)
+        }}
+        syncLoading={syncLoading}
         onDelete={async id => {
-          await deleteMatch(id)
-          handleTableData()
+          await fetch(`/api/matches/${id}`, { method: 'DELETE' })
+          mutate()
         }}    
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          current={current} 
-          pageSize={pageSize} 
-          total={tableData.total}
-          onChange={(current, pageSize) => {
-            setCurrent(current)
-            setPageSize(pageSize)
-          }}
-        />
-      </div>
       <CollectionFormModal
         open={open}
         onSubmit={async (values) => {
           const gameIds = values.ids.split(' ')
           for (const gameId of gameIds) {
+            const gameData = await getGameData(gameId)
             const matchTeamIds = [rowData.homeTeamId, rowData.awayTeamId]
-            let opendota = null
-            try {
-              const res = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
-              opendota = res.data
-            } catch (error) {
-              message.error('opendata error: ', error.message)
-            }
-            if (!matchTeamIds.includes(opendota.radiant_team_id) || !matchTeamIds.includes(opendota.dire_team_id)) {
+            if (!matchTeamIds.includes(gameData.radiant_team_id) || !matchTeamIds.includes(gameData.dire_team_id)) {
               message.error(`ID不匹配: ${gameId}`)
               return false
             }
-            const gameData = generateData(opendota)
+            const gameParams = generateData(gameData)
             await createGame({
-              ...gameData,
+              ...gameParams,
               id: gameId,
               tournamentId: rowData.tournamentId,
               stageId: rowData.stageId,
@@ -142,7 +160,7 @@ export default function Page() {
               type: values.type,
             })
           }
-          await handleTableData()
+          mutate()
           setOpen(false)
         }}
         onCancel={() => {

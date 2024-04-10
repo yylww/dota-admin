@@ -1,22 +1,16 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import { updateTournament, getTournament } from "@/app/lib/tournament"
 import { useRouter } from "next/navigation"
 import dayjs from "dayjs"
 import { CollectionForm } from "../../CollectionForm"
+import useSWR from "swr"
 
 export default function Page({ params }) {
-  const id = params.id
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading, mutate } = useSWR(`/api/tournaments/${params.id}`, fetcher)
   const router = useRouter()
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getTournament(+id)
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
+
+  if (isLoading) {
     return <div>Loading...</div>
   }
   return (
@@ -28,7 +22,8 @@ export default function Page({ params }) {
         teams: data.teams.map(item => item.id),
       }}
       onSubmit={async values => {
-        await updateTournament(id, values)
+        await fetch(`/api/tournaments/${params.id}`, { method: 'POST', body: JSON.stringify(values) })
+        mutate()
         router.push('/dashboard/tournaments')
       }}
       onCancel={() => {

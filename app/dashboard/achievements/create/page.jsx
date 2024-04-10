@@ -1,28 +1,23 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { createAchievement } from "@/app/lib/achievement"
-import { getTeams } from "@/app/lib/team"
 import { CollectionForm } from "../CollectionForm"
-import { useEffect, useState } from "react"
+import useSWR from "swr"
 
 export default function Page() {
-  const [teamData, setTeamData] = useState([])
   const router = useRouter()
-  useEffect(() => {
-    (async () => {
-      const data = await getTeams()
-      setTeamData(data)
-    })()
-  }, [])
+  const fetcher = url => fetch(url).then(r => r.json())
+  const {data, isLoading} = useSWR('/api/teams', fetcher)
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   return (
     <CollectionForm
       onSubmit={async values => {
-        console.log(values)
         for (const item of values.ranks) {
           const players = []
           item.teams.forEach(id => {
-            const filterTeam = teamData.filter(team => team.id === id)[0]
+            const filterTeam = data.filter(team => team.id === id)[0]
             filterTeam.players.forEach(player => {
               players.push(player.id)
             })
@@ -32,7 +27,7 @@ export default function Page() {
             tournamentId: values.tournamentId[0],
             players,
           }
-          await createAchievement(params)
+          await fetch('/api/achievements', { method: 'POST', body: JSON.stringify(params) })
         }
         router.push('/dashboard/achievements')
       }}

@@ -1,16 +1,13 @@
 import { Select } from "antd"
-import { getRegions } from "@/app/lib/region"
-import { useEffect, useState } from "react"
+import useSWR from "swr"
 
 export const SelectRegion = ({ value, onChange }) => {
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    (async () => {
-      const data = await getRegions()
-      setData(data)
-    })()
-  }, [])
-  if (!data) {
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading, error } = useSWR('/api/regions', fetcher)
+  if (error) {
+    return <div>Error</div>
+  }
+  if (isLoading) {
     return <div>Loading...</div>
   }
   const options = data.map((item) => {

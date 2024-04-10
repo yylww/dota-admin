@@ -1,92 +1,71 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CollectionFormModal } from "./ModalForm";
 import { TableList } from "./TableList";
 import { SearchForm } from "./SearchForm";
-import { updateTeam, createTeam, getTeam, deleteTeam, getTeamList } from "@/app/lib/team"
-import { Pagination } from "antd";
+import useSWR from "swr"
 
 export default function Page() {
-  
-  const [query, setQuery] = useState('')
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, mutate, isLoading } = useSWR('/api/teams', fetcher)
+  const [query, setQuery] = useState({})
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState(null)
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  const handleTableData = async () => {
-    const take = pageSize
-    const skip = (current - 1) * pageSize
-    const data = await getTeamList(query, take, skip)
-    setTableData(data)
-  }
-  const handleDetail = async (id) => {
-    setId(id)
-    setDetail(null)
-    if (id) {
-      const data = await getTeam(id)
-      setDetail(data)
+  const filterData = ({ teamName, nickname }) => {
+    let result = data
+    if (teamName) {
+      result = result.filter(item => {
+        const { name, tag } = item
+        return name.toLowerCase().includes(teamName.toLowerCase()) || tag.toLowerCase().includes(teamName.toLowerCase()) 
+      })
     }
+    if (nickname) {
+      result = result.filter(item => item.players.some(player => player.nickname.toLowerCase().includes(nickname.toLowerCase())))
+    }
+    return result
   }
-
-  useEffect(() => {
-    handleTableData()
-  }, [query, current, pageSize])
+  
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   
   return (
     <>
       <SearchForm
-        query={query}
         onSubmit={values => {
-          setCurrent(1)
-          setQuery(values.query)
+          setQuery(values)
         }}
         onReset={() => {
-          setCurrent(1)
-          setQuery('')
+          setQuery({})
         }}
-        onCreate={async () => {
-          await handleDetail(null)
+        onCreate={() => {
+          setId(null)
+          setDetail(null)
           setOpen(true)
         }}
       />
       <TableList
-        data={tableData.list}
+        data={filterData(query)}
         onEdit={async (id) => {
-          await handleDetail(id)
+          setId(id)
+          const data = await fetch(`/api/teams/${id}`).then(r => r.json())
+          setDetail(data)
           setOpen(true)
         }}
         onDelete={async id => {
-          await deleteTeam(id)
-          handleTableData()
+          await fetch(`/api/teams/${id}`, { method: 'DELETE' })
+          mutate()
         }}  
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          current={current} 
-          pageSize={pageSize} 
-          total={tableData.total}
-          onChange={(current, pageSize) => {
-            setCurrent(current)
-            setPageSize(pageSize)
-          }}
-        />
-      </div>
       <CollectionFormModal
         open={open}
         initialValues={detail}
         onSubmit={async values => {
-          if (id) {
-            await updateTeam(id, values)
-          } else {
-            await createTeam(values)
-          }
-          await handleTableData()
+          const url = id ? `/api/teams/${id}` : '/api/teams'
+          await fetch(url, { method: 'POST', body: JSON.stringify(values) })
+          mutate()
           setOpen(false)
         }}
         onCancel={() => {

@@ -1,92 +1,67 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CollectionFormModal } from "./ModalForm";
 import { TableList } from "./TableList";
 import { SearchForm } from "./SearchForm";
-import { Pagination } from "antd";
-import { getRegionList, getRegion, createRegion, updateRegion, deleteRegion } from "@/app/lib/region";
+import useSWR from "swr"
 
 export default function Page() {
-
-  const [query, setQuery] = useState('')
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, mutate, isLoading } = useSWR('/api/regions', fetcher)
+  const [query, setQuery] = useState(null)
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState(null)
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  const handleTableData = async () => {
-    const take = pageSize
-    const skip = (current - 1) * pageSize
-    const data = await getRegionList(query, take, skip)
-    setTableData(data)
-  }
-  const handleDetail = async (id) => {
-    setId(id)
-    setDetail(null)
-    if (id) {
-      const data = await getRegion(id)
-      setDetail(data)
+  const filterData = (query) => {
+    if (query) {
+      return data.filter(item => {
+        const { cname } = item
+        return cname.includes(query)
+      })
     }
+    return data
   }
-
-  useEffect(() => {
-    handleTableData()
-  }, [query, current, pageSize])
+  
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   
   return (
     <>
       <SearchForm
-        query={query}
         onSubmit={values => {
-          setCurrent(1)
           setQuery(values.query)
         }}
         onReset={() => {
-          setCurrent(1)
-          setQuery('')
+          setQuery(null)
         }}
-        onCreate={async () => {
-          await handleDetail(null)
+        onCreate={() => {
+          setId(null)
+          setDetail(null)
           setOpen(true)
         }}
       />
       <TableList
-        data={tableData.list}
+        data={filterData(query)}
         onEdit={async (id) => {
-          await handleDetail(id)
+          setId(id)
+          const data = await fetch(`/api/regions/${id}`).then(r => r.json())
+          setDetail(data)
           setOpen(true)
         }}
         onDelete={async id => {
-          await deleteRegion(id);
-          handleTableData()
+          await fetch(`/api/regions/${id}`, { method: 'DELETE' })
+          mutate()
         }}  
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          current={current} 
-          pageSize={pageSize} 
-          total={tableData.total}
-          onChange={(current, pageSize) => {
-            setCurrent(current)
-            setPageSize(pageSize)
-          }}
-        />
-      </div>
       <CollectionFormModal
         open={open}
         initialValues={detail}
         onSubmit={async values => {
-          if (id) {
-            await updateRegion(id, values)
-          } else {
-            await createRegion(values)
-          }
-          await handleTableData()
+          const url = id ? `/api/regions/${id}` : '/api/regions'
+          await fetch(url, { method: 'POST', body: JSON.stringify(values) })
+          mutate()
           setOpen(false)
         }}
         onCancel={() => {

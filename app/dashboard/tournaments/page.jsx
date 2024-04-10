@@ -1,61 +1,45 @@
 'use client'
 
-import { useEffect, useState } from "react"
-import { TableList } from "./TableList"
-import { SearchForm } from "./SearchForm"
-import { Pagination } from "antd"
-import { getTournamentList, deleteTournament } from "@/app/lib/tournament"
+import { useState } from "react";
+import { TableList } from "./TableList";
+import { SearchForm } from "./SearchForm";
+import useSWR from "swr"
 
 export default function Page() {
-  const [query, setQuery] = useState('')
-  const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  const handleTableData = async () => {
-    const take = pageSize
-    const skip = (current - 1) * pageSize
-    const data = await getTournamentList(query, take, skip)
-    setTableData(data)
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, mutate, isLoading } = useSWR('/api/tournaments', fetcher)
+  const [query, setQuery] = useState(null)
+  const filterData = (query) => {
+    if (query) {
+      return data.filter(item => {
+        const { title } = item
+        return title.includes(query)
+      })
+    }
+    return data
   }
-
-  useEffect(() => {
-    handleTableData()
-  }, [query, current, pageSize])
+  
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   
   return (
     <>
       <SearchForm
-        query={query}
         onSubmit={values => {
-          setCurrent(1)
           setQuery(values.query)
         }}
         onReset={() => {
-          setCurrent(1)
           setQuery('')
         }}
       />
       <TableList
-        data={tableData.list}
+        data={filterData(query)}
         onDelete={async id => {
-          await deleteTournament(id)
-          handleTableData()
+          await fetch(`/api/tournaments/${id}`, { method: 'DELETE' })
+          mutate()
         }}    
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          current={current} 
-          pageSize={pageSize} 
-          total={tableData.total}
-          onChange={(current, pageSize) => {
-            setCurrent(current)
-            setPageSize(pageSize)
-          }}
-        />
-      </div>
     </>
   )
 }

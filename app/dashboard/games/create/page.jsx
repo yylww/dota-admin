@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { createGame } from "@/app/lib/game"
 import { CollectionForm } from "../CollectionForm"
 
 export default function Page() {
@@ -13,7 +12,7 @@ export default function Page() {
       }}
       onSubmit={async values => {
         console.log(values)
-        await createGame(values)
+        await fetch('/api/games', { method: 'POST', body: JSON.stringify(data) })
         router.push('/dashboard/games')
       }}
       onCancel={() => {

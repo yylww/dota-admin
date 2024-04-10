@@ -1,7 +1,7 @@
 import { Form, Input, Space, Button, Radio } from "antd"
-import axios from "axios"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
 import dayjs from "dayjs"
+import { getGameData } from "@/app/utils/opendata"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm()
@@ -10,8 +10,16 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
     const duration = fetchData.duration
     const radiantTeamId = fetchData.radiant_team_id
     const direTeamId = fetchData.dire_team_id
-    const bans = fetchData.picks_bans.filter(item => item.is_pick === false).map(item => item.hero_id)
-    const picks = fetchData.picks_bans.filter(item => item.is_pick === true).map(item => item.hero_id)
+    const bans = fetchData.picks_bans.filter(item => !item.is_pick).map(item => ({
+      order: item.order,
+      heroId: item.hero_id,
+      radiant: item.team === 0,
+    }))
+    const picks = fetchData.picks_bans.filter(item => item.is_pick).map(item => ({
+      order: item.order,
+      heroId: item.hero_id,
+      radiant: item.team === 0,
+    }))
     const records = fetchData.players.map(item => ({
       playerId: item.account_id,
       heroId: item.hero_id,
@@ -34,6 +42,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
     return {
       startTime,
       duration,
+      radiantWin: records.filter(item => item.radiant)[0].win,
       radiantTeamId,
       direTeamId,
       bans,
@@ -56,10 +65,10 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         const values = await form.validateFields()
         const gameIds = values.gameId.split(' ')
         for (const gameId of gameIds) {
-          const res = await axios.get(`https://api.opendota.com/api/matches/${gameId}`)
-          const data = generateData(res.data)
+          const gameData = await getGameData(gameId)
+          const gameParams = generateData(gameData)
           onSubmit({
-            ...data,
+            ...gameParams,
             ...values,
             id: gameId,
             tournamentId: values.matchId[0],
