@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 export const GET = async () => {
   try {
     const regions = await prisma.region.findMany({
+      orderBy: [{ id: 'asc' }],
       include: {
         teams: true,
       }

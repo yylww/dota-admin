@@ -4,15 +4,17 @@ import prisma from "@/app/utils/db";
 export const GET = async () => {
   try {
     const records = await prisma.record.findMany({
+      orderBy: [
+        { createdAt: 'desc' },
+      ],
       include: {
-        player: true,
-        hero: true,
-        game: {
+        player: {
           include: {
-            radiant: true,
-            dire: true,
-          }
+            team: true,
+          },
         },
+        hero: true,
+        game: true,
       }
     })
     return Response.json(records)

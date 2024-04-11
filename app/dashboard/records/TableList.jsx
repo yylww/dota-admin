@@ -3,13 +3,9 @@ import { Table } from "antd"
 export const TableList = ({data, onDelete}) => {
   const columns = [
     { title: 'ID', dataIndex: 'id' },
-    { title: '选手', dataIndex: ['player', 'nickname'] },
+    { title: '选手', dataIndex: ['player', 'nickname'], width: 80, ellipsis: true },
     { title: '英雄', dataIndex: ['hero', 'cname'] },
-    { 
-      title: '比赛', 
-      key: 'game',
-      render: (_, record) => <span>{record.game.radiant.name} vs {record.game.dire.name}</span>
-    },
+    { title: '队伍', dataIndex: ['player', 'team', 'tag'] },
     { 
       title: '天辉/夜魇', 
       key: 'radiant',

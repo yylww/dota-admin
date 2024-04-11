@@ -4,6 +4,10 @@ import prisma from "@/app/utils/db";
 export const GET = async () => {
   try {
     const matches = await prisma.match.findMany({
+      orderBy: [
+        { status: 'asc'},
+        { startTime: 'desc' },
+      ],
       include: {
         tournament: true,
         stage: true,

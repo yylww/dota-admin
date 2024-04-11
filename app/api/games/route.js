@@ -4,6 +4,9 @@ import prisma from "@/app/utils/db";
 export const GET = async () => {
   try {
     const games = await prisma.game.findMany({
+      orderBy: [
+        { startTime: 'desc' },
+      ],
       include: {
         radiant: true,
         dire: true,

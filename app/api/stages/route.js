@@ -4,6 +4,9 @@ import { auth } from "@/auth";
 export const GET = async () => {
   try {
     const stages = await prisma.stage.findMany({
+      orderBy: [
+        { createdAt: 'desc' },
+      ],
       include: {
         tournament: true,
       },
