@@ -22,12 +22,12 @@ export const SearchForm = ({query, onSubmit, onReset, onCreate}) => {
       <Row gutter={24}>
         <Col span={8}>
           <Form.Item name="teamName">
-            <Input placeholder="搜索队伍" />
+            <Input placeholder="队伍名称" />
           </Form.Item>
         </Col>
         <Col span={8}>
           <Form.Item name="nickname">
-            <Input placeholder="搜索选手" />
+            <Input placeholder="选手昵称" />
           </Form.Item>
         </Col>
         <Col span={8}>

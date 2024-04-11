@@ -20,14 +20,14 @@ import clsx from 'clsx';
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   // { name: 'Home', href: '/dashboard', icon: HomeIcon },
-  { name: '英雄管理', href: '/dashboard/heroes', icon: UserIcon },
-  { name: '赛区管理', href: '/dashboard/regions', icon: GlobeAltIcon },
-  { name: '队伍管理', href: '/dashboard/teams', icon: UserGroupIcon },
-  { name: '选手管理', href: '/dashboard/players', icon: UserCircleIcon },
   { name: '赛事管理', href: '/dashboard/tournaments', icon: FlagIcon },
-  { name: '获奖管理', href: '/dashboard/achievements', icon: TrophyIcon },
   { name: '赛事阶段管理', href: '/dashboard/stages', icon: ChartBarIcon },
   { name: '系列赛管理', href: '/dashboard/matches', icon: SparklesIcon },
+  { name: '队伍管理', href: '/dashboard/teams', icon: UserGroupIcon },
+  { name: '选手管理', href: '/dashboard/players', icon: UserCircleIcon },
+  { name: '获奖管理', href: '/dashboard/achievements', icon: TrophyIcon },
+  { name: '英雄管理', href: '/dashboard/heroes', icon: UserIcon },
+  { name: '赛区管理', href: '/dashboard/regions', icon: GlobeAltIcon },
   { name: '比赛管理', href: '/dashboard/games', icon: StarIcon },
   { name: '比赛数据管理', href: '/dashboard/records', icon: ServerStackIcon },
 ];

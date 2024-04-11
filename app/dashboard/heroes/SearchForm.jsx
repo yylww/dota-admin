@@ -16,7 +16,7 @@ export const SearchForm = ({onSubmit, onReset, onCreate}) => {
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item name="query">
-            <Input placeholder="输入要搜索的内容" allowClear />
+            <Input placeholder="英雄名称" allowClear />
           </Form.Item>
         </Col>
         <Col span={12} style={{ textAlign: 'right' }}>

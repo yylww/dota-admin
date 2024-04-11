@@ -17,7 +17,7 @@ export const SearchForm = ({onSubmit, onReset}) => {
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item name="query" label="">
-            <Input style={{ maxWidth: 200 }} placeholder="输入要搜索的内容" allowClear />
+            <Input placeholder="赛事标题" allowClear />
           </Form.Item>
         </Col>
         <Col span={12} style={{ textAlign: 'right' }}>
