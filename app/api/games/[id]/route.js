@@ -2,7 +2,7 @@ import prisma from "@/app/utils/db";
 import { auth } from "@/auth";
 
 export const GET = async (req, { params }) => {
-  const id = Number(params.id)
+  const id = params.id
   try {
     const game = await prisma.game.findUnique({ 
       where: { id },
@@ -26,7 +26,7 @@ export const GET = async (req, { params }) => {
 export const POST = auth(async (req, { params }) => {
   const isLoggedIn = !!req.auth?.user
   if (isLoggedIn) {
-    const id = Number(params.id)
+    const id = params.id
     const data = await req.json()
     try {
       const game = await prisma.game.update({ 
@@ -46,7 +46,7 @@ export const POST = auth(async (req, { params }) => {
 export const DELETE = auth(async (req, { params }) => {
   const isLoggedIn = !!req.auth?.user
   if (isLoggedIn) {
-    const id = Number(params.id)
+    const id = params.id
     try {
       // 删除game时，先删除相关records
       await prisma.game.update({

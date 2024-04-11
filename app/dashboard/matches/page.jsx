@@ -79,7 +79,7 @@ export default function Page() {
   }
 
   const createGame = async (data) => {
-    fetch('/api/games', {
+    await fetch('/api/games', {
       method: 'POST',
       body: JSON.stringify(data)
     })
@@ -103,7 +103,7 @@ export default function Page() {
           })
         }
       }
-      mutate()
+      await mutate()
     } else {
       message.warning('暂无相关比赛')
     }

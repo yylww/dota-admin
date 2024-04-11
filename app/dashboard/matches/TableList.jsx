@@ -115,11 +115,12 @@ export const TableList = ({data, onCellSave, onAddGame, onSyncGame, syncLoading,
       key: 'action',
       render: (_, record) => {
         let flag = false
-        const scores = [record.homeScore, record.awayScore]
-        if (record.games && record.games.length === record.bo) {
+        const { homeScore, awayScore, bo } = record
+        const scores = [homeScore, awayScore]
+        if (homeScore + awayScore >= bo) {
           flag = true
         } else {
-          flag = scores.some(item => Number(item) > (record.bo / 2))
+          flag = scores.some(item => Number(item) > (bo / 2))
         }
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
