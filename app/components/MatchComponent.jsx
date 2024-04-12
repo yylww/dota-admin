@@ -15,10 +15,10 @@ export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
               status === 'display' ? 
               <div className="flex flex-1 justify-between items-center border">
                 <div className="flex justify-center items-center w-[30px]">
-                  { item ? <Image src={item.logo} width={15} height={15} style={{ width: "15px", height: "auto" }} alt={item.name} /> : null }
+                  { item.logo ? <Image src={item.logo} width={15} height={15} style={{ width: "15px", height: "auto" }} alt={item.name} /> : null }
                 </div>
                 <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
-                  { item ? item.name : 'TBD' }
+                  { item.name || 'TBD' }
                 </div>
                 <div className="flex justify-center items-center w-[30px] h-full border-l">
                   { item.score }
