@@ -44,7 +44,7 @@ export default function Page({ params }) {
               <Standings list={group.list} matches={data.matches} />
             </Form.Item>
             <Form.Item label={`小组${index + 1}`}>
-              <Group list={group.list} matches={data.matches} />
+              <Group list={group.list} matches={data.matches.filter(item => !item.extra)} />
             </Form.Item>
           </div>
         )) : null

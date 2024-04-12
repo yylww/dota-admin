@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 export const Standings = ({ list, matches, width = 400 }) => {
   const tableData = list.map((item, i) => {
-    const filterMatches = matches.filter(match => {
+    const filterMatches = matches.filter(item => !item.extra).filter(match => {
       const teamIds = [match.homeTeamId, match.awayTeamId]
       if (teamIds.includes(item.teamId)) {
         return match
@@ -12,6 +12,7 @@ export const Standings = ({ list, matches, width = 400 }) => {
     })
     const { bo, homeTeam, homeTeamId, awayTeam } = filterMatches[0]
     const team = item.teamId === homeTeamId ? homeTeam : awayTeam
+    const hasExtra = matches.filter(item => item.extra).some(({ homeTeamId, awayTeamId }) => homeTeamId === item.teamId || awayTeamId === item.teamId)
     const matchPoints = (bo % 2 === 0) ? [0, 0, 0] : [0, 0]
     const gamePoints = [0, 0]
 
@@ -43,6 +44,7 @@ export const Standings = ({ list, matches, width = 400 }) => {
       status: item.status,
       matchPoints,
       gamePoints,
+      hasExtra,
     }
   })
   
@@ -63,7 +65,7 @@ export const Standings = ({ list, matches, width = 400 }) => {
                   <div className="relative mx-4 w-[20px] h-[20px]">
                     <Image src={`${rowData.team.logo}`} fill sizes="100% 100%" alt={rowData.team.name} />
                   </div>
-                  <span>{ rowData.team.name }</span>
+                  <span>{ rowData.team.name }{ rowData.hasExtra ? '*' : '' }</span>
                 </div>
               </td>
               <td className="h-[30px] border text-center">{ rowData.matchPoints.join('-') }</td>
