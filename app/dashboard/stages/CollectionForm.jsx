@@ -42,11 +42,9 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       }
     })
     result.push({ final: [{ teams: [] }] })
-    console.log(result);
     setMatchMap(result)
   }
   const handleSingle = () => {
-    console.log(single);
     setMatchMap(single)
   }
   return (
@@ -62,7 +60,6 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       initialValues={initialValues}
       onFinish={async () => {
         const values = await form.validateFields()
-        console.log(values);
         onSubmit(values)
       }}
     >

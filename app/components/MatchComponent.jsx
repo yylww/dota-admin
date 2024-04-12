@@ -1,7 +1,7 @@
 import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
 
-export const MatchComponent = ({ onChange, status, teams, match }) => {
+export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
   const { homeTeamId, homeTeam, homeScore, awayTeam, awayScore } = match
   const upper = teams[0] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
   const lower = teams[1] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
