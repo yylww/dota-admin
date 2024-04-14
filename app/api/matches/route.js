@@ -1,9 +1,21 @@
 import { auth } from "@/auth";
 import prisma from "@/app/utils/db";
 
-export const GET = async () => {
+export const GET = async (req) => {
+  const searchParams = req.nextUrl.searchParams
+  const status = searchParams.get('status') ? Number(searchParams.get('status')) : undefined
+  const take = searchParams.get('take') ? Number(searchParams.get('take')) : undefined
+  const skip = searchParams.get('status') ? Number(searchParams.get('status')) : undefined
+  
   try {
     const matches = await prisma.match.findMany({
+      where: {
+        status: {
+          equals: status,
+        },
+      },
+      take,
+      skip,
       orderBy: [
         { status: 'asc'},
         { startTime: 'desc' },

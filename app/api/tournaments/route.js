@@ -18,6 +18,12 @@ export const GET = async () => {
             },
           }
         },
+        matches: {
+          include: {
+            homeTeam: true,
+            awayTeam: true,
+          }
+        },
       }
     })
     return Response.json(tournaments)
