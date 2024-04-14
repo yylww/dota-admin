@@ -55,6 +55,12 @@ export const DELETE = auth(async (req, { params }) => {
           records: {
             deleteMany: {},
           },
+          bans: {
+            deleteMany: {},
+          },
+          picks: {
+            deleteMany: {},
+          },
         },
       })
       const game = await prisma.game.delete({ where: { id }})

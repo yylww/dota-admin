@@ -37,13 +37,13 @@ export const POST = auth(async (req) => {
           picks: {
             create: data.picks
           },
-        }
+        },
+        include: {
+          match: true,
+        },
       })
       // 创建game之后，更新match状态和比分
-      const match = await prisma.match.findUnique({
-        where: { id: game.matchId },
-      })
-      let { homeTeamId, homeScore, awayScore, status, bo } = match
+      let { homeTeamId, homeScore, awayScore, status, bo } = game.match
       if (homeTeamId === game.radiantTeamId) {
         game.radiantWin ? (homeScore += 1) : (awayScore += 1)
       } else {

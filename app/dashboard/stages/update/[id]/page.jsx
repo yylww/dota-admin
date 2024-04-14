@@ -23,7 +23,6 @@ export default function Page({ params }) {
         endDate: dayjs(data.endDate),
       }}
       onSubmit={async values => {
-        console.log(values)
         const params ={
           ...values,
           tournamentId: values.tournamentId[0],

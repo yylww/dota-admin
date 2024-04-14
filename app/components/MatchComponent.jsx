@@ -1,10 +1,21 @@
 import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
+import useSWR from "swr"
 
 export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
-  const { homeTeamId, homeTeam, homeScore, awayTeam, awayScore } = match
-  const upper = teams[0] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
-  const lower = teams[1] === homeTeamId ? { ...homeTeam, score: homeScore } : { ...awayTeam, score: awayScore }
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data, isLoading, error } = useSWR('/api/teams', fetcher)
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+  if (error) {
+    return <div>Error</div>
+  }
+  const { homeScore = 0, awayScore = 0 } = match
+  const homeTeam = data.find(item => item.id === teams[0])
+  const awayTeam = data.find(item => item.id === teams[1])
+  const upper = { ...homeTeam, score: homeScore }
+  const lower = { ...awayTeam, score: awayScore }
 
   return (
     <div className="flex flex-col w-full h-full text-sm">

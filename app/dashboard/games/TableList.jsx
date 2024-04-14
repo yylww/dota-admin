@@ -51,7 +51,7 @@ export const TableList = ({data, onDelete}) => {
         <Space size='middle' style={{ color: '#1677ff' }}>
           <Link href={`/dashboard/games/${record.id}`}>详情</Link>
           <Link href={`/dashboard/games/update/${record.id}`}>编辑</Link>
-          {/* <a onClick={() => onDelete(record.id)}>删除</a> */}
+          <a onClick={() => onDelete(record.id)}>删除</a>
         </Space>
       )
     }

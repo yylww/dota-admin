@@ -66,7 +66,15 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   return <td {...restProps}>{ childNode }</td>
 }
 
-export const TableList = ({data, onCellSave, onAddGame, onSyncGame, syncLoading, onDelete}) => {
+export const TableList = ({
+  data, 
+  onCellSave, 
+  onAddGame, 
+  onSyncGame, 
+  onAuto, 
+  syncLoading, 
+  onDelete,
+}) => {
   const defaultColumns = [
     { title: 'ID', dataIndex: 'id' },
     { 
@@ -125,7 +133,8 @@ export const TableList = ({data, onCellSave, onAddGame, onSyncGame, syncLoading,
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
             { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> }
-            { flag ? null : <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a> }
+            {/* { flag ? null : <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a> } */}
+            { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> }
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>
           </Space>

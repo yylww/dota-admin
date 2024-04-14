@@ -5,7 +5,12 @@ export const GET = async () => {
   try {
     const achievements = await prisma.achievement.findMany({
       orderBy: [
-        { createdAt: 'desc' },
+        {
+          tournament: {
+            createdAt: 'desc'
+          },
+        },
+        { bonus: 'desc' },
       ],
       include: {
         tournament: true,

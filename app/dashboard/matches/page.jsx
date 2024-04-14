@@ -7,7 +7,7 @@ import { message } from "antd"
 import { CollectionFormModal } from "./ModalForm"
 import dayjs from "dayjs"
 import useSWR from "swr"
-import { getRecentGames, getGameData } from "@/app/utils/opendata"
+import { getRecentGameIds, getGameData } from "@/app/utils/opendata"
 
 export default function Page() {
 
@@ -17,6 +17,7 @@ export default function Page() {
   const [open, setOpen] = useState(false)
   const [syncLoading, setSyncLoading] = useState(false)
   const [rowData, setRowData] = useState({})
+
   const filterData = ({ stageId, teamId }) => {
     let result = data
     if (stageId) {
@@ -85,23 +86,20 @@ export default function Page() {
     })
   }
   const handleSyncGame = async (match) => {
-    const games = await getRecentGames(match)
-    if (games.length > 0) {
-      const gameIds = games.map(item => `${item.match_id}`)
+    const gameIds = await getRecentGameIds(match)
+    console.log(gameIds)
+    if (gameIds.length > 0) {
       for (const gameId of gameIds) {
-        const game = await fetch(`/api/games/${gameId}`).then(r => r.json())
-        if (!game) {
-          const gameData = await getGameData(gameId)
-          const gameParams = generateData(gameData)
-          await createGame({
-            ...gameParams,
-            id: gameId,
-            tournamentId: match.tournamentId,
-            stageId: match.stageId,
-            matchId: match.id,
-            type: match.type,
-          })
-        }
+        const gameData = await getGameData(gameId)
+        const gameParams = generateData(gameData)
+        await createGame({
+          ...gameParams,
+          id: gameId,
+          tournamentId: match.tournamentId,
+          stageId: match.stageId,
+          matchId: match.id,
+          type: match.type,
+        })
       }
       await mutate()
     } else {
@@ -132,6 +130,10 @@ export default function Page() {
         onSyncGame={(values) => {
           setSyncLoading(true)
           handleSyncGame(values)
+        }}
+        onAuto={async (id) => {
+          const data = await fetch('/api/cron', { method: 'POST', body: JSON.stringify({ id })}).then(r => r.json())
+          message.success(data.message)
         }}
         syncLoading={syncLoading}
         onDelete={async id => {
