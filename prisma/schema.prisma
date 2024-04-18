@@ -23,12 +23,11 @@ model Hero {
 model Item {
   id        Int      @id 
   name      String   @unique
-  cname     String   @unique
+  cname     String   
   cost      String 
   image     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  records   Record[]
 }
 
 model Region {
@@ -155,12 +154,12 @@ model Game {
   radiantWin    Boolean    @default(true)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  bans          Ban[]
   dire          Team       @relation("dire", fields: [direTeamId], references: [id])
   match         Match      @relation(fields: [matchId], references: [id])
   radiant       Team       @relation("radiant", fields: [radiantTeamId], references: [id])
   stage         Stage      @relation(fields: [stageId], references: [id])
   tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  bans          Ban[]
   picks         Pick[]
   records       Record[]
 }
@@ -208,12 +207,12 @@ model Record {
   denies      Int
   netWorth    Int
   healing     Int
+  items       Json?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   game        Game     @relation(fields: [gameId], references: [id])
   hero        Hero     @relation(fields: [heroId], references: [id])
   player      Player   @relation(fields: [playerId], references: [id])
-  items       Item[]
 }
 
 model User {

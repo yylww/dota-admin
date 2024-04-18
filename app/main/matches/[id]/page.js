@@ -1,5 +1,6 @@
 import { fetcher } from "@/app/utils/fetcher";
 
+export const revalidate = 0
 export default async function Page({ params }) {
   const data = await fetcher(`/api/matches/${params.id}`)
   return (

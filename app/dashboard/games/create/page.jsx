@@ -12,7 +12,7 @@ export default function Page() {
       }}
       onSubmit={async values => {
         console.log(values)
-        await fetch('/api/games', { method: 'POST', body: JSON.stringify(data) })
+        await fetch('/api/games', { method: 'POST', body: JSON.stringify(values) })
         router.push('/dashboard/games')
       }}
       onCancel={() => {
