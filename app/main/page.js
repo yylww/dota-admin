@@ -3,6 +3,8 @@ import { fetcher } from "../utils/fetcher"
 import dayjs from "dayjs"
 import Link from "next/link"
 
+export const revalidate = 0
+
 export default async function Page() {
   const upcoming = await fetcher('/api/matches?status=0&take=10')
   const ongoing = await fetcher('/api/matches?status=1&take=10')
@@ -38,7 +40,7 @@ export default async function Page() {
           )
         }) : <div className="flex justify-center items-center w-full h-16 border">暂无比赛</div>
       }
-      <div>正在进行中</div>
+      <div>正在进行</div>
       {
         ongoing && ongoing.length > 0 ?
         ongoing.map((item, i) => {
@@ -71,7 +73,7 @@ export default async function Page() {
       {
         concluded && concluded.length > 0 ?
         concluded.map((item, i) => {
-          const { homeTeam, awayTeam, homeScore, awayScore } = item
+          const { id, homeTeam, awayTeam, homeScore, awayScore } = item
           return (
             <div className="flex item-center w-full border p-2 gap-4" key={i}>
               <div className="flex items-center justify-center w-40">已结束</div>
@@ -88,8 +90,8 @@ export default async function Page() {
                 </div>
               </div>
               <div className="flex items-center justify-center w-40">
-                <Link href="/main/battle">
-                  <button className="px-4 py-1 rounded-full bg-blue-500 text-white">交手记录</button>
+                <Link href={`/main/matches/${id}`}>
+                  <button className="px-4 py-1 rounded-full bg-blue-500 text-white">比赛数据</button>
                 </Link>
               </div>
             </div>

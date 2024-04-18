@@ -6,6 +6,7 @@ import useSWR from "swr"
 import { CollectionForm } from "../../CollectionForm"
 
 export default function Page({ params }) {
+  const id = Number(params.id)
   const fetcher = url => fetch(url).then(r => r.json())
   const { data, isLoading, mutate } = useSWR(`/api/matches/${params.id}`, fetcher)
   const router = useRouter()
@@ -26,7 +27,7 @@ export default function Page({ params }) {
           tournamentId: values.stageId[0],
           stageId: values.stageId[1],
         }
-        await fetch(`/api/matches/${params.id}`, { method: 'POST', body: JSON.stringify(params) })
+        await fetch(`/api/matches/${id}`, { method: 'POST', body: JSON.stringify(params) })
         mutate()
         router.push('/dashboard/matches')
       }}

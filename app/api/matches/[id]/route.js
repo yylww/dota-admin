@@ -11,6 +11,28 @@ export const GET = async (req, { params }) => {
         stage: true,
         homeTeam: true,
         awayTeam: true,
+        games: {
+          include: {
+            radiant: true,
+            dire: true,
+            records: {
+              include: {
+                player: true,
+                hero: true,
+              },
+            },
+            bans: {
+              include: {
+                hero: true,
+              },
+            },
+            picks: {
+              include: {
+                hero: true,
+              },
+            },
+          }
+        },
       },
     })
     return Response.json(match)

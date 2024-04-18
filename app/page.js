@@ -1,6 +1,9 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 
+// export const fetchCache = 'force-cache'
+
+
 export default async function Page() {
   const session = await auth()
   if (session && session.user) {

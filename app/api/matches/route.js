@@ -3,23 +3,28 @@ import prisma from "@/app/utils/db";
 
 export const GET = async (req) => {
   const searchParams = req.nextUrl.searchParams
-  const status = searchParams.get('status') ? Number(searchParams.get('status')) : undefined
   const take = searchParams.get('take') ? Number(searchParams.get('take')) : undefined
-  const skip = searchParams.get('status') ? Number(searchParams.get('status')) : undefined
-  
+  const skip = searchParams.get('skip') ? Number(searchParams.get('skip')) : undefined
+  const status = searchParams.get('status')
+  const ids = searchParams.get('ids')
+  const orderBy = searchParams.get('sort') ? JSON.parse(searchParams.get('sort')) : [{ status: 'asc'}, { startTime: 'desc' }]
+  const where = {}
+  if (status) {
+    where.status = { equals: Number(status) }
+  }
+  if (ids) {
+    const matchIds = ids.split(',').map(item => Number(item))
+    where.OR = [
+      { homeTeamId: matchIds[0], awayTeamId: matchIds[1] },
+      { homeTeamId: matchIds[1], awayTeamId: matchIds[0] },
+    ]
+  }
   try {
     const matches = await prisma.match.findMany({
-      where: {
-        status: {
-          equals: status,
-        },
-      },
+      where,
       take,
       skip,
-      orderBy: [
-        { status: 'asc'},
-        { startTime: 'desc' },
-      ],
+      orderBy,
       include: {
         tournament: true,
         stage: true,

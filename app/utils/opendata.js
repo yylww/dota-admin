@@ -2,8 +2,8 @@ import axios from "axios"
 import { message } from "antd"
 
 export const getRecentGameIds = async ({ homeTeamId, awayTeamId, bo }) => {
-  const gameIds = []
   try {
+    const gameIds = []
     const { data } = await axios.get(`https://api.opendota.com/api/teams/${homeTeamId}/matches`)
     const matches = data.filter(item => item.opposing_team_id === awayTeamId).slice(0, bo)
     for (const item of matches) {
@@ -13,6 +13,7 @@ export const getRecentGameIds = async ({ homeTeamId, awayTeamId, bo }) => {
         gameIds.push(`${gameId}`)
       }
     }
+    console.log(111, gameIds)
     return gameIds
   } catch (error) {
     console.log('Failed', error)
