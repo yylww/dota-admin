@@ -16,20 +16,21 @@ export const generateData = (fetchData) => {
     radiant: item.team === 0,
   }))
   const records = fetchData.players.map(item => {
-    const { item_neutral, purchase_time, aghanims_scepter, aghanims_shard } = item
+    const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = item
     const items = []
     for (let k = 0; k < 6; k++) {
       if (item[`item_${k}`]) {
         const detail = itemData.find(item => item.id === item[`item_${k}`])
         if (detail) {
-          const purchaseTime = purchase_time ? purchase_time[detail.name] : undefined
+          const purchase = purchase_log ? purchase_log.findLast(item => item.key === detail.name) : null
+          const purchaseTime = purchase ? purchase.time : undefined
           items.push({ ...detail, purchaseTime })
         }
       }
     }
     const neutral = itemData.find(item => item.id === item_neutral)
     const itemJSON = {
-      items,
+      equipments: items,
       neutral,
       scepter: !!aghanims_scepter,
       shard: !!aghanims_shard,

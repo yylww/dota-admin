@@ -4,7 +4,7 @@ export default function MainLayout({ children }) {
   return (
     <div>
       <Header />
-      <div className="w-[650px] mx-auto p-4 border">{ children }</div>
+      <div className="w-full p-2 md:p-6 bg-gray-900">{ children }</div>
     </div>
   )
 }
