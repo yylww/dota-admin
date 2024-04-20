@@ -11,7 +11,7 @@ export default async function Page({ params, searchParams }) {
     <div>
       <ScoreComponent data={data} />
       <TabComponent length={data.games.length} />
-      <DetailComponent data={data.games.reverse()[index]} />
+      <DetailComponent data={data.games[index]} />
     </div>
   )
 }

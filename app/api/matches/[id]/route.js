@@ -12,6 +12,9 @@ export const GET = async (req, { params }) => {
         homeTeam: true,
         awayTeam: true,
         games: {
+          orderBy: {
+            startTime: 'asc',
+          },
           include: {
             radiant: true,
             dire: true,
