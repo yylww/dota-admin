@@ -2,6 +2,7 @@ import Image from "next/image"
 import { fetcher } from "../utils/fetcher"
 import dayjs from "dayjs"
 import Link from "next/link"
+import clsx from "clsx"
 
 export const revalidate = 0
 
@@ -81,12 +82,12 @@ export default async function Page() {
                   <div className="flex items-center justify-between gap-4">
                     <Image src={homeTeam.logo} width={0} height={0} sizes="100%" className="w-5 h-auto" alt={homeTeam.tag} />
                     <span className="flex-1">{homeTeam.name}</span>
-                    <span>{homeScore}</span>
+                    <span className={clsx(homeScore > awayScore ? "text-green-500" : "text-red-300")}>{homeScore}</span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <Image src={awayTeam.logo} width={0} height={0} sizes="100%" className="w-5 h-auto" alt={awayTeam.tag} />
                     <span className="flex-1">{awayTeam.name}</span>
-                    <span>{awayScore}</span>
+                    <span className={clsx(homeScore < awayScore ? "text-green-500" : "text-red-300")}>{awayScore}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center md:px-4">

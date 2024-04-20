@@ -12,12 +12,10 @@ export const TableList = ({data, onEdit, onDelete}) => {
         <div className="flex w-[25px]">
           <Image
             src={`${record.logo}`}
-            width={25}
-            height={25}
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
+            width={0}
+            height={0}
+            sizes="100%"
+            className="w-6 h-auto"
             alt={`${record.name}`} 
           />
         </div>

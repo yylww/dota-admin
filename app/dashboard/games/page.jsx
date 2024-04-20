@@ -3,16 +3,15 @@
 import { useState } from "react"
 import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
-import { useSearchParams, usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import useSWR from "swr"
 
-export default function Page() {
-  const searchParams = useSearchParams()
+export default function Page({ searchParams }) {
   const pathname = usePathname();
   const { replace } = useRouter()
   const fetcher = url => fetch(url).then(r => r.json())
   const { data, mutate, isLoading } = useSWR('/api/games', fetcher)
-  const [query, setQuery] = useState({ matchId: Number(searchParams.get('matchId')) })
+  const [query, setQuery] = useState({ matchId: Number(searchParams.matchId) })
   const filterData = ({ stageId, matchId, teamId }) => {
     let result = data
     if (stageId) {

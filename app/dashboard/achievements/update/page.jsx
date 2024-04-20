@@ -1,12 +1,11 @@
 'use client'
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { CollectionForm } from "../CollectionForm"
 import useSWR from "swr"
 
-export default function Page() {
-  const searchParams = useSearchParams()
-  const id = Number(searchParams.get('tournament'))
+export default function Page({ searchParams }) {
+  const id = Number(searchParams.tournament)
   const router = useRouter()
   const fetcher = url => fetch(url).then(r => r.json())
   const {data, isLoading, mutate} = useSWR(`/api/tournaments/${id}`, fetcher)

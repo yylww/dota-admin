@@ -2,6 +2,7 @@ import { fetcher } from "@/app/utils/fetcher";
 import { ScoreComponent } from "./ScoreComponent";
 import { TabComponent } from "./TabComponent";
 import { DetailComponent } from "./DetailComponent";
+import { Suspense } from "react";
 
 export const revalidate = 0
 export default async function Page({ params, searchParams }) {
@@ -10,7 +11,9 @@ export default async function Page({ params, searchParams }) {
   return (
     <div>
       <ScoreComponent data={data} />
-      <TabComponent length={data.games.length} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TabComponent length={data.games.length} />
+      </Suspense>
       <DetailComponent data={data.games[index]} />
     </div>
   )
