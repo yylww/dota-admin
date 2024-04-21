@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from "react";
-import { CollectionFormModal } from "./ModalForm";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useState } from "react"
+import { CollectionFormModal } from "./ModalForm"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
 import useSWR from "swr"
+import { message } from "antd"
+import { getPlayers, getPlayer, deletePlayer, createPlayer, updatePlayer } from "@/app/lib/player"
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/players', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('players', getPlayers)
   const [query, setQuery] = useState({})
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
@@ -27,7 +28,9 @@ export default function Page() {
     }
     return result
   }
-  
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -50,24 +53,41 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onEdit={async (id) => {
-          setId(id)
-          const data = await fetch(`/api/players/${id}`).then(r => r.json())
-          setDetail(data)
-          setOpen(true)
+          try {
+            setId(id)
+            const data = await getPlayer(id)
+            setDetail(data)
+            setOpen(true)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onDelete={async id => {
-          await fetch(`/api/players/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deletePlayer(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}  
       />
       <CollectionFormModal
         open={open}
         initialValues={detail}
         onSubmit={async values => {
-          const url = id ? `/api/players/${id}` : '/api/players'
-          await fetch(url, { method: 'POST', body: JSON.stringify(values) })
-          mutate()
-          setOpen(false)
+          try {
+            if (id) {
+              await updatePlayer(id, values)
+            } else {
+              await createPlayer(values)
+            }
+            message.success('操作成功')
+            mutate()
+            setOpen(false)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onCancel={() => {
           setOpen(false)

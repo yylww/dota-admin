@@ -1,9 +1,9 @@
 import { Select } from "antd"
 import useSWR from "swr"
+import { getRegions } from "../lib/region"
 
 export const SelectRegion = ({ value, onChange }) => {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading, error } = useSWR('/api/regions', fetcher)
+  const { data, isLoading, error } = useSWR('regions', getRegions)
   if (error) {
     return <div>Error</div>
   }

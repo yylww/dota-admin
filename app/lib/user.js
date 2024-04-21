@@ -1,7 +1,7 @@
 'use server'
 
 import { signIn } from '@/auth'
-import prisma from "@/app/utils/db"
+import prisma from "@/app/lib/db"
 
 export async function authenticate(prevState, params) {
   try {

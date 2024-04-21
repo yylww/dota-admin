@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from "react";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useState } from "react"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
 import useSWR from "swr"
+import { message } from "antd"
+import { deleteTournament, getTournaments } from "@/app/lib/tournament"
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/tournaments', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('tournaments', getTournaments)
   const [query, setQuery] = useState(null)
   const filterData = (query) => {
     if (query) {
@@ -19,6 +20,9 @@ export default function Page() {
     return data
   }
   
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -36,8 +40,13 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onDelete={async id => {
-          await fetch(`/api/tournaments/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteTournament(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}    
       />
     </>

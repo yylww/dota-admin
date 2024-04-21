@@ -1,9 +1,9 @@
 import { Cascader } from "antd"
 import useSWR from "swr"
+import { getTournaments } from "../lib/tournament"
 
 export const CascaderTournament = ({ level, value, onChange }) => {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading, error } = useSWR('/api/tournaments', fetcher)
+  const { data, isLoading, error } = useSWR('tournaments', getTournaments)
   if (error) {
     return <div>Error</div>
   }

@@ -1,10 +1,10 @@
 import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
 import useSWR from "swr"
+import { getTeams } from "../lib/team"
 
 export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading, error } = useSWR('/api/teams', fetcher)
+  const { data, isLoading, error } = useSWR('teams', getTeams)
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -26,7 +26,7 @@ export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
               status === 'display' ? 
               <div className="flex flex-1 justify-between items-center border">
                 <div className="flex justify-center items-center w-[30px]">
-                  { item.logo ? <Image src={item.logo} width={15} height={15} style={{ width: "15px", height: "auto" }} alt={item.name} /> : null }
+                  { item.logo ? <Image src={item.logo} width={0} height={0} sizes="100%" className="w-4 h-auto" alt={item.name} /> : null }
                 </div>
                 <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
                   { item.name || 'TBD' }

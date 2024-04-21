@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from "react";
-import { CollectionFormModal } from "./ModalForm";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useState } from "react"
+import { CollectionFormModal } from "./ModalForm"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
 import useSWR from "swr"
+import { createTeam, deleteTeam, getTeam, getTeams, updateTeam } from "@/app/lib/team"
+import { message } from "antd"
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/teams', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('/api/teams', getTeams)
   const [query, setQuery] = useState({})
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
@@ -27,6 +28,9 @@ export default function Page() {
     return result
   }
   
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -49,24 +53,41 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onEdit={async (id) => {
-          setId(id)
-          const data = await fetch(`/api/teams/${id}`).then(r => r.json())
-          setDetail(data)
-          setOpen(true)
+          try {
+            setId(id)
+            const data = await getTeam(id)
+            setDetail(data)
+            setOpen(true)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onDelete={async id => {
-          await fetch(`/api/teams/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteTeam(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}  
       />
       <CollectionFormModal
         open={open}
         initialValues={detail}
         onSubmit={async values => {
-          const url = id ? `/api/teams/${id}` : '/api/teams'
-          await fetch(url, { method: 'POST', body: JSON.stringify(values) })
-          mutate()
-          setOpen(false)
+          try {
+            if (id) {
+              await updateTeam(id, values)
+            } else {
+              await createTeam(values)
+            }
+            message.success('操作成功')
+            mutate()
+            setOpen(false)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onCancel={() => {
           setOpen(false)

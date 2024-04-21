@@ -1,4 +1,4 @@
-import SideNav from "@/app/ui/SideNav"
+import SideNav from "@/app/components/SideNav"
 
 export default function MainLayout({ children }) {
   return (

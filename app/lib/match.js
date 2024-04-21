@@ -1,10 +1,10 @@
 'use server'
 
-import prisma from "@/app/utils/db";
+import prisma from "@/app/lib/db";
 
 export const getMatch = async (id) => {
   try {
-    const match = await prisma.match.findUnique({ 
+    return prisma.match.findUnique({ 
       where: { id },
       include: {
         tournament: true,
@@ -38,13 +38,8 @@ export const getMatch = async (id) => {
         },
       },
     })
-    return match
   } catch (error) {
-    console.log('Failed', error)
-    return { 
-      success: false,
-      message: error.message, 
-    }
+    throw error
   }
 }
 
@@ -60,7 +55,7 @@ export const getMatches = async ({ status, ids, orderBy, take, skip }) => {
     ]
   }
   try {
-    const matches = await prisma.match.findMany({
+    return prisma.match.findMany({
       where,
       take,
       skip,
@@ -72,31 +67,36 @@ export const getMatches = async ({ status, ids, orderBy, take, skip }) => {
         awayTeam: true,
       }
     })
-    return matches
   } catch (error) {
-    console.log('Failed', error)
-    return { 
-      success: false,
-      message: error.message,  
-    }
+    throw error
+  }
+}
+
+export const createMatch = async (data) => {
+  try {
+    return prisma.match.create({ data })
+  } catch (error) {
+    throw error
   }
 }
 
 export const updateMatch = async (id, data) => {
   try {
-    await prisma.match.update({ 
+    return prisma.match.update({ 
       where: { id },
       data, 
     })
-    return { 
-      success: true,
-      message: 'success', 
-    }
   } catch (error) {
-    console.log('Failed', error)
-    return { 
-      success: false,
-      message: error.message,  
-    }
+    throw error
+  }
+}
+
+export const deleteMatch = async (id) => {
+  try {
+    return prisma.match.delete({ 
+      where: { id },
+    })
+  } catch (error) {
+    throw error
   }
 }

@@ -1,4 +1,4 @@
-import { Form, Modal, Input, Upload, Button, InputNumber } from "antd"
+import { Form, Modal, Input, Upload, Button, InputNumber, message } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 
@@ -62,8 +62,11 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
             let newFileList = [...fileList]
             newFileList = newFileList.slice(-1)
             newFileList.map(file => {
-              if (file.response) {
+              console.log(file)
+              if (file.response.status === 200) {
                 file.url = file.response.url
+              } else {
+                message.error(file.response.message)
               }
               return file
             })

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt';
-import { getUser } from "./app/utils/user";
+import { getUser } from "./app/lib/user";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   ...authConfig,

@@ -165,7 +165,6 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                                   </Form.Item>
                                   <Form.Item noStyle name={[subField.name, 'status']}>
                                     <Select
-                                      defaultValue={5}
                                       options={[
                                         { value: 0, label: '晋级' },
                                         { value: 1, label: '淘汰' },
@@ -183,7 +182,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                                   />
                                 </Flex>
                               ))}
-                              <Button type="dashed" onClick={() => subOpt.add()} block>
+                              <Button type="dashed" onClick={() => subOpt.add({ status: 5 })} block>
                                 + Add Sub Item
                               </Button>
                             </Flex>

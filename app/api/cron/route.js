@@ -1,8 +1,8 @@
-import { CronJob } from "cron";
-import prisma from "@/app/utils/db";
-import { auth } from "@/auth";
-import axios from "axios";
-import { generateData } from "@/app/utils/generateData";
+import { CronJob } from "cron"
+import prisma from "@/app/lib/db"
+import { auth } from "@/auth"
+import axios from "axios"
+import { generateData } from "@/app/lib/generateData"
 
 export const POST = auth(async (req) => {
   const isLoggedIn = !!req.auth?.user

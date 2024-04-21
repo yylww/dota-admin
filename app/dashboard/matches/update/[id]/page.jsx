@@ -4,13 +4,16 @@ import { useRouter } from "next/navigation"
 import dayjs from "dayjs"
 import useSWR from "swr"
 import { CollectionForm } from "../../CollectionForm"
+import { getMatch, updateMatch } from "@/app/lib/match"
+import { message } from "antd"
 
 export default function Page({ params }) {
   const id = Number(params.id)
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading, mutate } = useSWR(`/api/matches/${params.id}`, fetcher)
+  const { data, isLoading, error, mutate } = useSWR('match', () => getMatch(id))
   const router = useRouter()
-
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -27,9 +30,14 @@ export default function Page({ params }) {
           tournamentId: values.stageId[0],
           stageId: values.stageId[1],
         }
-        await fetch(`/api/matches/${id}`, { method: 'POST', body: JSON.stringify(params) })
-        mutate()
-        router.push('/dashboard/matches')
+        try {
+          await updateMatch(id, JSON.parse(JSON.stringify(params)))
+          message.success('操作成功')
+          mutate()
+          router.push('/dashboard/matches')
+        } catch (error) {
+          message.error(error.message)
+        }
       }}
       onCancel={() => {
         router.back()

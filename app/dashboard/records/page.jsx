@@ -4,10 +4,11 @@ import { useState } from "react"
 import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
 import useSWR from "swr"
+import { message } from "antd"
+import { deleteRecord, getRecords } from "@/app/lib/record"
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/records', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('records', getRecords)
   const [query, setQuery] = useState({})
   const filterData = ({ teamId, nickname }) => {
     let result = data
@@ -19,7 +20,9 @@ export default function Page() {
     }
     return result
   }
-  
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -36,8 +39,13 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onDelete={async id => {
-          await fetch(`/api/records/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteRecord(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}    
       />
     </>

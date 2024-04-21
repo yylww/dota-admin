@@ -1,107 +1,59 @@
-const { PrismaClient } = require('@prisma/client');
-const { default: axios } = require('axios');
+const { PrismaClient } = require('@prisma/client')
+const { default: axios } = require('axios')
 const prisma = new PrismaClient()
-const fs = require('fs')
-
-// const downloadImage = async (url, dest, name) => {
-//   try {
-//     const response = await axios.get(url, { responseType: 'stream' });
-//     // console.log(response.data)
-//     const writer = fs.createWriteStream(`./public/${dest}/${name}.png`);
-//     response.data.pipe(writer);
-//     return new Promise((resolve, reject) => {
-//       writer.on('finish', () => {
-//         resolve(true);
-//         console.log(`${name} finished.`)
-//       });
-//       writer.on('error', (error) => {
-//         reject(false);
-//         console.log(`${name} error: ${error.message}`);
-//       });
-//     })
-//   } catch (error) {
-//     console.log(error.message)
-//     return false
-//   }
-// }
 
 async function main() {
-  
-  // const { data } = await axios.get('https://www.dota2.com.cn/items/json')
-  // const values = Object.values(data.itemdata)
-  // console.log(values)
-  // for (const item of values) {
-  //   const imageName = item.img.split('.png')[0]
-  //   const url = `https://www.dota2.com.cn/items/images/${imageName}.png`
-  //   const finished = await downloadImage(url, 'items', imageName)
-  //   console.log(finished)
-  //   if (finished) {
-  //     const id = Number(item.id)
-  //     const name = item.img.split('_lg')[0]
-  //     await prisma.item.upsert({
-  //       where: { id },
-  //       update: {},
-  //       create: {
-  //         id,
-  //         cname: item.dname,
-  //         name,
-  //         cost: item.cost,
-  //         image: `/items/${name}_lg.png`
+
+  // const games = await prisma.game.findMany()
+  // const itemData = await prisma.item.findMany()
+  // const handler = async (id, index) => {
+  //   try {
+  //     const { data } = await axios.get(`https://api.opendota.com/api/matches/${id}`)
+  //     if (!data) return false
+  //     const players = data.players
+  //     players.map(async (player, j) => {
+  //       const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = player
+  //       const items = []
+  //       for (let k = 0; k < 6; k++) {
+  //         if (player[`item_${k}`]) {
+  //           const detail = itemData.find(item => item.id === player[`item_${k}`])
+  //           const purchase = purchase_log ? purchase_log.findLast(item => item.key === detail.name) : null
+  //           const purchaseTime = purchase ? purchase.time : undefined
+  //           items.push({ ...detail, purchaseTime })
+  //         }
   //       }
+  //       const neutral = itemData.find(item => item.id === item_neutral)
+  //       const updateData = {
+  //         equipments: items,
+  //         neutral,
+  //         scepter: aghanims_scepter,
+  //         shard: aghanims_shard,
+  //       }
+  //       const record = await prisma.record.findUnique({
+  //         where: {
+  //           gameId: id,
+  //           playerId: player.account_id
+  //         }
+  //       })
+  //       await prisma.record.update({
+  //         where: {
+  //           id: record.id
+  //         },
+  //         data: {
+  //           items: updateData,
+  //         },
+  //       })
   //     })
+  //     console.log(id, 'finished', `${index}/${games.length}`)
+  //   } catch (error) {
+  //     console.log(id, error.message)
   //   }
   // }
-
-  const games = await prisma.game.findMany()
-  const itemData = await prisma.item.findMany()
-  const handler = async (id, index) => {
-    try {
-      const { data } = await axios.get(`https://api.opendota.com/api/matches/${id}`)
-      if (!data) return false
-      const players = data.players
-      players.map(async (player, j) => {
-        const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = player
-        const items = []
-        for (let k = 0; k < 6; k++) {
-          if (player[`item_${k}`]) {
-            const detail = itemData.find(item => item.id === player[`item_${k}`])
-            const purchase = purchase_log ? purchase_log.findLast(item => item.key === detail.name) : null
-            const purchaseTime = purchase ? purchase.time : undefined
-            items.push({ ...detail, purchaseTime })
-          }
-        }
-        const neutral = itemData.find(item => item.id === item_neutral)
-        const updateData = {
-          equipments: items,
-          neutral,
-          scepter: aghanims_scepter,
-          shard: aghanims_shard,
-        }
-        const record = await prisma.record.findUnique({
-          where: {
-            gameId: id,
-            playerId: player.account_id
-          }
-        })
-        await prisma.record.update({
-          where: {
-            id: record.id
-          },
-          data: {
-            items: updateData,
-          },
-        })
-      })
-      console.log(id, 'finished', `${index}/${games.length}`)
-    } catch (error) {
-      console.log(id, error.message)
-    }
-  }
-  for (let i = 0; i < games.length; i++) {
-    setTimeout(() => {
-      handler(games[i].id, i)
-    }, i * 1050);
-  }
+  // for (let i = 0; i < games.length; i++) {
+  //   setTimeout(() => {
+  //     handler(games[i].id, i)
+  //   }, i * 1050);
+  // }
 
   // const { data } = await axios.get('https://www.dota2.com.cn/itemscategory/json')
   // const { basic, upgrade, neutral } = data.result

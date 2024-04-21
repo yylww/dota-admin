@@ -6,13 +6,13 @@ import { SearchForm } from "./SearchForm"
 import { message } from "antd"
 import { CollectionFormModal } from "./ModalForm"
 import useSWR from "swr"
-import { getRecentGameIds, getGameData } from "@/app/utils/opendata"
-import { generateData } from "@/app/utils/generateData"
-
-import { getMatches, updateMatch } from "@/app/lib/match"
+import { getRecentGameIds, getGameData } from "@/app/lib/opendata"
+import { generateData } from "@/app/lib/generateData"
+import { deleteMatch, getMatches, updateMatch } from "@/app/lib/match"
+import { createGame } from "@/app/lib/game"
 
 export default function Page() {
-  const { data, mutate, isLoading, error } = useSWR('matches', getMatches)
+  const { data, isLoading, error, mutate } = useSWR('matches', getMatches)
   const [query, setQuery] = useState({})
   const [open, setOpen] = useState(false)
   const [syncLoading, setSyncLoading] = useState(false)
@@ -33,33 +33,30 @@ export default function Page() {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>{error.message}</div>
+    return <div>{ error.message }</div>
   }
 
-
-  const createGame = async (data) => {
-    await fetch('/api/games', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-  }
   const handleSyncGame = async (match) => {
     const gameIds = await getRecentGameIds(match)
-    console.log(gameIds)
     if (gameIds.length > 0) {
       for (const gameId of gameIds) {
         const gameData = await getGameData(gameId)
         const gameParams = generateData(gameData)
-        await createGame({
-          ...gameParams,
-          id: gameId,
-          tournamentId: match.tournamentId,
-          stageId: match.stageId,
-          matchId: match.id,
-          type: match.type,
-        })
+        try {
+          await createGame({
+            ...gameParams,
+            id: gameId,
+            tournamentId: match.tournamentId,
+            stageId: match.stageId,
+            matchId: match.id,
+            type: match.type,
+          })
+        } catch (error) {
+          message.error(error.message)
+        }
       }
-      await mutate()
+      message.success('操作成功')
+      mutate()
     } else {
       message.warning('暂无相关比赛')
     }
@@ -78,13 +75,13 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onCellSave={async (id, values) => {
-          const res = await updateMatch(id, JSON.parse(JSON.stringify(values)))
-          if (res.success) {
+          try {
+            await updateMatch(id, JSON.parse(JSON.stringify(values)))
             message.success('操作成功')
-          } else {
-            message.error(res.message)
+            mutate()
+          } catch (error) {
+            message.error(error.message)
           }
-          mutate()
         }}
         onAddGame={(values) => {
           setOpen(true)
@@ -100,8 +97,12 @@ export default function Page() {
         }}
         syncLoading={syncLoading}
         onDelete={async id => {
-          await fetch(`/api/matches/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteMatch(id)
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}    
       />
       <CollectionFormModal
@@ -116,15 +117,20 @@ export default function Page() {
               return false
             }
             const gameParams = generateData(gameData)
-            await createGame({
-              ...gameParams,
-              id: gameId,
-              tournamentId: rowData.tournamentId,
-              stageId: rowData.stageId,
-              matchId: rowData.id,
-              type: values.type,
-            })
+            try {
+              await createGame({
+                ...gameParams,
+                id: gameId,
+                tournamentId: rowData.tournamentId,
+                stageId: rowData.stageId,
+                matchId: rowData.id,
+                type: values.type,
+              })
+            } catch (error) {
+              message.error(error.message)
+            }
           }
+          message.success('操作成功')
           mutate()
           setOpen(false)
         }}

@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import { CollectionForm } from "../CollectionForm"
+import { createMatch } from "@/app/lib/match"
+import { message } from "antd"
 
 export default function Page() {
   const router = useRouter()
@@ -20,8 +22,13 @@ export default function Page() {
           tournamentId: values.stageId[0],
           stageId: values.stageId[1],
         }
-        await fetch('/api/matches', { method: 'POST', body: JSON.stringify(params) })
-        router.push('/dashboard/matches')
+        try {
+          await createMatch(JSON.parse(JSON.stringify(params)))
+          message.success('操作成功')
+          router.push('/dashboard/matches')
+        } catch (error) {
+          message.error(error.message)
+        }
       }}
       onCancel={() => {
         router.back()

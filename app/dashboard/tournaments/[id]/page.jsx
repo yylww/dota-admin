@@ -6,12 +6,15 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import Image from "next/image"
 import useSWR from "swr"
+import { getTournament } from "@/app/lib/tournament"
 
 export default function Page({ params }) {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading } = useSWR(`/api/tournaments/${params.id}`, fetcher)
+  const { data, isLoading, error } = useSWR('tournament', () => getTournament(+params.id))
   const router = useRouter()
 
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }

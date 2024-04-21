@@ -3,11 +3,16 @@
 import { useRouter } from "next/navigation"
 import { CollectionForm } from "../CollectionForm"
 import useSWR from "swr"
+import { getTeams } from "@/app/lib/team"
+import { createAchievement } from "@/app/lib/achievement"
+import { message } from "antd"
 
 export default function Page() {
   const router = useRouter()
-  const fetcher = url => fetch(url).then(r => r.json())
-  const {data, isLoading} = useSWR('/api/teams', fetcher)
+  const { data, isLoading, error } = useSWR('teams', getTeams)
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -27,8 +32,13 @@ export default function Page() {
             tournamentId: values.tournamentId[0],
             players,
           }
-          await fetch('/api/achievements', { method: 'POST', body: JSON.stringify(params) })
+          try {
+            await createAchievement(params)
+          } catch (error) {
+            message.error(error.message)
+          }
         }
+        message.success('操作成功')
         router.push('/dashboard/achievements')
       }}
       onCancel={() => {

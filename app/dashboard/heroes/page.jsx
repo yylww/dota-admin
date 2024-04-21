@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from "react";
-import { CollectionFormModal } from "./ModalForm";
-import { TableList } from "./TableList";
-import { SearchForm } from "./SearchForm";
+import { useState } from "react"
+import { CollectionFormModal } from "./ModalForm"
+import { TableList } from "./TableList"
+import { SearchForm } from "./SearchForm"
 import useSWR from "swr"
+import { message } from "antd"
+import { createHero, deleteHero, getHero, getHeroes, updateHero } from "@/app/lib/hero"
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/heroes', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('/api/heroes', getHeroes)
   const [query, setQuery] = useState(null)
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
@@ -23,6 +24,9 @@ export default function Page() {
     return data
   }
   
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -45,24 +49,39 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onEdit={async (id) => {
-          setId(id)
-          const data = await fetch(`/api/heroes/${id}`).then(r => r.json())
-          setDetail(data)
-          setOpen(true)
+          try {
+            setId(id)
+            const data = await getHero(id)
+            setDetail(data)
+            setOpen(true)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onDelete={async id => {
-          await fetch(`/api/heroes/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteHero(id)
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}  
       />
       <CollectionFormModal
         open={open}
         initialValues={detail}
         onSubmit={async values => {
-          const url = id ? `/api/heroes/${id}` : '/api/heroes'
-          await fetch(url, { method: 'POST', body: JSON.stringify(values) })
-          mutate()
-          setOpen(false)
+          try {
+            if (id) {
+              await updateHero(id, values)
+            } else {
+              await createHero(values)
+            }
+            mutate()
+            setOpen(false)
+          } catch (error) {
+            message.error(error.message)
+          }
         }}
         onCancel={() => {
           setOpen(false)

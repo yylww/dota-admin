@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation"
 import { CollectionForm } from "../CollectionForm"
+import { message } from "antd"
+import { createStage } from "@/app/lib/stage"
+import { createMatch } from "@/app/lib/match"
 
 export default function Page() {
   const router = useRouter()
@@ -43,14 +46,23 @@ export default function Page() {
           ...values, 
           tournamentId: values.tournamentId[0],
         }
-        const stage = await fetch('/api/stages', { method: 'POST', body: JSON.stringify(params) })
+        try {
+          await createStage(JSON.parse(JSON.stringify(params)))
+        } catch (error) {
+          message.error(error.message)
+        }
         if (values.mode === 0) {
           // 自动创建循环赛中所有系列赛
           const data = handleMatchData(values, stage.id)
           for (const item of data) {
-            await fetch('/api/matches', { method: 'POST', body: JSON.stringify(item) })
+            try {
+              await createMatch(JSON.parse(JSON.stringify(item)))
+            } catch (error) {
+              message.error(error.message)
+            }
           }
         }
+        message.success('操作成功')
         router.push('/dashboard/stages')
       }}
       onCancel={() => {

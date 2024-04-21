@@ -9,12 +9,15 @@ import { Group } from "./Group"
 import { DoubleElimination } from "@/app/components/DoubleElimination"
 import { Standings } from "./Standings"
 import { SingleElimination } from "@/app/components/SingleElimination"
+import { getStage } from "@/app/lib/stage"
 
 export default function Page({ params }) {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, isLoading } = useSWR(`/api/stages/${params.id}`, fetcher)
+  const id = Number(params.id)
+  const { data, isLoading, error } = useSWR('stage', () => getStage(id))
   const router = useRouter()
-
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }

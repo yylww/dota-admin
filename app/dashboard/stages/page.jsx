@@ -4,10 +4,11 @@ import { useState } from "react";
 import { TableList } from "./TableList";
 import { SearchForm } from "./SearchForm";
 import useSWR from "swr"
+import { deleteStage, getStages } from "@/app/lib/stage";
+import { message } from "antd";
 
 export default function Page() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/stages', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('/api/stages', getStages)
   const [query, setQuery] = useState({})
   const filterData = (query) => {
     if (query.tournamentId) {
@@ -15,7 +16,9 @@ export default function Page() {
     }
     return data
   }
-  
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -33,8 +36,13 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onDelete={async id => {
-          await fetch(`/api/stages/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteStage(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}    
       />
     </>

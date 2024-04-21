@@ -1,7 +1,7 @@
 import { Form, Input, Space, Button, Radio } from "antd"
 import { CascaderTournament } from "@/app/components/CascaderTournament"
-import { getGameData } from "@/app/utils/opendata"
-import { generateData } from "@/app/utils/generateData"
+import { getGameData } from "@/app/lib/opendata"
+import { generateData } from "@/app/lib/generateData"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm()

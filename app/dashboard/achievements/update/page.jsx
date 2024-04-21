@@ -3,12 +3,17 @@
 import { useRouter } from "next/navigation"
 import { CollectionForm } from "../CollectionForm"
 import useSWR from "swr"
+import { message } from "antd"
+import { getTournament } from "@/app/lib/tournament"
+import { createAchievement, updateAchievement } from "@/app/lib/achievement"
 
 export default function Page({ searchParams }) {
   const id = Number(searchParams.tournament)
   const router = useRouter()
-  const fetcher = url => fetch(url).then(r => r.json())
-  const {data, isLoading, mutate} = useSWR(`/api/tournaments/${id}`, fetcher)
+  const {data, isLoading, error, mutate} = useSWR('tournament', () => getTournament(id))
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -32,9 +37,17 @@ export default function Page({ searchParams }) {
             tournamentId: id,
             players,
           }
-          const url = item.id ? `/api/achievements/${item.id}` : '/api/achievements'
-          await fetch(url, { method: 'POST', body: JSON.stringify(params) })
+          try {
+            if (item.id) {
+              await updateAchievement(id, params)
+            } else {
+              await createAchievement(params)
+            }
+          } catch (error) {
+            message.error(error.message)
+          }
         }
+        message.success('操作成功')
         mutate()
         router.push('/dashboard/achievements')
       }}

@@ -1,41 +1,11 @@
-import { auth } from "@/auth";
-import prisma from "@/app/utils/db";
+import { getRecords } from "@/app/lib/record"
 
 export const GET = async () => {
   try {
-    const records = await prisma.record.findMany({
-      orderBy: [
-        { createdAt: 'desc' },
-      ],
-      include: {
-        player: {
-          include: {
-            team: true,
-          },
-        },
-        hero: true,
-        game: true,
-      }
-    })
+    const records = await getRecords()
     return Response.json(records)
   } catch (error) {
     console.log('Failed', error)
-    return Response.json({ message: error.message, status: 400 })
+    throw error
   }
 }
-
-export const POST = auth(async (req) => {
-  const isLoggedIn = !!req.auth?.user
-  if (isLoggedIn) {
-    const data = await req.json()
-    try {
-      const record = await prisma.record.create({ data })
-      return Response.json(record)
-    } catch (error) {
-      console.log('Failed', error)
-      return Response.json({ message: error.message, status: 400 })
-    }
-  } else {
-    return Response.json({ message: "Failed", status: 401 });
-  }
-});

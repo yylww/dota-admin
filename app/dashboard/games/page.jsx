@@ -5,12 +5,13 @@ import { TableList } from "./TableList"
 import { SearchForm } from "./SearchForm"
 import { usePathname, useRouter } from "next/navigation"
 import useSWR from "swr"
+import { message } from "antd"
+import { deleteGame, getGames } from "@/app/lib/game"
 
 export default function Page({ searchParams }) {
   const pathname = usePathname();
   const { replace } = useRouter()
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/games', fetcher)
+  const { data, isLoading, error, mutate } = useSWR('games', getGames)
   const [query, setQuery] = useState({ matchId: Number(searchParams.matchId) })
   const filterData = ({ stageId, matchId, teamId }) => {
     let result = data
@@ -25,7 +26,9 @@ export default function Page({ searchParams }) {
     }
     return result
   }
-  
+  if (error) {
+    return <div>{ error.message }</div>
+  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -46,8 +49,13 @@ export default function Page({ searchParams }) {
       <TableList
         data={filterData(query)}
         onDelete={async (id) => {
-          await fetch(`/api/games/${id}`, { method: 'DELETE' })
-          mutate()
+          try {
+            await deleteGame(id)
+            message.success('操作成功')
+            mutate()
+          } catch (error) {
+            message.error(error.message)
+          }
         }}    
       />
     </>
