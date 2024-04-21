@@ -1,15 +1,13 @@
 import Image from "next/image"
-import { fetcher } from "../utils/fetcher"
 import dayjs from "dayjs"
 import Link from "next/link"
 import clsx from "clsx"
-
-export const revalidate = 0
+import { getMatches } from "@/app/lib/match"
 
 export default async function Page() {
-  const upcoming = await fetcher('/api/matches?status=0&take=10')
-  const ongoing = await fetcher('/api/matches?status=1&take=10')
-  const concluded = await fetcher('/api/matches?status=2&take=20')
+  const upcoming = await getMatches({ status: 0, take: 10 })
+  const ongoing = await getMatches({ status: 1, take: 10 })
+  const concluded = await getMatches({ status: 2, take: 10 })
   return (
     <div className="flex flex-col p-4 bg-gray-500 text-gray-100">
       <div>赛事预告</div>

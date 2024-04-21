@@ -9,10 +9,10 @@ import useSWR from "swr"
 import { getRecentGameIds, getGameData } from "@/app/utils/opendata"
 import { generateData } from "@/app/utils/generateData"
 
-export default function Page() {
+import { getMatches, updateMatch } from "@/app/lib/match"
 
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data, mutate, isLoading } = useSWR('/api/matches', fetcher)
+export default function Page() {
+  const { data, mutate, isLoading, error } = useSWR('matches', getMatches)
   const [query, setQuery] = useState({})
   const [open, setOpen] = useState(false)
   const [syncLoading, setSyncLoading] = useState(false)
@@ -32,6 +32,10 @@ export default function Page() {
   if (isLoading) {
     return <div>Loading...</div>
   }
+  if (error) {
+    return <div>{error.message}</div>
+  }
+
 
   const createGame = async (data) => {
     await fetch('/api/games', {
@@ -74,7 +78,12 @@ export default function Page() {
       <TableList
         data={filterData(query)}
         onCellSave={async (id, values) => {
-          await fetch(`/api/matches/${id}`, { method: 'POST', body: JSON.stringify(values)})
+          const res = await updateMatch(id, JSON.parse(JSON.stringify(values)))
+          if (res.success) {
+            message.success('操作成功')
+          } else {
+            message.error(res.message)
+          }
           mutate()
         }}
         onAddGame={(values) => {
