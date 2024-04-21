@@ -47,20 +47,16 @@ export default function Page() {
           tournamentId: values.tournamentId[0],
         }
         try {
-          await createStage(JSON.parse(JSON.stringify(params)))
-        } catch (error) {
-          message.error(error.message)
-        }
-        if (values.mode === 0) {
-          // 自动创建循环赛中所有系列赛
-          const data = handleMatchData(values, stage.id)
-          for (const item of data) {
-            try {
+          const stage = await createStage(JSON.parse(JSON.stringify(params)))
+          if (values.mode === 0) {
+            // 自动创建循环赛中所有系列赛
+            const data = handleMatchData(values, stage.id)
+            for (const item of data) {
               await createMatch(JSON.parse(JSON.stringify(item)))
-            } catch (error) {
-              message.error(error.message)
             }
           }
+        } catch (error) {
+          message.error(error.message)
         }
         message.success('操作成功')
         router.push('/dashboard/stages')

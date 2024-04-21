@@ -5,8 +5,8 @@ import clsx from "clsx"
 import { getMatches } from "@/app/lib/match"
 
 export default async function Page() {
-  const upcoming = await getMatches({ status: 0, take: 10 })
-  const ongoing = await getMatches({ status: 1, take: 10 })
+  const upcoming = await getMatches({ status: 0, orderBy: { startTime: 'asc' } })
+  const ongoing = await getMatches({ status: 1, orderBy: { startTime: 'asc' } })
   const concluded = await getMatches({ status: 2, take: 10 })
   return (
     <div className="flex flex-col p-4 bg-gray-500 text-gray-100">
