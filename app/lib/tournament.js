@@ -24,14 +24,12 @@ export const getTournament = async (id) => {
   }
 }
 
-export const getTournaments = async ({ take, skip }) => {
+export const getTournaments = async () => {
   try {
     const tournaments = await prisma.tournament.findMany({
       orderBy: [
         { createdAt: 'desc' },
       ],
-      take,
-      skip,
       include: {
         stages: {
           include: {
