@@ -18,7 +18,7 @@ export default function Page() {
           message.success('操作成功')
           router.push('/dashboard/games')
         } catch (error) {
-          message.error(error.message)
+          message.error(error.message, 10)
         }
       }}
       onCancel={() => {

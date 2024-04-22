@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { Table, Space, Form, DatePicker, Select, Spin } from "antd"
+import { Table, Space, Form, DatePicker, Select, Spin, Input } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
+import clsx from "clsx"
 
 const EditableContext = React.createContext(null)
 const EditeableRow = ({ index, ...props }) => {
@@ -26,13 +27,27 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   }, [editing])
   const toggleEdit = () => {
     setEditing(!editing)
+    let fieldValue = null
+    if (dataIndex === 'startTime') {
+      fieldValue = dayjs(record[dataIndex])
+    } 
+    if (dataIndex === 'score') {
+      fieldValue = `${record.homeScore}:${record.awayScore}`
+    } 
+    if (dataIndex === 'status') {
+      fieldValue = record[dataIndex]
+    } 
     form.setFieldsValue({
-      [dataIndex]: dataIndex === 'startTime' ? dayjs(record[dataIndex]) : record[dataIndex],
+      [dataIndex]: fieldValue,
     })
   }
   const save = async (id) => {
     try {
-      const values = await form.validateFields()
+      let values = await form.validateFields()
+      if (dataIndex === 'score') {
+        const [homeScore, awayScore] = values.score.split(':').map(score => Number(score))
+        values = { homeScore, awayScore }
+      }
       toggleEdit()
       handleSave(id, values)
     } catch (error) {
@@ -43,10 +58,8 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   if (editable) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0 }} name={dataIndex}>
-        {
-          dataIndex === 'startTime' ?
-          <DatePicker showTime format="YYYY-MM-DD HH:mm" ref={inputRef} onOk={() => save(record.id)} /> :
-          <Select
+        { dataIndex === 'startTime' ? <DatePicker showTime format="YYYY-MM-DD HH:mm" ref={inputRef} onOk={() => save(record.id)} /> : null }
+        { dataIndex === 'status' ? <Select
             onBlur={() => save(record.id)}
             ref={inputRef} 
             options={[
@@ -54,8 +67,9 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
               {value: 1, label: '进行中'}, 
               {value: 2, label: '已结束'},
             ]} 
-          />
+          /> : null 
         }
+        { dataIndex === 'score' ? <Input ref={inputRef} onBlur={() => save(record.id)} /> : null }
       </Form.Item>
     ) : (
       <div onClick={toggleEdit}>
@@ -97,10 +111,9 @@ export const TableList = ({
     { 
       title: '比分', 
       key: 'score',
-      render: (_, record) => {
-        const arr = [record.homeScore, record.awayScore]
-        return <Link href={`/dashboard/games?matchId=${record.id}`}>{arr.join(':')}</Link>
-      },
+      dataIndex: 'score',
+      render: (_, record) => <div>{ record.homeScore }:{ record.awayScore }</div>,
+      editable: true,
     },
     { 
       title: '状态', 
@@ -134,7 +147,8 @@ export const TableList = ({
           <Space size='middle' style={{ color: '#1677ff' }}>
             {/* { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> } */}
             { flag ? null : <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a> }
-            { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> }
+            {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
+            <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link>
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>
           </Space>

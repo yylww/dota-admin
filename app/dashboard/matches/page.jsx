@@ -37,30 +37,31 @@ export default function Page() {
   }
 
   const handleSyncGame = async (match) => {
-    const gameIds = await getRecentGameIds(match)
-    if (gameIds.length > 0) {
-      for (const gameId of gameIds) {
-        const gameData = await getGameData(gameId)
-        const gameParams = generateData(gameData)
-        try {
-          await createGame({
+    try {
+      const gameIds = await getRecentGameIds(match)
+      if (gameIds.length > 0) {
+        for (const gameId of gameIds) {
+          const gameData = await getGameData(gameId)
+          const gameParams = await generateData(gameData)
+          console.log(gameParams)
+          await createGame(JSON.parse(JSON.stringify({
             ...gameParams,
             id: gameId,
             tournamentId: match.tournamentId,
             stageId: match.stageId,
             matchId: match.id,
             type: match.type,
-          })
-        } catch (error) {
-          message.error(error.message)
+          })))
         }
+        message.success('操作成功')
+        mutate()
+      } else {
+        message.warning('暂无相关比赛')
       }
-      message.success('操作成功')
-      mutate()
-    } else {
-      message.warning('暂无相关比赛')
+      setSyncLoading(false)
+    } catch (error) {
+      message.error(error.message, 10)
     }
-    setSyncLoading(false)
   }
   return (
     <>
@@ -80,7 +81,7 @@ export default function Page() {
             message.success('操作成功')
             mutate()
           } catch (error) {
-            message.error(error.message)
+            message.error(error.message, 10)
           }
         }}
         onAddGame={(values) => {
@@ -101,7 +102,7 @@ export default function Page() {
             await deleteMatch(id)
             mutate()
           } catch (error) {
-            message.error(error.message)
+            message.error(error.message, 10)
           }
         }}    
       />
@@ -118,16 +119,16 @@ export default function Page() {
             }
             const gameParams = generateData(gameData)
             try {
-              await createGame({
+              await createGame(JSON.parse(JSON.stringify({
                 ...gameParams,
                 id: gameId,
                 tournamentId: rowData.tournamentId,
                 stageId: rowData.stageId,
                 matchId: rowData.id,
                 type: values.type,
-              })
+              })))
             } catch (error) {
-              message.error(error.message)
+              message.error(error.message, 10)
             }
           }
           message.success('操作成功')

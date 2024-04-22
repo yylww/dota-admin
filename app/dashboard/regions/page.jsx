@@ -55,7 +55,7 @@ export default function Page() {
             setDetail(data)
             setOpen(true)
           } catch (error) {
-            message.error(error.message)
+            message.error(error.message, 10)
           }
         }}
         onDelete={async id => {
@@ -64,7 +64,7 @@ export default function Page() {
             message.success('操作成功')
             mutate()
           } catch (error) {
-            message.error(error.message)
+            message.error(error.message, 10)
           }
         }}  
       />
@@ -82,7 +82,7 @@ export default function Page() {
             mutate()
             setOpen(false)
           } catch (error) {
-            message.error(error.message)
+            message.error(error.message, 10)
           }
         }}
         onCancel={() => {

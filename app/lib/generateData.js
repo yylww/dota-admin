@@ -1,6 +1,8 @@
 import dayjs from "dayjs"
+import { getItems } from "./item"
 
-export const generateData = (fetchData) => {
+export const generateData = async (fetchData) => {
+  const itemData = await getItems()
   const startTime = dayjs(fetchData.start_time * 1000)
   const duration = fetchData.duration
   const radiantTeamId = fetchData.radiant_team_id

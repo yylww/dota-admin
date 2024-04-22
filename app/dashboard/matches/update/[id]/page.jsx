@@ -36,7 +36,7 @@ export default function Page({ params }) {
           mutate()
           router.push('/dashboard/matches')
         } catch (error) {
-          message.error(error.message)
+          message.error(error.message, 10)
         }
       }}
       onCancel={() => {

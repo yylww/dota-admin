@@ -11,9 +11,13 @@ export default async function Page({ params, searchParams }) {
     <div>
       <ScoreComponent data={data} />
       <Suspense fallback={<div>Loading...</div>}>
-        <TabComponent length={data.games.length} />
+        {
+          data.games.length > 0 ? <TabComponent length={data.games.length} /> : <div className="w-full text-center">暂无比赛数据，请稍后再试。</div>
+        }
       </Suspense>
-      <DetailComponent data={data.games[index]} />
+      {
+        data.games.length > 0 ? <DetailComponent data={data.games[index]} /> : null
+      }
     </div>
   )
 }

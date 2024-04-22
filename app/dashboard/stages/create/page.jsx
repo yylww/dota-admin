@@ -56,7 +56,7 @@ export default function Page() {
             }
           }
         } catch (error) {
-          message.error(error.message)
+          message.error(error.message, 10)
         }
         message.success('操作成功')
         router.push('/dashboard/stages')
