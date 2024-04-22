@@ -50,8 +50,8 @@ jobs:
         with:
           host: 129.204.181.203 # Your server's IP address
           username: root # Your server's username
-          key: ~/.ssh/id_rsa
-          # password: gbfhtenYY0305 # Your server's SSH private key
+          # key: ~/.ssh/id_rsa
+          password: gbfhtenYY0305 # Your server's SSH private key
           script: |
             cd /root/dota-admin # Specify the path to your app directory on the server
             git pull
