@@ -77,8 +77,8 @@ export const DetailComponent = ({ data }) => {
         </div>
       </div>
       {/* <div>比赛数据</div> */}
-      <div className="flex justify-between text-center text-sm md:text-base">
-        <div>
+      <div className="flex justify-between text-center">
+        <div className="max-w-20 overflow-hidden">
           <div className="flex items-center h-10">选手</div>
           {
             sortRecords.map((item, i) => <div key={i} className="flex items-center h-20">{ sortRecords[i].player.nickname }</div>)

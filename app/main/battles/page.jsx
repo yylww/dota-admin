@@ -9,7 +9,7 @@ export default async function Page({ searchParams }) {
   const battles = await getMatches({ status: 2, ids, take: 10, orderBy: { startTime: 'desc' } })
   return (
     <div className="flex flex-col p-4 bg-gray-500 text-gray-100">
-      <div className="mb-4">最近10（或不足）次交手记录</div>
+      <div className="mb-4">最近交手记录</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {
           battles && battles.length > 0 ?
@@ -17,7 +17,7 @@ export default async function Page({ searchParams }) {
             const { id, tournament, stage, startTime, homeTeam, awayTeam, homeScore, awayScore } = item
             return (
               <div className="flex flex-col item-center gap-2 w-full border border-gray-400 p-2 px-4" key={i}>
-                <div className="flex justify-between">
+                <div className="flex gap-2 justify-between">
                   <div>{ tournament.title } { stage.title }</div>
                   <div className="flex items-center justify-center">{ dayjs(startTime).format('YYYY-MM-DD HH:mm')}</div>
                 </div>
