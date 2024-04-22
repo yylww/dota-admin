@@ -78,7 +78,7 @@ export const DetailComponent = ({ data }) => {
       </div>
       {/* <div>比赛数据</div> */}
       <div className="flex justify-between text-center">
-        <div className="max-w-20 overflow-hidden">
+        <div className="max-w-20 overflow-hidden md:max-w-min">
           <div className="flex items-center h-10">选手</div>
           {
             sortRecords.map((item, i) => <div key={i} className="flex items-center h-20">{ sortRecords[i].player.nickname }</div>)
@@ -112,7 +112,12 @@ export const DetailComponent = ({ data }) => {
                       equipments.map((item, i) => (
                         <div key={i} className="relative" title={item.cname}>
                           <Image src={item.image} width={0} height={0} sizes="100%" className="w-10 h-auto" alt={item.cname} />
-                          { item.purchaseTime ? <span className="absolute left-0 bottom-0 w-full text-gray-300 text-xs text-center whitespace-nowrap bg-black bg-opacity-30">{ Math.floor(item.purchaseTime / 60) }:{ item.purchaseTime % 60 }</span> : null }
+                          { 
+                            item.purchaseTime ? 
+                            <span className="absolute left-0 bottom-0 w-full text-gray-300 text-xs text-center whitespace-nowrap bg-black bg-opacity-30">
+                              { item.purchaseTime < 0 ? '-' : '' }{ Math.floor(Math.abs(item.purchaseTime) / 60) }:{ Math.abs(item.purchaseTime) % 60 }
+                            </span> : null 
+                          }
                         </div>
                       ))
                     }
