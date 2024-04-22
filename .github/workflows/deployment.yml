@@ -14,43 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Detect package manager
-      #   id: detect-package-manager
-      #   run: |
-      #     if [ -f "${{ github.workspace }}/yarn.lock" ]; then
-      #       echo "manager=yarn" >> $GITHUB_OUTPUT
-      #       echo "command=install" >> $GITHUB_OUTPUT
-      #       echo "runner=yarn" >> $GITHUB_OUTPUT
-      #       exit 0
-      #     elif [ -f "${{ github.workspace }}/package.json" ]; then
-      #       echo "manager=npm" >> $GITHUB_OUTPUT
-      #       echo "command=ci" >> $GITHUB_OUTPUT
-      #       echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-      #       exit 0
-      #     else
-      #       echo "Unable to determine package manager"
-      #       exit 1
-      #     fi
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "20"
-      #     cache: ${{ steps.detect-package-manager.outputs.manager }}
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Build Next.js app
-      #   run: npm run build
-
       - name: SSH Deploy
         # Use the 'appleboy/ssh-action' action for SSH deployment
         uses: appleboy/ssh-action@master
         with:
           host: 129.204.181.203 # Your server's IP address
           username: root # Your server's username
-          # key: ~/.ssh/id_rsa
           password: gbfhtenYY0305 # Your server's SSH private key
           script: |
             cd /root/dota-admin # Specify the path to your app directory on the server

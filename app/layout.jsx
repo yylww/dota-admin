@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'DOTA2赛事',
-  description: 'DOTA2赛事预告，赛事资讯',
+  description: 'DOTA2赛事预告，赛事资讯，比赛数据，获奖记录',
   keywords: ['DOTA', 'DOTA2', '赛事', '预告', '资讯', '比赛', 'TI', '统计'],
 }
 
