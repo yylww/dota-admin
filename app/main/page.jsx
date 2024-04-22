@@ -4,6 +4,8 @@ import Link from "next/link"
 import clsx from "clsx"
 import { getMatches } from "@/app/lib/match"
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page() {
   const upcoming = await getMatches({ status: 0, orderBy: { startTime: 'asc' } })
   const ongoing = await getMatches({ status: 1, orderBy: { startTime: 'asc' } })
