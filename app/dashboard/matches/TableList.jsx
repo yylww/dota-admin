@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { Table, Space, Form, DatePicker, Select, Spin, Input } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
-import clsx from "clsx"
 
 const EditableContext = React.createContext(null)
 const EditeableRow = ({ index, ...props }) => {
@@ -44,9 +43,19 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
   const save = async (id) => {
     try {
       let values = await form.validateFields()
+      if (dataIndex === 'startTime' && dayjs(values.startTime).unix() === dayjs(record.startTime).unix()) {
+        return false
+      }
       if (dataIndex === 'score') {
         const [homeScore, awayScore] = values.score.split(':').map(score => Number(score))
-        values = { homeScore, awayScore }
+        if (homeScore === record.homeScore && awayScore === record.awayScore) {
+          return false
+        } else {
+          values = { homeScore, awayScore }
+        }
+      }
+      if (dataIndex === 'status' && values.status === record.status) {
+        return false
       }
       toggleEdit()
       handleSave(id, values)
@@ -69,7 +78,7 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
             ]} 
           /> : null 
         }
-        { dataIndex === 'score' ? <Input ref={inputRef} onBlur={() => save(record.id)} /> : null }
+        { dataIndex === 'score' ? <Input style={{ width: "50px" }} ref={inputRef} onBlur={() => save(record.id)} /> : null }
       </Form.Item>
     ) : (
       <div onClick={toggleEdit}>
@@ -86,6 +95,7 @@ export const TableList = ({
   onAddGame, 
   onSyncGame, 
   onAuto, 
+  onUpdateGame,
   syncLoading, 
   onDelete,
 }) => {
@@ -106,6 +116,7 @@ export const TableList = ({
       key: 'startTime',
       dataIndex: 'startTime',
       render: (_, record) => <span>{ dayjs(record.startTime).format('YYYY-MM-DD HH:mm') }</span>,
+      sorter: (a, b) => dayjs(a.startTime).unix() - dayjs(b.startTime).unix(),
       editable: true,
     },
     { 
@@ -146,7 +157,8 @@ export const TableList = ({
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
             {/* { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> } */}
-            { flag ? null : <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a> }
+            <a onClick={() => onUpdateGame(record)}>更新</a>
+            <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link>
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>

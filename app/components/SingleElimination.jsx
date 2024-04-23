@@ -68,7 +68,6 @@ export const SingleElimination = ({
 
   const result = matchMap
   const dataWithPosition = handleComponentPosition(JSON.parse(JSON.stringify(matchMap)))
-  console.log(dataWithPosition);
   const handleChange = (values, i, j, k) => {
     result[i][j].teams[k] = values
     onChange(result)

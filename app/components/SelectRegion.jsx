@@ -20,7 +20,7 @@ export const SelectRegion = ({ value, onChange }) => {
   return (
     <Select
       showSearch
-      defaultValue={value}
+      value={value}
       style={{
         minWidth: '200px',
       }}

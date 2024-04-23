@@ -57,7 +57,7 @@ export const CascaderTournament = ({ level, value, onChange }) => {
   const filter = (inputValue, path) => path.some((option) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1)
   return (
     <Cascader
-      defaultValue={value}
+      value={value}
       style={{
         minWidth: '200px',
       }}

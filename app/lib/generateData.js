@@ -17,12 +17,12 @@ export const generateData = async (fetchData) => {
     heroId: item.hero_id,
     radiant: item.team === 0,
   }))
-  const records = fetchData.players.map(item => {
-    const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = item
+  const records = fetchData.players.map(player => {
+    const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = player
     const items = []
     for (let k = 0; k < 6; k++) {
-      if (item[`item_${k}`]) {
-        const detail = itemData.find(item => item.id === item[`item_${k}`])
+      if (player[`item_${k}`]) {
+        const detail = itemData.find(item => item.id === player[`item_${k}`])
         if (detail) {
           const purchase = purchase_log ? purchase_log.findLast(item => item.key === detail.name) : null
           const purchaseTime = purchase ? purchase.time : undefined
@@ -34,27 +34,27 @@ export const generateData = async (fetchData) => {
     const itemJSON = {
       equipments: items,
       neutral,
-      scepter: !!aghanims_scepter,
-      shard: !!aghanims_shard,
+      scepter: aghanims_scepter,
+      shard: aghanims_shard,
     }
     
     return {
-      playerId: item.account_id,
-      heroId: item.hero_id,
-      radiant: item.isRadiant,
-      win: !!item.win,
-      xpm: item.xp_per_min,
-      gpm: item.gold_per_min,
-      kills: item.kills,
-      deaths: item.deaths,
-      assists: item.assists,
-      level: item.level,
-      heroDamage: item.hero_damage,
-      towerDamage: item.tower_damage,
-      lastHits: item.last_hits,
-      denies: item.denies,
-      netWorth: item.net_worth,
-      healing: item.hero_healing,
+      playerId: player.account_id,
+      heroId: player.hero_id,
+      radiant: player.isRadiant,
+      win: !!player.win,
+      xpm: player.xp_per_min,
+      gpm: player.gold_per_min,
+      kills: player.kills,
+      deaths: player.deaths,
+      assists: player.assists,
+      level: player.level,
+      heroDamage: player.hero_damage,
+      towerDamage: player.tower_damage,
+      lastHits: player.last_hits,
+      denies: player.denies,
+      netWorth: player.net_worth,
+      healing: player.hero_healing,
       items: itemJSON,
     }
   })

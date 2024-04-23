@@ -54,15 +54,27 @@ export const createGame = async (data) => {
         },
       },
       include: {
-        match: true,
+        match: {
+          include: {
+            games: {
+              include: {
+                records: true,
+              }
+            },
+          }
+        },
       },
     })
     // 创建game之后，更新match状态和比分
-    let { homeTeamId, homeScore, awayScore, status, bo } = game.match
-    if (homeTeamId === game.radiantTeamId) {
-      game.radiantWin ? (homeScore += 1) : (awayScore += 1)
-    } else {
-      !game.radiantWin ? (homeScore += 1) : (awayScore += 1)
+    let { homeTeamId, status, bo, games } = game.match
+    let homeScore = 0 
+    let awayScore = 0
+    for (const game of games) {
+      if (homeTeamId === game.radiantTeamId) {
+        game.radiantWin ? (homeScore += 1) : (awayScore += 1)
+      } else {
+        !game.radiantWin ? (homeScore += 1) : (awayScore += 1)
+      }
     }
     if (homeScore + awayScore === bo) {
       status = 2

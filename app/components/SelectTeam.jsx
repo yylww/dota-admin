@@ -27,7 +27,7 @@ export const SelectTeam = ({ mode, value, onChange }) => {
     <Select
       showSearch
       mode={mode}
-      defaultValue={value}
+      value={value}
       placeholder="选择队伍"
       onChange={onChange}
       filterOption={filterOption}
