@@ -18,7 +18,6 @@ export default function Page({ searchParams }) {
   const { tournament, teamId, status } = searchParams
   const pathname = usePathname()
   const { replace } = useRouter()
-  const { data, isLoading, error, mutate } = useSWR('matches', getMatches)
   const [query, setQuery] = useState({ 
     tournament: tournament ? tournament.split(',').map(n => +n) : null,
     teamId: teamId ? +teamId : null,
@@ -27,7 +26,7 @@ export default function Page({ searchParams }) {
   const [open, setOpen] = useState(false)
   const [syncLoading, setSyncLoading] = useState(false)
   const [rowData, setRowData] = useState({})
-
+  const { data, isLoading, error, mutate } = useSWR('matches', getMatches)
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -58,32 +57,6 @@ export default function Page({ searchParams }) {
     return result
   }
 
-  const handleSyncGame = async (match) => {
-    try {
-      const gameIds = await getRecentGameIds(match)
-      if (gameIds.length > 0) {
-        for (const gameId of gameIds) {
-          const gameData = await getGameData(gameId)
-          const gameParams = await generateData(gameData)
-          await createGame(JSON.parse(JSON.stringify({
-            ...gameParams,
-            id: gameId,
-            tournamentId: match.tournamentId,
-            stageId: match.stageId,
-            matchId: match.id,
-            type: match.type,
-          })))
-        }
-        message.success('操作成功')
-        mutate('matches')
-      } else {
-        message.warning('暂无相关比赛')
-      }
-      setSyncLoading(false)
-    } catch (error) {
-      message.error(error.message, 10)
-    }
-  }
   return (
     <>
       <SearchForm
@@ -114,12 +87,13 @@ export default function Page({ searchParams }) {
         }}
         onUpdateGame={async ({ games }) => {
           if (games.length <= 0) return 
+          setSyncLoading(true)
           for (const game of games) {
             try {
               const itemData = await getItems()
               const gameData = await getGameData(game.id)
               const { players } = gameData
-              players.map(async (player, j) => {
+              players.map(async (player) => {
                 const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = player
                 const items = []
                 for (let k = 0; k < 6; k++) {
@@ -147,10 +121,34 @@ export default function Page({ searchParams }) {
             }
           }
           message.success('操作成功')
+          setSyncLoading(false)
         }}
-        onSyncGame={(values) => {
+        onSyncGame={async (match) => {
           setSyncLoading(true)
-          handleSyncGame(values)
+          try {
+            const gameIds = await getRecentGameIds(match)
+            if (gameIds.length > 0) {
+              for (const gameId of gameIds) {
+                const gameData = await getGameData(gameId)
+                const gameParams = await generateData(gameData)
+                await createGame(JSON.parse(JSON.stringify({
+                  ...gameParams,
+                  id: gameId,
+                  tournamentId: match.tournamentId,
+                  stageId: match.stageId,
+                  matchId: match.id,
+                  type: match.type,
+                })))
+              }
+              message.success('操作成功')
+              mutate()
+            } else {
+              message.warning('暂无相关比赛')
+            }
+            setSyncLoading(false)
+          } catch (error) {
+            message.error(error.message, 10)
+          }
         }}
         onAuto={async (id) => {
           const data = await fetch('/api/cron', { method: 'POST', body: JSON.stringify({ id })}).then(r => r.json())

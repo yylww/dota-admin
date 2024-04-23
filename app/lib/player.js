@@ -36,7 +36,10 @@ export const updatePlayer = async (id, data) => {
   try {
     return prisma.player.update({ 
       where: { id },
-      data, 
+      data: {
+        ...data,
+        teamId: data.teamId ? data.teamId : null,
+      }, 
     })
   } catch (error) {
     throw error

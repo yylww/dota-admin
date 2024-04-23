@@ -157,7 +157,7 @@ export const TableList = ({
         return (
           <Space size='middle' style={{ color: '#1677ff' }}>
             {/* { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> } */}
-            <a onClick={() => onUpdateGame(record)}>更新</a>
+            <a onClick={() => onUpdateGame(record)}>{syncLoading ? <Spin size="small" /> : '更新'}</a>
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link>
