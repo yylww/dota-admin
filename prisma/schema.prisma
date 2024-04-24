@@ -21,10 +21,10 @@ model Hero {
 }
 
 model Item {
-  id        Int      @id 
+  id        Int      @id
   name      String   @unique
-  cname     String   
-  cost      String 
+  cname     String
+  cost      String
   image     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -152,6 +152,8 @@ model Game {
   stageId       Int
   matchId       Int
   radiantWin    Boolean    @default(true)
+  radiantScore  Int        @default(0)
+  direScore     Int        @default(0)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   dire          Team       @relation("dire", fields: [direTeamId], references: [id])

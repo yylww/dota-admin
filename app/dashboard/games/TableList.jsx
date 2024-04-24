@@ -24,11 +24,7 @@ export const TableList = ({data, onDelete}) => {
     { 
       title: '比分', 
       key: 'score',
-      render: (_, record) => {
-        const radiantScore = record.records.map(item => item.radiant ? item.kills : 0).reduce((a, b) => a + b)
-        const direScore = record.records.map(item => item.radiant ? 0 : item.kills).reduce((a, b) => a + b)
-        return <span>{radiantScore}:{direScore}</span>
-      }
+      render: (_, record) => <span>{ record.radiantScore }:{ record.direScore }</span>
     },
     { 
       title: '开始时间',

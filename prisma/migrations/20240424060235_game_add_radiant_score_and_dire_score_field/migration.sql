@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Game" ADD COLUMN     "direScore" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "radiantScore" INTEGER NOT NULL DEFAULT 0;

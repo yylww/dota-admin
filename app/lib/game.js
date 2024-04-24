@@ -30,7 +30,6 @@ export const getGames = async () => {
       include: {
         radiant: true,
         dire: true,
-        records: true,
       },
     })
   } catch (error) {

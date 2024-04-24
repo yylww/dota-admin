@@ -100,7 +100,11 @@ export const TableList = ({
   onDelete,
 }) => {
   const defaultColumns = [
-    { title: 'ID', dataIndex: 'id' },
+    { 
+      title: 'ID', 
+      dataIndex: 'id',
+      render: (_, record) => <Link href={`/dashboard/games?matchId=${record.id}`}>{ record.id }</Link>,
+    },
     { 
       title: '赛事', 
       key: 'tournament',
@@ -160,7 +164,6 @@ export const TableList = ({
             <a onClick={() => onUpdateGame(record)}>{syncLoading ? <Spin size="small" /> : '更新'}</a>
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
-            <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link>
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
             <a onClick={() => onDelete(record.id)}>删除</a>
           </Space>

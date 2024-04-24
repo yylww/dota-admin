@@ -5,46 +5,19 @@ const prisma = new PrismaClient()
 async function main() {
 
   // const games = await prisma.game.findMany()
-  // const itemData = await prisma.item.findMany()
   // const handler = async (id, index) => {
   //   try {
   //     const { data } = await axios.get(`https://api.opendota.com/api/matches/${id}`)
   //     if (!data) return false
-  //     const players = data.players
-  //     players.map(async (player, j) => {
-  //       const { item_neutral, purchase_log, aghanims_scepter, aghanims_shard } = player
-  //       const items = []
-  //       for (let k = 0; k < 6; k++) {
-  //         if (player[`item_${k}`]) {
-  //           const detail = itemData.find(item => item.id === player[`item_${k}`])
-  //           const purchase = purchase_log ? purchase_log.findLast(item => item.key === detail.name) : null
-  //           const purchaseTime = purchase ? purchase.time : undefined
-  //           items.push({ ...detail, purchaseTime })
-  //         }
-  //       }
-  //       const neutral = itemData.find(item => item.id === item_neutral)
-  //       const updateData = {
-  //         equipments: items,
-  //         neutral,
-  //         scepter: aghanims_scepter,
-  //         shard: aghanims_shard,
-  //       }
-  //       const record = await prisma.record.findUnique({
-  //         where: {
-  //           gameId: id,
-  //           playerId: player.account_id
-  //         }
-  //       })
-  //       await prisma.record.update({
-  //         where: {
-  //           id: record.id
-  //         },
-  //         data: {
-  //           items: updateData,
-  //         },
-  //       })
+  //     const { radiant_score, dire_score } = data
+  //     await prisma.game.update({
+  //       where: { id },
+  //       data: {
+  //         radiantScore: radiant_score,
+  //         direScore: dire_score,
+  //       },
   //     })
-  //     console.log(id, 'finished', `${index}/${games.length}`)
+  //     console.log(id, 'finished', `${index+1}/${games.length}`)
   //   } catch (error) {
   //     console.log(id, error.message)
   //   }
@@ -52,7 +25,7 @@ async function main() {
   // for (let i = 0; i < games.length; i++) {
   //   setTimeout(() => {
   //     handler(games[i].id, i)
-  //   }, i * 1050);
+  //   }, i * 1200);
   // }
 
   // const { data } = await axios.get('https://www.dota2.com.cn/itemscategory/json')
@@ -85,8 +58,14 @@ async function main() {
   //   }
   //   return data
   // })
-  // await prisma.item.createMany({
-  //   data: arr
+  // await prisma.item.create({
+  //   data: {
+  //     id: 2094,
+  //     cname: '第4级代币',
+  //     name: 'tier4_token',
+  //     cost: "0",
+  //     image: '/items/tier4_token_lg.png'
+  //   }
   // })
   // console.log(arr)
 }

@@ -2,7 +2,7 @@ import clsx from "clsx"
 import Image from "next/image"
 
 export const DetailComponent = ({ data }) => {
-  const { duration, radiant, dire, records, bans, picks } = data
+  const { duration, radiant, dire, radiantScore, direScore, records, bans, picks } = data
   const radiants = records.filter(item => item.radiant)
   const dires = records.filter(item => !item.radiant)
   const sortRecords = [
@@ -30,11 +30,11 @@ export const DetailComponent = ({ data }) => {
         <div className="flex flex-1 flex-col justify-center items-center">
           <div className="flex flex-1 gap-3 justify-center items-center text-gray-300">
             <span className={clsx("text-6xl", radiants[0].win ? "text-green-500" : "text-red-500" )}>
-              { radiants.reduce((a, b) => a + b.kills, 0)}
+              { radiantScore }
             </span>
             <span className="text-3xl">vs</span>
             <span className={clsx("text-6xl", dires[0].win ? "text-green-500" : "text-red-500" )}>
-              { dires.reduce((a, b) => a + b.kills, 0)}
+              { direScore }
             </span>
           </div>
           <div>时长 { Math.floor(duration / 60) }:{ duration % 60 }</div>
@@ -104,13 +104,13 @@ export const DetailComponent = ({ data }) => {
           <div className="flex justify-center items-center h-10">物品</div>
           {
             sortRecords.map((item, i) => {
-              const { equipments, neutral, scepter, shard } = sortRecords[i].items
+              const { equipments, neutral = {}, scepter = 0, shard = 0 } = sortRecords[i].items
               return (
                 <div key={i} className="flex justify-center items-center gap-1 h-20">
                   <div className="grid grid-cols-3 gap-1 w-[120px]">
                     {
                       equipments.map((item, i) => (
-                        <div key={i} className="relative" title={item.cname}>
+                        <div key={i} className="relative" title={item.cname ?? item.name}>
                           <Image src={item.image} width={0} height={0} sizes="100%" className="w-10 h-auto" alt={item.cname} />
                           { 
                             item.purchaseTime ? 
@@ -122,7 +122,7 @@ export const DetailComponent = ({ data }) => {
                       ))
                     }
                   </div>
-                  <div title={neutral.cname}>
+                  <div title={neutral.cname ?? neutral.name}>
                     <Image src={neutral.image} width={0} height={0} sizes="100%" className="w-10 h-auto" alt={neutral.cname} />
                   </div>
                   <div className="flex flex-col justify-center items-center">
