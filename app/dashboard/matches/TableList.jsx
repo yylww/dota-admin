@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { Table, Space, Form, DatePicker, Select, Spin, Input } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
+import clsx from "clsx"
 
 const EditableContext = React.createContext(null)
 const EditeableRow = ({ index, ...props }) => {
@@ -127,13 +128,15 @@ export const TableList = ({
       title: '比分', 
       key: 'score',
       dataIndex: 'score',
-      render: (_, record) => <div>{ record.homeScore }:{ record.awayScore }</div>,
+      render: (_, record) => <span className="text-blue-500">{ record.homeScore }:{ record.awayScore }</span>,
       editable: true,
     },
     { 
       title: '状态', 
       dataIndex: 'status',
-      render: (_, record) => ['未开始', '进行中', '已结束'][record.status],
+      render: (_, record) => <span className={clsx(
+        ['text-blue-500', 'text-green-500', ''][record.status]
+      )}>{['未开始', '进行中', '已结束'][record.status]}</span>,
       editable: true,
     },
     { 
@@ -159,9 +162,9 @@ export const TableList = ({
           flag = scores.some(item => Number(item) > (bo / 2))
         }
         return (
-          <Space size='middle' style={{ color: '#1677ff' }}>
+          <Space size='middle' className="text-blue-500">
             {/* { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> } */}
-            <a onClick={() => onUpdateGame(record)}>{syncLoading ? <Spin size="small" /> : '更新'}</a>
+            <a onClick={() => onUpdateGame(record.id)}>{syncLoading ? <Spin size="small" /> : '更新'}</a>
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>

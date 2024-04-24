@@ -8,7 +8,7 @@ import { CollectionFormModal } from "./ModalForm"
 import useSWR from "swr"
 import { getRecentGameIds, getGameData } from "@/app/lib/opendata"
 import { generateData } from "@/app/lib/generateData"
-import { deleteMatch, getMatches, updateMatch } from "@/app/lib/match"
+import { deleteMatch, getMatch, getMatches, updateMatch } from "@/app/lib/match"
 import { createGame } from "@/app/lib/game"
 import { getItems } from "@/app/lib/item"
 import { updateRecord } from "@/app/lib/record"
@@ -85,7 +85,8 @@ export default function Page({ searchParams }) {
           setOpen(true)
           setRowData(values)
         }}
-        onUpdateGame={async ({ games }) => {
+        onUpdateGame={async (id) => {
+          const { games } = await getMatch(id)
           if (games.length <= 0) return 
           setSyncLoading(true)
           for (const game of games) {
