@@ -7,6 +7,8 @@ export const generateData = async (fetchData) => {
   const duration = fetchData.duration
   const radiantTeamId = fetchData.radiant_team_id
   const direTeamId = fetchData.dire_team_id
+  const radiantScore = fetchData.radiant_score
+  const direScore = fetchData.dire_score
   const bans = fetchData.picks_bans.filter(item => !item.is_pick).map(item => ({
     order: item.order,
     heroId: item.hero_id,
@@ -65,6 +67,8 @@ export const generateData = async (fetchData) => {
     radiantWin: records.filter(item => item.radiant)[0].win,
     radiantTeamId,
     direTeamId,
+    radiantScore,
+    direScore,
     bans,
     picks,
     records,
