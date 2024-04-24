@@ -11,8 +11,24 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const getBdAnalyticsTag = () => {
+    return {
+      __html: `
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?eb339d1f4a11c93b5890269746291ca3";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+      `,
+    }
+  }
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
+      </head>
       <body className={inter.className}>
         <AntdRegistry>
           {children}
