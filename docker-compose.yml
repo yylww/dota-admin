@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+
+  postgres:
+    container_name: next-pg     
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=kvo
+      - POSTGRES_PASSWORD=gbfhtenYY0305
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  postgres:
