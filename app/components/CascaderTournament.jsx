@@ -58,9 +58,6 @@ export const CascaderTournament = ({ level, value, onChange }) => {
   return (
     <Cascader
       value={value}
-      style={{
-        minWidth: '200px',
-      }}
       placeholder="选择所属赛事"
       onChange={onChange}
       options={options}

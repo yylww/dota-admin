@@ -10,11 +10,6 @@ export const getStage = async (id) => {
         tournament: true,
         matches: {
           include: {
-            games: {
-              include: {
-                records: true,
-              }
-            },
             homeTeam: true,
             awayTeam: true,
           }

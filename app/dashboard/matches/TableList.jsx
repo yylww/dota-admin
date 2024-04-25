@@ -109,7 +109,12 @@ export const TableList = ({
     { 
       title: '赛事', 
       key: 'tournament',
-      render: (_, record) => <span>{record.tournament.title}{ record.stage.title }</span>
+      render: (_, record) => <Link href={`/dashboard/tournaments/${record.tournament.id}`}>{ record.tournament.title }</Link>,
+    },
+    { 
+      title: '阶段', 
+      key: 'stage',
+      render: (_, record) => <Link href={`/dashboard/stages/${record.stage.id}`}>{ record.stage.title }</Link>,
     },
     { 
       title: '比赛队伍',
@@ -168,7 +173,7 @@ export const TableList = ({
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
-            <a onClick={() => onDelete(record.id)}>删除</a>
+            { record.games.length > 0 ? null : <a onClick={() => onDelete(record.id)}>删除</a> }
           </Space>
         )
       }

@@ -55,11 +55,7 @@ export const createGame = async (data) => {
       include: {
         match: {
           include: {
-            games: {
-              include: {
-                records: true,
-              }
-            },
+            games: true,
           }
         },
       },

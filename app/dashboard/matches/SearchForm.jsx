@@ -19,7 +19,7 @@ export const SearchForm = ({query, onSubmit, onReset}) => {
       initialValues={query}
       onFinish={(values) => onSubmit(values)}
     >
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-2">
         <Form.Item name="tournament">
           <CascaderTournament level="stage" />
         </Form.Item>
@@ -36,7 +36,7 @@ export const SearchForm = ({query, onSubmit, onReset}) => {
             ]} 
           />
         </Form.Item>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-8">
           <Button type="primary" htmlType="submit">搜索</Button>
           <Button onClick={handleReset}>重置</Button>
           <Link href="/dashboard/matches/create"> 

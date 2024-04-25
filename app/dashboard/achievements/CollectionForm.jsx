@@ -58,7 +58,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                   <CloseOutlined onClick={() => remove(field.name)} />
                 </Flex>
               ))}
-              <Form.Item>
+              <div className="flex gap-2 justify-between">
                 <Button
                   type="dashed"
                   onClick={() => add()}
@@ -67,7 +67,15 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                 >
                   Add field
                 </Button>
-              </Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => add(null, 0)}
+                  icon={<PlusOutlined />}
+                  block
+                >
+                  Add field at head
+                </Button>
+              </div>
             </Flex>
           )}
         </Form.List>
