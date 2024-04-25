@@ -50,7 +50,7 @@ export default async function Page({ searchParams }) {
                 </div>
               </div>
             )
-          }) : <div className="flex justify-center items-center w-full h-16 border border-gray-400">暂无比赛</div>
+          }) : <div className="flex justify-center items-center w-full h-16 border border-gray-400">暂无交手比赛</div>
         }
       </div>
       

@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
+import NoSsr from './components/NoSsr'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
+        <NoSsr>
+          <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
+        </NoSsr>
       </head>
       <body className={inter.className}>
         <AntdRegistry>

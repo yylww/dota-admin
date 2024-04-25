@@ -114,7 +114,7 @@ export const DetailComponent = ({ data }) => {
                           <Image src={item.image} width={0} height={0} sizes="100%" className="w-10 h-auto" alt={item.cname} />
                           { 
                             item.purchaseTime ? 
-                            <span className="absolute left-0 bottom-0 w-full text-gray-300 text-xs text-center whitespace-nowrap bg-black bg-opacity-30">
+                            <span className="absolute left-0 bottom-0 w-full text-gray-300 text-xs text-center whitespace-nowrap bg-black bg-opacity-40">
                               { item.purchaseTime < 0 ? '-' : '' }{ Math.floor(Math.abs(item.purchaseTime) / 60) }:{ Math.abs(item.purchaseTime) % 60 }
                             </span> : null 
                           }

@@ -5,7 +5,7 @@ export const getRecentGameIds = async ({ homeTeamId, awayTeamId, bo }) => {
   try {
     const gameIds = []
     const { data } = await axios.get(`https://api.opendota.com/api/teams/${homeTeamId}/matches`)
-    const matches = data.slice(0, bo).filter(item => item.opposing_team_id === awayTeamId)
+    const matches = data.filter(item => item.opposing_team_id === awayTeamId).slice(0, bo)
     for (const item of matches) {
       const gameId = `${item.match_id}`
       const game = await getGame(gameId)
