@@ -26,7 +26,7 @@ export const SearchForm = ({onSubmit, onReset}) => {
         <Form.Item name="nickname">
           <Input placeholder="选手昵称" />
         </Form.Item>
-        <div className="flex gap-2 mb-8">
+        <div className="flex gap-2 mb-6">
           <Button type="primary" htmlType="submit">搜索</Button>
           <Button onClick={handleReset}>重置</Button>
           {/* <Link href="/dashboard/records/create">

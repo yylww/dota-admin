@@ -104,17 +104,16 @@ export const TableList = ({
     { 
       title: 'ID', 
       dataIndex: 'id',
-      render: (_, record) => <Link href={`/dashboard/games?matchId=${record.id}`}>{ record.id }</Link>,
     },
     { 
       title: '赛事', 
       key: 'tournament',
-      render: (_, record) => <Link href={`/dashboard/tournaments/${record.tournament.id}`}>{ record.tournament.title }</Link>,
+      render: (_, record) => <Link href={`/dashboard/tournaments/${record.tournament.id}`} className="text-gray-900">{ record.tournament.title }</Link>,
     },
     { 
       title: '阶段', 
       key: 'stage',
-      render: (_, record) => <Link href={`/dashboard/stages/${record.stage.id}`}>{ record.stage.title }</Link>,
+      render: (_, record) => <Link href={`/dashboard/stages/${record.stage.id}`} className="text-gray-900">{ record.stage.title }</Link>,
     },
     { 
       title: '比赛队伍',
@@ -125,7 +124,7 @@ export const TableList = ({
       title: '开始时间',
       key: 'startTime',
       dataIndex: 'startTime',
-      render: (_, record) => <span>{ dayjs(record.startTime).format('YYYY-MM-DD HH:mm') }</span>,
+      render: (_, record) => <span className="cursor-pointer">{ dayjs(record.startTime).format('YYYY-MM-DD HH:mm') }</span>,
       sorter: (a, b) => dayjs(a.startTime).unix() - dayjs(b.startTime).unix(),
       editable: true,
     },
@@ -133,13 +132,14 @@ export const TableList = ({
       title: '比分', 
       key: 'score',
       dataIndex: 'score',
-      render: (_, record) => <span className="text-blue-500">{ record.homeScore }:{ record.awayScore }</span>,
+      render: (_, record) => <span className="text-blue-500 cursor-pointer">{ record.homeScore }:{ record.awayScore }</span>,
       editable: true,
     },
     { 
       title: '状态', 
       dataIndex: 'status',
       render: (_, record) => <span className={clsx(
+        'cursor-pointer',
         ['text-blue-500', 'text-green-500', ''][record.status]
       )}>{['未开始', '进行中', '已结束'][record.status]}</span>,
       editable: true,
@@ -150,7 +150,7 @@ export const TableList = ({
       render: (_, record) => <span>{['线下', '线上'][record.type]}</span>
     },
     { 
-      title: '是否加赛',
+      title: '加赛',
       key: 'extra',
       render: (_, record) => <span>{record.extra ? '是' : '否'}</span>
     },
@@ -173,7 +173,7 @@ export const TableList = ({
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
-            { record.games.length > 0 ? null : <a onClick={() => onDelete(record.id)}>删除</a> }
+            { record.games.length > 0 ? <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link> : <a onClick={() => onDelete(record.id)}>删除</a> }
           </Space>
         )
       }
