@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
         </NoSsr>
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} scroll-smooth`}>
         <AntdRegistry>
           {children}
         </AntdRegistry>

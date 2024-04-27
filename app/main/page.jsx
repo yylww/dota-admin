@@ -2,6 +2,7 @@ import dayjs from "dayjs"
 import { getTournaments } from "../lib/tournament"
 import HotTournament from "../components/main/HotTournament"
 import MatchList from "../components/main/MatchList"
+import ScrollToTop from "../components/main/ScrollToTop"
 
 export const dynamic = 'force-dynamic'
 
@@ -39,6 +40,7 @@ export default async function Page({ searchParams }) {
         <HotTournament data={hotTournaments} activeId={tournamentId || tournament.id} />
       </div>
       <MatchList data={formatData} width="w-[750px]" />
+      <ScrollToTop />
     </div>
   )
 }
