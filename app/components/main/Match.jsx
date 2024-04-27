@@ -30,7 +30,7 @@ export default function Match({ data }) {
     }
   })
   return (
-    <div className="flex flex-col item-center gap-2 w-full rounded-md border border-gray-200 p-1 md:p-2 px-1 md:px-4">
+    <div className="flex flex-col item-center gap-2 w-full rounded-md border border-gray-200 p-2 md:px-4">
       <div className="flex gap-2 md:gap-6">
         <div className={clsx(
           "flex items-center justify-center",
