@@ -1,10 +1,11 @@
 import dayjs from "dayjs"
 import Match from "./Match"
+import clsx from "clsx"
 
 export default function MatchList({ data, width }) {
   const sortDate = Object.keys(data).sort((a, b) => dayjs(b).unix() - dayjs(a).unix())
   return (
-    <div className={`flex flex-col gap-2 w-[${width}px] p-1 md:p-4`}>
+    <div className={clsx("flex flex-col gap-2 p-1 md:p-4", `w-[${width}px]`)}>
       {
         sortDate.map((item, i) => {
           const { title, matches } = data[item]
