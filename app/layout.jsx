@@ -6,8 +6,9 @@ import NoSsr from './components/NoSsr'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'DOTA2赛事',
-  description: 'DOTA2赛事预告，赛事资讯，比赛数据，获奖记录',
+  title: '时光站',
+  // description: 'DOTA2赛事预告，赛事资讯，比赛数据，获奖记录',
+  description: 'DOTA2游戏时光站，游戏比赛记录，赛事资讯',
   keywords: ['DOTA', 'DOTA2', '赛事', '预告', '资讯', '比赛', 'TI', '统计'],
 }
 
