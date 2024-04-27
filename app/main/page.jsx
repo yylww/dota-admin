@@ -38,7 +38,7 @@ export default async function Page({ searchParams }) {
       <div className="hidden md:block">
         <HotTournament data={hotTournaments} activeId={tournamentId || tournament.id} />
       </div>
-      <MatchList data={formatData} width={750} />
+      <MatchList data={formatData} width="w-[750px]" />
     </div>
   )
 }

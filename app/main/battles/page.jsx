@@ -34,7 +34,7 @@ export default async function Page({ searchParams }) {
     <div className="bg-white">
       {
         matches && matches.length > 0 ?
-        <MatchList data={formatData} width={990} /> : 
+        <MatchList data={formatData} width="w-full" /> : 
         <div className="flex justify-center items-center h-16">无交手记录</div>
       }
     </div>
