@@ -14,14 +14,14 @@ export const TabComponent = ({ length, tabIndex }) => {
   }
 
   return (
-    <div className="flex w-full h-12 bg-white text-lg">
+    <div className="flex w-full h-12 bg-white md:text-lg">
       {
         [...Array(length)].map((_, index) => (
           <div 
             key={index} 
             className={clsx(
-              "flex flex-1 h-full justify-center items-center cursor-pointer border-b-2 border-b-gray-200",
-              tabIndex === index ? "text-blue-500 border-b-blue-500 " : ""
+              "flex flex-1 h-full justify-center items-center cursor-pointer border-b-2",
+              tabIndex === index ? "text-blue-500 border-b-blue-500" : "border-b-gray-200"
             )}
             onClick={() => handleTabIndex(index+1)}
           >
