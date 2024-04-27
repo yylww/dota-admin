@@ -65,7 +65,11 @@ export const getMatches = async ({ status, ids, orderBy, take, skip }) => {
         stage: true,
         homeTeam: true,
         awayTeam: true,
-        games: true,
+        games: {
+          orderBy: {
+            startTime: 'asc',
+          },
+        },
       },
     })
   } catch (error) {

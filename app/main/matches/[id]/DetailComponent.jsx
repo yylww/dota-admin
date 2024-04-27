@@ -10,7 +10,7 @@ export const DetailComponent = ({ data }) => {
     ...dires.sort((a, b) => Number(a.player.position) - Number(b.player.position)),
   ]
   return (
-    <div className="bg-gray-700 p-4 text-gray-100">
+    <div className="p-4">
       <div className="flex flex-col gap-2 md:flex-row mb-6">
         <div className="flex-1">
           <div className="flex justify-center md:justify-start items-center gap-4 h-16">
@@ -65,7 +65,7 @@ export const DetailComponent = ({ data }) => {
             ))
           }
         </div>
-        <div className="text-center text-2xl text-white">BAN</div>
+        <div className="text-center text-2xl">BAN</div>
         <div className="flex flex-row-reverse flex-1 gap-1 grayscale">
           {
             bans.filter(item => !item.radiant).map((item, i) => (
@@ -76,37 +76,36 @@ export const DetailComponent = ({ data }) => {
           }
         </div>
       </div>
-      {/* <div>比赛数据</div> */}
       <div className="flex justify-between text-center">
         <div className="max-w-20 overflow-hidden md:max-w-min">
-          <div className="flex items-center h-10">选手</div>
+          <div className="flex items-center h-10 border-b border-b-gray-200">选手</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex items-center h-20">{ sortRecords[i].player.nickname }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex items-center h-20 border-b border-b-gray-200">{ sortRecords[i].player.nickname }</div>)
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">英雄</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">英雄</div>
           {
             sortRecords.map((item, i) => (
-              <div key={i} className="flex justify-center items-center h-20" title={sortRecords[i].hero.cname}>
+              <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200" title={sortRecords[i].hero.cname}>
                 <Image src={sortRecords[i].hero.avatar} width={0} height={0} sizes="100%" className="w-12 md:w-16 h-auto" alt={sortRecords[i].hero.name} />
               </div>
             ))
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">等级</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">等级</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].level }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].level }</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">物品</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">物品</div>
           {
             sortRecords.map((item, i) => {
               const { equipments, neutral = {}, scepter = 0, shard = 0 } = sortRecords[i].items
               return (
-                <div key={i} className="flex justify-center items-center gap-1 h-20">
+                <div key={i} className="flex justify-center items-center gap-1 h-20 border-b border-b-gray-200">
                   <div className="grid grid-cols-3 gap-1 w-[120px]">
                     {
                       equipments.map((item, i) => (
@@ -126,8 +125,8 @@ export const DetailComponent = ({ data }) => {
                     <Image src={neutral.image} width={0} height={0} sizes="100%" className="w-10 h-auto" alt={neutral.cname} />
                   </div>
                   <div className="flex flex-col justify-center items-center">
-                    <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-9 h-auto" alt="scepter" />
-                    <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-9 h-auto" alt="shard" />
+                    <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-8 h-auto" alt="scepter" />
+                    <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-8 h-auto" alt="shard" />
                   </div>
                 </div>
               )
@@ -135,63 +134,63 @@ export const DetailComponent = ({ data }) => {
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">击杀</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">击杀</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 text-green-500">{ sortRecords[i].kills }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200 text-green-500">{ sortRecords[i].kills }</div>)
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">死亡</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">死亡</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 text-red-500">{ sortRecords[i].deaths }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200 text-red-500">{ sortRecords[i].deaths }</div>)
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">助攻</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">助攻</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].assists }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].assists }</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">正补</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">正补</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].lastHits }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].lastHits }</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">反补</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">反补</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].denies }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].denies }</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">NET</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">NET</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ (sortRecords[i].netWorth / 1000).toFixed(1) }k</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ (sortRecords[i].netWorth / 1000).toFixed(1) }k</div>)
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">GPM</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">GPM</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].gpm }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].gpm }</div>)
           }
         </div>
         <div>
-          <div className="flex justify-center items-center h-10">XPM</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">XPM</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ sortRecords[i].xpm }</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ sortRecords[i].xpm }</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">英雄伤害</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">英雄伤害</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ (sortRecords[i].heroDamage / 1000).toFixed(1) }k</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ (sortRecords[i].heroDamage / 1000).toFixed(1) }k</div>)
           }
         </div>
         <div className="hidden md:block">
-          <div className="flex justify-center items-center h-10">塔伤害</div>
+          <div className="flex justify-center items-center h-10 border-b border-b-gray-200">塔伤害</div>
           {
-            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20">{ (sortRecords[i].towerDamage / 1000).toFixed(1) }k</div>)
+            sortRecords.map((item, i) => <div key={i} className="flex justify-center items-center h-20 border-b border-b-gray-200">{ (sortRecords[i].towerDamage / 1000).toFixed(1) }k</div>)
           }
         </div>
       </div>
