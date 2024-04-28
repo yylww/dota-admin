@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
-import NoSsr from './components/NoSsr'
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,9 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="text-[15px] md:text-[16px]">
       <head>
-        {/* <NoSsr> */}
-        <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
-        {/* </NoSsr> */}
+        <Script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>
       <body className={`${inter.className} scroll-smooth`}>
         <AntdRegistry>
