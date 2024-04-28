@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
-import NoSsr from './components/NoSsr'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,31 +13,14 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const getBdAnalyticsTag = () => {
-    return {
-      __html: `
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?eb339d1f4a11c93b5890269746291ca3";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-      `,
-    }
-  }
   return (
     <html lang="en" className="text-[15px] md:text-[16px]">
-      <head>
-        <NoSsr>
-          <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
-        </NoSsr>
-      </head>
       <body className={`${inter.className} scroll-smooth`}>
         <AntdRegistry>
           {children}
         </AntdRegistry>
       </body>
+      <GoogleAnalytics gaId='GTM-MVT3BPKN' />
     </html>
   )
 }
