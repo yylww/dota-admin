@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="text-[15px] md:text-[16px]">
       <head>
-        <Script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
+        <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>
       <body className={`${inter.className} scroll-smooth`}>
         <AntdRegistry>
