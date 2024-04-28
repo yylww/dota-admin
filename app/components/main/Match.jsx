@@ -40,7 +40,7 @@ export default function Match({ data }) {
           <div className="flex items-center gap-2 md:gap-4 h-7 md:h-8">
             <Image src={homeTeam.logo} width={0} height={0} sizes="100%" className="w-4 md:w-5 h-auto" alt={homeTeam.tag} />
             <span className="flex-1">{homeTeam.name}</span>
-            <div className="flex gap-1 md:gap-2 px-1 md:px-2 py-1 rounded-full bg-gray-100">
+            <div className="flex gap-1 px-1 md:px-2 py-1 rounded-full bg-gray-100">
               {
                 homeDots.map((item, i) => (
                   <div className={clsx(
@@ -58,7 +58,7 @@ export default function Match({ data }) {
           <div className="flex items-center gap-2 md:gap-4 h-7 md:h-8">
             <Image src={awayTeam.logo} width={0} height={0} sizes="100%" className="w-4 md:w-5 h-auto" alt={awayTeam.tag} />
             <span className="flex-1">{awayTeam.name}</span>
-            <div className="flex gap-1 md:gap-2 px-1 md:px-2 py-1 rounded-full bg-gray-100">
+            <div className="flex gap-1 px-1 md:px-2 py-1 rounded-full bg-gray-100">
               {
                 awayDots.map((item, i) => (
                   <div className={clsx(
