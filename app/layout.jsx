@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
           {children}
         </AntdRegistry>
       </body>
-      <GoogleAnalytics gaId='GTM-MVT3BPKN' />
+      <GoogleAnalytics gaId='G-VJSZWKJG6X' />
     </html>
   )
 }
