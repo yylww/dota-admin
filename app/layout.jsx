@@ -29,9 +29,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="text-[15px] md:text-[16px]">
       <head>
-        <NoSsr>
-          <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
-        </NoSsr>
+        {/* <NoSsr> */}
+        <script dangerouslySetInnerHTML={getBdAnalyticsTag()} />
+        {/* </NoSsr> */}
       </head>
       <body className={`${inter.className} scroll-smooth`}>
         <AntdRegistry>
