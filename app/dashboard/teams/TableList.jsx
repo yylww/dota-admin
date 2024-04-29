@@ -25,7 +25,7 @@ export const TableList = ({data, onEdit, onDelete}) => {
       title: '选手',
       key: 'player',
       render: (_, record) => {
-        const arr = record.players.map(item => item.nickname)
+        const arr = record.players.sort((a, b) => Number(a.position) - Number(b.position)).map(item => item.nickname)
         return arr.join(', ')
       }
     },
