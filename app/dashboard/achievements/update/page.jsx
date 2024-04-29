@@ -20,7 +20,7 @@ export default function Page({ searchParams }) {
   return (
     <CollectionForm
       initialValues={{
-        ranks: data.achievements.map(item => ({ ...item, teams: item.teams.map(team => team.id)})),
+        ranks: data.achievements.sort((a, b) => Number(a.rank.split('-')[0]) - Number(b.rank.split('-')[0])).map(item => ({ ...item, teams: item.teams.map(team => team.id)})),
         tournamentId: [id],
       }}
       onSubmit={async values => {
@@ -39,7 +39,7 @@ export default function Page({ searchParams }) {
           }
           try {
             if (item.id) {
-              await updateAchievement(id, params)
+              await updateAchievement(item.id, params)
             } else {
               await createAchievement(params)
             }
