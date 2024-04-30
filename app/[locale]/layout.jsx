@@ -2,17 +2,21 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
 import Script from 'next/script'
+import { getTranslations } from 'next-intl/server'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: '时光站',
-  // description: 'DOTA2赛事预告，赛事资讯，比赛数据，获奖记录',
-  description: 'DOTA2游戏时光站，游戏比赛记录，赛事资讯',
-  keywords: ['DOTA', 'DOTA2', '赛事', '预告', '资讯', '比赛', 'TI', '统计'],
+export async function generateMetadata({ params: { locale } }) {
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    keywords: t('keywords').split(',')
+  }
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, params: { locale } }) {
   const getBdAnalyticsTag = () => {
     return {
       __html: `
@@ -27,7 +31,7 @@ export default function RootLayout({ children }) {
     }
   }
   return (
-    <html lang="en" className="text-[15px] md:text-[16px]">
+    <html lang={locale} className="text-[15px] md:text-[16px]">
       <head>
         <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>

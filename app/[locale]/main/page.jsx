@@ -1,12 +1,14 @@
 import dayjs from "dayjs"
-import { getTournaments } from "../lib/tournament"
-import HotTournament from "../components/main/HotTournament"
-import MatchList from "../components/main/MatchList"
-import ScrollToTop from "../components/main/ScrollToTop"
+import { getTournaments } from "../../lib/tournament"
+import HotTournament from "../../components/main/HotTournament"
+import MatchList from "../../components/main/MatchList"
+import ScrollToTop from "../../components/main/ScrollToTop"
+import { getTranslations } from "next-intl/server"
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }) {
+  const t = await getTranslations('main')
   const tournamentId = Number(searchParams.tournament)
   const tournaments = await getTournaments()
   const hotTournaments = tournaments.map(item => ({ id: item.id, title: item.title }))
@@ -37,7 +39,7 @@ export default async function Page({ searchParams }) {
   return (
     <div className="flex justify-between">
       <div className="hidden md:block">
-        <HotTournament data={hotTournaments} activeId={tournamentId || tournament.id} />
+        <HotTournament title={t('tournament')} data={hotTournaments} activeId={tournamentId || tournament.id} />
       </div>
       <MatchList data={formatData} width="w-[750px]" />
       <ScrollToTop />

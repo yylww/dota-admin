@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "title": "Dota2 赛事",
+    "description": "一个记录和展示Dota2赛事相关数据的网站",
+    "keywords": "Dota, Dota2, 比赛, 赛事, 预告, 赛程, 数据, xg, ar, ig"
+  },
+  "header": {
+    "home": "首页",
+    "tournament": "赛事信息",
+    "statistics": "数据统计",
+    "time": "时光站"
+  },
+  "main": {
+    "tournament": "热门赛事"
+  },
+  "button": {
+    "data": "比赛数据",
+    "data_sm": "数据",
+    "record": "交手记录",
+    "record_sm": "记录"
+  },
+  "match": {
+    "duration": "时长",
+    "player": "选手",
+    "hero": "英雄",
+    "level": "等级",
+    "items": "物品",
+    "kills": "击杀",
+    "deaths": "死亡",
+    "assists": "助攻",
+    "lastHits": "正补",
+    "denies": "反补",
+    "net": "NET",
+    "gpm": "GPM",
+    "xpm": "XPM",
+    "heroDamage": "英雄伤害",
+    "towerDamage": "塔伤害"
+  }
+}

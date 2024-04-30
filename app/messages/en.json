@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "title": "Dota 2 Stats",
+    "description": "A website that records and displays data related to Dota2 events",
+    "keywords": "dota, dota 2, dota2, dota 2 stats, dota 2 statistics, dota event, dota schedule, game data, match history"
+  },
+  "header": {
+    "home": "Home",
+    "tournament": "Tournaments",
+    "statistics": "Statistics",
+    "time": "Memoirs"
+  },
+  "main": {
+    "tournament": "Tournaments"
+  },
+  "button": {
+    "data": "Details",
+    "data_sm": "Details",
+    "record": "Records",
+    "record_sm": "Records"
+  },
+  "match": {
+    "duration": "Duration",
+    "player": "Player",
+    "hero": "Hero",
+    "level": "LVL",
+    "items": "ITEMS",
+    "kills": "K",
+    "deaths": "D",
+    "assists": "A",
+    "lastHits": "LH",
+    "denies": "DN",
+    "net": "NET",
+    "gpm": "GPM",
+    "xpm": "XPM",
+    "heroDamage": "HD",
+    "towerDamage": "TD"
+  }
+}

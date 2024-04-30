@@ -16,7 +16,7 @@ export default async function Page({ params, searchParams }) {
         }
       </Suspense>
       {
-        data.games.length > 0 ? <DetailComponent data={data.games[index]} /> : null
+        data.games.length > 0 ? <DetailComponent locale={params.locale} data={data.games[index]} /> : null
       }
     </div>
   )

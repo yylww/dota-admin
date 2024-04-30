@@ -10,17 +10,17 @@ export const ScoreComponent = ({ data }) => {
         <div className="flex-1 text-base md:text-2xl text-right">{homeTeam.name}</div>
         <Image src={homeTeam.logo} width={0} height={0} sizes="100%" className="shrink-0 w-6 md:w-10 h-auto" alt={homeTeam.name} />
       </div>
-      <div className="flex flex-col justify-between w-[25%] md:w-32 h-24 md:h-32">
-        <div className="flex justify-between w-full h-full">
-          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-5xl", homeScore > awayScore ? "text-green-500" : "")}>{ homeScore }</div>
+      <div className="flex flex-col justify-center w-[25%] md:w-32 h-24 md:h-32">
+        <div className="flex justify-between w-full">
+          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-6xl", homeScore > awayScore ? "text-green-500" : "")}>{ homeScore }</div>
           <div className="flex flex-col justify-center gap-1 md:gap-3 h-16 md:h-20">
             <div className="w-2 h-2 rounded-full bg-gray-900"></div>
             <div className="w-2 h-2 rounded-full bg-gray-900"></div>
           </div>
-          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-5xl", homeScore < awayScore ? "text-green-500" : "")}>{ awayScore }</div>
+          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-6xl", homeScore < awayScore ? "text-green-500" : "")}>{ awayScore }</div>
         </div>
         <div className="text-center text-md">{ dayjs(startTime).format('MM-DD HH:mm') }</div>
-        <div className="text-center text-md">已结束</div>
+        {/* <div className="text-center text-md">已结束</div> */}
       </div>
       <div className="flex justify-center items-center gap-2 md:gap-3 w-[33%] h-24 md:h-32 rounded-md">
         <Image src={awayTeam.logo} width={0} height={0} sizes="100%" className="shrink-0 w-6 md:w-10 h-auto" alt={awayTeam.name} />

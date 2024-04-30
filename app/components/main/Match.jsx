@@ -2,8 +2,10 @@ import dayjs from "dayjs"
 import clsx from "clsx"
 import Link from "next/link"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
 
 export default function Match({ data }) {
+  const t = useTranslations('button')
   const { id, startTime, status, bo, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
   const homeDots = [...Array(bo)].map((_, i) => {
     if (games[i]) {
@@ -77,7 +79,17 @@ export default function Match({ data }) {
         <div className="flex items-center justify-center">
           <Link href={status === 2 ? `/main/matches/${id}` : `/main/battles?ids=${homeTeam.id},${awayTeam.id}`}>
             <button className="px-2 md:px-4 md:py-1 rounded-full border border-blue-500 text-blue-500 text-sm">
-              { status === 2 ? <span><span className="hidden md:inline">比赛</span>数据</span> : <span><span className="hidden md:inline">交手</span>记录</span> }
+              { 
+                status === 2 ? 
+                <span>
+                  <span className="hidden md:inline">{ t('data') }</span>
+                  <span className="md:hidden">{ t('data_sm') }</span>
+                </span> : 
+                <span>
+                  <span className="hidden md:inline">{ t('record') }</span>
+                  <span className="md:hidden">{ t('record_sm') }</span>
+                </span> 
+              }
             </button>
           </Link>
         </div>
