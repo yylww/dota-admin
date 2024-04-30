@@ -1,10 +1,6 @@
-import Image from "next/image"
 import dayjs from "dayjs"
-import Link from "next/link"
-import clsx from "clsx"
 import { getMatches } from "@/app/lib/match"
 import MatchList from "@/app/components/main/MatchList"
-import { match } from "assert"
 
 export default async function Page({ searchParams }) {
   const ids = searchParams.ids.split(',').map(id => +id)

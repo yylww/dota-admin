@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/fonts"; 
+import { lusitana } from "@/app/[locale]/fonts"; 
 import { auth } from "@/auth";
 
 export default async function Page() {

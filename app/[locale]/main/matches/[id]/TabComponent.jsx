@@ -25,7 +25,7 @@ export const TabComponent = ({ length, tabIndex }) => {
             )}
             onClick={() => handleTabIndex(index+1)}
           >
-            第{index + 1}场
+            Game {index + 1}
           </div>
         ))
       }

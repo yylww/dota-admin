@@ -43,9 +43,10 @@ export const getMatch = async (id) => {
   }
 }
 
-export const getMatches = async ({ status, ids, orderBy, take, skip }) => {
+export const getMatches = async ({ status, ids, orderBy, take, skip } = {}) => {
+  console.log(status)
   const where = {}
-  if (status !== undefined) {
+  if (typeof status === 'number') {
     where.status = { equals: status }
   }
   if (ids) {
