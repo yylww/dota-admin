@@ -2,6 +2,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
 import Script from 'next/script'
+import { GoogleAnalytics } from '@next/third-parties/google'
+
 import { getTranslations } from 'next-intl/server'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -40,6 +42,7 @@ export default function RootLayout({ children, params: { locale } }) {
           {children}
         </AntdRegistry>
       </body>
+      <GoogleAnalytics gaId='G-VJSZWKJG6X' />
     </html>
   )
 }
