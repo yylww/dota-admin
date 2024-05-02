@@ -26,5 +26,5 @@ jobs:
             cd ${{ secrets.APP_PATH }} # Specify the path to your app directory on the server
             git pull
             npm install
-            npm run build
+            npm run build -- --no-optimization
             pm2 restart dota-admin # Replace with your PM2 service name
