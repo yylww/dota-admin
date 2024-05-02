@@ -39,7 +39,7 @@ export const DetailComponent = ({ locale, data }) => {
               { direScore }
             </span>
           </div>
-          <div>{ Math.floor(duration / 60) }:{ duration % 60 }</div>
+          <div>{ Math.floor(duration / 60) }m:{ duration % 60 }s</div>
         </div>
         <div className="flex-1">
           <div className="flex justify-center md:justify-start md:flex-row-reverse items-center gap-4 h-16">

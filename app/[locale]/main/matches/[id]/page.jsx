@@ -3,6 +3,7 @@ import { TabComponent } from "./TabComponent";
 import { DetailComponent } from "./DetailComponent";
 import { Suspense } from "react";
 import { getMatch } from "@/app/lib/match";
+import { CardsSkeleton } from "@/app/components/main/skeletons";
 
 export default async function Page({ params, searchParams }) {
   const data = await getMatch(+params.id)
@@ -10,11 +11,9 @@ export default async function Page({ params, searchParams }) {
   return (
     <div className="bg-white">
       <ScoreComponent data={data} />
-      <Suspense fallback={<div>Loading...</div>}>
-        {
-          data.games.length > 0 ? <TabComponent length={data.games.length} tabIndex={index} /> : <div className="w-full text-center">暂无比赛数据，请稍后再试。</div>
-        }
-      </Suspense>
+      {
+        data.games.length > 0 ? <TabComponent locale={params.locale} length={data.games.length} tabIndex={index} /> : <div className="w-full text-center">暂无比赛数据，请稍后再试。</div>
+      }
       {
         data.games.length > 0 ? <DetailComponent locale={params.locale} data={data.games[index]} /> : null
       }

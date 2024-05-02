@@ -3,7 +3,7 @@
 import clsx from "clsx"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export const TabComponent = ({ length, tabIndex }) => {
+export const TabComponent = ({ locale, length, tabIndex }) => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
@@ -12,6 +12,13 @@ export const TabComponent = ({ length, tabIndex }) => {
     params.set('tab', number)
     replace(`${pathname}?${params.toString()}`)
   }
+
+  const arr = [{a:[1,2]}, {a:[3,4]}, {a:[5,6]}]
+  const data = arr.reduce((prev, current) => {
+    console.log(prev, current)
+    return [...prev, ...current.a]
+  }, [])
+  console.log(data);
 
   return (
     <div className="flex w-full h-12 bg-white md:text-lg">
@@ -25,7 +32,7 @@ export const TabComponent = ({ length, tabIndex }) => {
             )}
             onClick={() => handleTabIndex(index+1)}
           >
-            Game {index + 1}
+            { locale === 'en' ? `Game ${index+1}` : `第${index+1}场` }
           </div>
         ))
       }
