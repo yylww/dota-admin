@@ -13,6 +13,17 @@
   "main": {
     "tournament": "热门赛事"
   },
+  "statistic": {
+    "pickRank": "出场排行榜",
+    "banRank": "禁用排行榜",
+    "winRank": "胜率排行榜（由高到低）",
+    "loseRank": "胜率排行榜（由低到高）"
+  },
+  "tips": {
+    "develop": "即将上线，敬请期待",
+    "notFound": "404: 未找到相关页面",
+    "backHome": "返回首页"
+  },
   "button": {
     "data": "比赛数据",
     "data_sm": "数据",

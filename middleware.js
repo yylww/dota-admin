@@ -15,20 +15,18 @@ const intlMiddleware = createMiddleware({
 const { auth } = NextAuth(authConfig)
 
 const authMiddleware = auth((req) => {
-  const isAuthPage = req.nextUrl.pathname.startsWith('/login')
+  const isLoginPage = req.nextUrl.pathname.startsWith('/login')
   const session = req.auth
 
   // Redirect to sign-in page if not authenticated
-  if (!session && !isAuthPage) {
+  if (!session && !isLoginPage) {
     return NextResponse.redirect(new URL("/login", req.nextUrl))
   }
 
   // Redirect to home page if authenticated and trying to access auth pages
-  if (session && isAuthPage) {
+  if (session && isLoginPage) {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl))
   }
-
-  return intlMiddleware(req)
 })
 
 const middleware = (req) => {

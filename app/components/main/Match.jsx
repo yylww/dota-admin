@@ -77,7 +77,7 @@ export default function Match({ data }) {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <Link href={status === 2 ? `/main/matches/${id}` : `/main/battles?ids=${homeTeam.id},${awayTeam.id}`}>
+          <Link href={status === 2 ? `/matches/${id}` : `/battles?ids=${homeTeam.id},${awayTeam.id}`}>
             <button className="px-2 md:px-4 md:py-1 rounded-full border border-blue-500 text-blue-500 text-sm">
               { 
                 status === 2 ? 

@@ -1,6 +1,6 @@
 'use client';
 
-import { lusitana } from '@/app/[locale]/fonts';
+import { lusitana } from '@/app/fonts';
 import {
   AtSymbolIcon,
   KeyIcon,

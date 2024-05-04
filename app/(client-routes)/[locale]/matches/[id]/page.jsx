@@ -1,9 +1,7 @@
-import { ScoreComponent } from "./ScoreComponent";
-import { TabComponent } from "./TabComponent";
-import { DetailComponent } from "./DetailComponent";
-import { Suspense } from "react";
-import { getMatch } from "@/app/lib/match";
-import { CardsSkeleton } from "@/app/components/main/skeletons";
+import { ScoreComponent } from "./ScoreComponent"
+import { TabComponent } from "./TabComponent"
+import { DetailComponent } from "./DetailComponent"
+import { getMatch } from "@/app/lib/match"
 
 export default async function Page({ params, searchParams }) {
   const data = await getMatch(+params.id)

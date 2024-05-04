@@ -73,14 +73,10 @@ async function main() {
 // execute the main function
 main()
   .then(async () => {
-    // change schema.prisma url 后执行一次 npx prisma db seed
     await prisma.$disconnect()
   })
-  .catch((e) => {
+  .catch(async (e) => {
     console.error(e);
+    await prisma.$disconnect();
     process.exit(1);
   })
-  .finally(async () => {
-    // close Prisma Client at the end
-    await prisma.$disconnect();
-  });

@@ -13,6 +13,17 @@
   "main": {
     "tournament": "Tournaments"
   },
+  "statistic": {
+    "pickRank": "Pick Ranking",
+    "banRank": "Ban Ranking",
+    "winRank": "Win Rate Ranking(high to low)",
+    "loseRank": "Win Rate Ranking(low to high)"
+  },
+  "tips": {
+    "develop": "Coming soon",
+    "notFound": "404: This page could not be found.",
+    "backHome": "Return to homepage"
+  },
   "button": {
     "data": "Details",
     "data_sm": "Details",

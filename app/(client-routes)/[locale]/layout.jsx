@@ -1,12 +1,12 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { AntdRegistry } from '@ant-design/nextjs-registry'
+// import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
-
 import { getTranslations } from 'next-intl/server'
+import Footer from "@/app/components/main/Footer";
+import Header from "@/app/components/main/Header";
+import '@/app/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 export async function generateMetadata({ params: { locale } }) {
   const t = await getTranslations({ locale, namespace: 'metadata' });
@@ -37,10 +37,12 @@ export default function RootLayout({ children, params: { locale } }) {
       <head>
         <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>
-      <body className={`${inter.className} scroll-smooth`}>
-        <AntdRegistry>
-          {children}
-        </AntdRegistry>
+      <body className="scroll-smooth">
+        <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900 text-sm md:text-base">
+          <Header />
+          <div className="flex-1 w-full md:w-[990px] min-h-full pt-12 mx-auto">{ children }</div>
+          <Footer />
+        </div>
       </body>
       <GoogleAnalytics gaId='G-VJSZWKJG6X' />
     </html>
