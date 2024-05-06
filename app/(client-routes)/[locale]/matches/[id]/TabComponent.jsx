@@ -1,9 +1,11 @@
 'use client'
 
 import clsx from "clsx"
+import { useLocale } from "next-intl"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export const TabComponent = ({ locale, length, tabIndex }) => {
+export const TabComponent = ({ length, tabIndex }) => {
+  const locale = useLocale()
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
@@ -12,13 +14,6 @@ export const TabComponent = ({ locale, length, tabIndex }) => {
     params.set('tab', number)
     replace(`${pathname}?${params.toString()}`)
   }
-
-  const arr = [{a:[1,2]}, {a:[3,4]}, {a:[5,6]}]
-  const data = arr.reduce((prev, current) => {
-    console.log(prev, current)
-    return [...prev, ...current.a]
-  }, [])
-  console.log(data);
 
   return (
     <div className="flex w-full h-12 bg-white md:text-lg">

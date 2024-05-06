@@ -1,4 +1,7 @@
-export default async function Ranking({ locale, data, index = 0, children }) {
+import { useLocale } from "next-intl"
+
+export default async function Ranking({ data, index = 0, children }) {
+  const locale = useLocale()
   return (
     <div className="flex flex-col gap-2 w-full text-sm">
       { children }

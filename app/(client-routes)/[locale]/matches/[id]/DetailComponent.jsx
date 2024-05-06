@@ -1,8 +1,9 @@
 import clsx from "clsx"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 
-export const DetailComponent = ({ locale, data }) => {
+export const DetailComponent = ({ data }) => {
+  const locale = useLocale()
   const t = useTranslations('match')
   const { duration, radiant, dire, radiantScore, direScore, records, bans, picks } = data
   const radiants = records.filter(item => item.radiant)

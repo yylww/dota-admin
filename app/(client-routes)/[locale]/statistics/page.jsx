@@ -11,16 +11,16 @@ export default async function Page({ params: { locale } }) {
   const loseSort = rateRanking.filter(item => item.count > 3).sort((a, b) => a.percent - b.percent).slice(0, 20)
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-4 bg-white">
-      <Ranking locale={locale} data={pickSort}>
+      <Ranking data={pickSort}>
         <div className="text-base">{ t('pickRank') }</div>
       </Ranking>
-      <Ranking locale={locale} data={banSort}>
+      <Ranking data={banSort}>
         <div className="text-base">{ t('banRank') }</div>
       </Ranking>
-      <Ranking locale={locale} data={winSort}>
+      <Ranking data={winSort}>
         <div className="text-base">{ t('winRank') }</div>
       </Ranking>
-      <Ranking locale={locale} data={loseSort} index={loseSort.length - 1}>
+      <Ranking data={loseSort} index={loseSort.length - 1}>
         <div className="text-base">{ t('loseRank') }</div>
       </Ranking>
     </div>
