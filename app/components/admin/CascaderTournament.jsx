@@ -1,6 +1,6 @@
 import { Cascader } from "antd"
 import useSWR from "swr"
-import { getTournaments } from "../lib/tournament"
+import { getTournaments } from "../../lib/tournament"
 
 export const CascaderTournament = ({ level, value, onChange }) => {
   const { data, isLoading, error } = useSWR('tournaments', getTournaments)

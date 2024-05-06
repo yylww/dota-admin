@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { getMatches } from "@/app/lib/match"
-import MatchList from "@/app/components/main/MatchList"
+import MatchList from "@/app/components/client/MatchList"
 
 export default async function Page({ searchParams }) {
   const ids = searchParams.ids.split(',').map(id => +id)

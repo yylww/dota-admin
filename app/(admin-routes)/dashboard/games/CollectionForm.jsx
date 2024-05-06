@@ -1,5 +1,5 @@
 import { Form, Input, Space, Button, Radio } from "antd"
-import { CascaderTournament } from "@/app/components/CascaderTournament"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
 import { getGameData } from "@/app/lib/opendata"
 import { generateData } from "@/app/lib/generateData"
 

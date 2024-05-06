@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import dayjs from "dayjs"
 import { Group } from "./Group"
-import { DoubleElimination } from "@/app/components/DoubleElimination"
+import { DoubleElimination } from "@/app/components/admin/DoubleElimination"
 import { Standings } from "./Standings"
-import { SingleElimination } from "@/app/components/SingleElimination"
+import { SingleElimination } from "@/app/components/admin/SingleElimination"
 import { getStage } from "@/app/lib/stage"
 
 export default function Page({ params }) {

@@ -1,6 +1,6 @@
 import { Form, Radio, Space, Button, DatePicker, InputNumber } from "antd"
-import { SelectTeam } from "@/app/components/SelectTeam"
-import { CascaderTournament } from "@/app/components/CascaderTournament"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm()

@@ -1,5 +1,5 @@
-import { CascaderTournament } from "@/app/components/CascaderTournament"
-import { SelectTeam } from "@/app/components/SelectTeam"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
 import { Form, Button, Select } from "antd"
 import { useForm } from "antd/es/form/Form"
 import Link from "next/link"

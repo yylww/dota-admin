@@ -1,8 +1,8 @@
 import { Form, Button } from "antd"
 import { useForm } from "antd/es/form/Form"
 import Link from "next/link"
-import { CascaderTournament } from "@/app/components/CascaderTournament"
-import { SelectTeam } from "@/app/components/SelectTeam"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
 
 export const SearchForm = ({onSubmit, onReset}) => {
   const [form] = useForm()

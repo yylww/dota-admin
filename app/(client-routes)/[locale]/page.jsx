@@ -1,8 +1,8 @@
 import dayjs from "dayjs"
 import { getTournaments } from "../../lib/tournament"
-import HotTournament from "../../components/main/HotTournament"
-import MatchList from "../../components/main/MatchList"
-import ScrollToTop from "../../components/main/ScrollToTop"
+import HotTournament from "../../components/client/HotTournament"
+import MatchList from "../../components/client/MatchList"
+import ScrollToTop from "../../components/client/ScrollToTop"
 import { getTranslations } from "next-intl/server"
 
 export const dynamic = 'force-dynamic'

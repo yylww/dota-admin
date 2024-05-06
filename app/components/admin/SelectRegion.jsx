@@ -1,6 +1,6 @@
 import { Select } from "antd"
 import useSWR from "swr"
-import { getRegions } from "../lib/region"
+import { getRegions } from "../../lib/region"
 
 export const SelectRegion = ({ value, onChange }) => {
   const { data, isLoading, error } = useSWR('regions', getRegions)

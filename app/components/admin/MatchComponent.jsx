@@ -1,7 +1,7 @@
 import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
 import useSWR from "swr"
-import { getTeams } from "../lib/team"
+import { getTeams } from "../../lib/team"
 
 export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
   const { data, isLoading, error } = useSWR('teams', getTeams)

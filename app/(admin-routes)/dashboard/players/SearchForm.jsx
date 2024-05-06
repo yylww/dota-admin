@@ -1,6 +1,6 @@
 import { Form, Button, Input } from "antd"
 import { useForm } from "antd/es/form/Form"
-import { SelectTeam } from "@/app/components/SelectTeam"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
 
 export const SearchForm = ({onSubmit, onReset, onCreate}) => {
   const [form] = useForm()

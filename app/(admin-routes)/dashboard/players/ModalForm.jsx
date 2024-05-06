@@ -1,6 +1,6 @@
 import { Form, Modal, Input, InputNumber, Select } from "antd"
 import { useEffect, useState } from "react"
-import { SelectTeam } from "@/app/components/SelectTeam"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
 
 const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
   const [form] = Form.useForm()

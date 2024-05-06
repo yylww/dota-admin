@@ -1,5 +1,5 @@
 import { AntdRegistry } from '@ant-design/nextjs-registry'
-import SideNav from "@/app/components/SideNav"
+import SideNav from "@/app/components/admin/SideNav"
 import '@/app/globals.css'
 
 export default function RootLayout({ children }) {

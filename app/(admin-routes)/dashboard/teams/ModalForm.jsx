@@ -1,7 +1,7 @@
 import { Form, Modal, Input, Upload, Button, InputNumber, message } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
-import { SelectRegion } from "@/app/components/SelectRegion"
+import { SelectRegion } from "@/app/components/admin/SelectRegion"
 
 const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
   const [form] = Form.useForm()

@@ -1,10 +1,10 @@
 import { Form, Input, Space, Button, DatePicker, Select, Flex, InputNumber, Radio, Card } from "antd"
 import { CloseOutlined } from "@ant-design/icons";
-import { SelectTeam } from "@/app/components/SelectTeam"
-import { CascaderTournament } from "@/app/components/CascaderTournament"
-import { DoubleElimination } from "@/app/components/DoubleElimination";
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
+import { DoubleElimination } from "@/app/components/admin/DoubleElimination";
 import { useState } from "react";
-import { SingleElimination } from "@/app/components/SingleElimination";
+import { SingleElimination } from "@/app/components/admin/SingleElimination";
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input

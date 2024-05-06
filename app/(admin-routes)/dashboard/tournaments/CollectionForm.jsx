@@ -1,5 +1,5 @@
 import { Form, Input, Space, Button, DatePicker, InputNumber } from "antd"
-import { SelectTeam } from "@/app/components/SelectTeam"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input

@@ -1,7 +1,7 @@
 import { Form, Input, Space, Button, InputNumber, Flex } from "antd"
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons"
-import { SelectTeam } from "@/app/components/SelectTeam"
-import { CascaderTournament } from "@/app/components/CascaderTournament"
+import { SelectTeam } from "@/app/components/admin/SelectTeam"
+import { CascaderTournament } from "@/app/components/admin/CascaderTournament"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const [form] = Form.useForm()
