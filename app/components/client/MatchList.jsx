@@ -7,7 +7,7 @@ import ScrollToToday from "./ScrollToToday"
 export default function MatchList({ data, width }) {
   const sortDate = Object.keys(data).sort((a, b) => dayjs(b).unix() - dayjs(a).unix())
   return (
-    <div className={clsx("flex flex-col gap-4 p-1 md:p-4", width)}>
+    <div className={clsx("flex flex-col gap-2 md:gap-4 p-1 md:p-4", width)}>
       {
         sortDate.map((item, i) => {
           const { title, matches } = data[item]
