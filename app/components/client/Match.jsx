@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl"
 import LocalTime from "./LocalTime"
 
 export default function Match({ data }) {
+  const tz = dayjs.tz.guess()
   const t = useTranslations('button')
   const { id, startTime, status, bo, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
   const homeDots = [...Array(bo)].map((_, i) => {
@@ -39,7 +40,7 @@ export default function Match({ data }) {
           "flex items-center justify-center",
           ["", "text-blue-500", "text-gray-400"][status]
         )}>
-          { dayjs(startTime).format('HH:mm')}
+          { dayjs(startTime).tz(tz).format('HH:mm')}
           {/* <LocalTime date={startTime} /> */}
         </div>
         <div className="flex flex-1 flex-col justify-between gap-1 px-2 md:px-6 border-x border-x-gray-100">

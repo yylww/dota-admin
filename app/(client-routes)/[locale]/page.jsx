@@ -14,6 +14,7 @@ dayjs.extend(timezone)
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }) {
+  const tz = dayjs.tz.guess()
   const t = await getTranslations('main')
   const tournamentId = Number(searchParams.tournament)
   const tournaments = await getTournaments()
@@ -25,7 +26,7 @@ export default async function Page({ searchParams }) {
     stages.map(stage => {
       const matches = stage.matches
       matches.map(match => {
-        const date = dayjs.tz(match.startTime).format('YYYY-MM-DD')
+        const date = dayjs(match.startTime).tz(tz).format('YYYY-MM-DD')
         if (data[date]) {
           data[date] = {
             title: `${title}-${stage.title}`,
