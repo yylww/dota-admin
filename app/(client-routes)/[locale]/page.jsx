@@ -5,6 +5,12 @@ import MatchList from "../../components/client/MatchList"
 import ScrollToTop from "../../components/client/ScrollToTop"
 import { getTranslations } from "next-intl/server"
 
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone')
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ searchParams }) {
@@ -19,7 +25,7 @@ export default async function Page({ searchParams }) {
     stages.map(stage => {
       const matches = stage.matches
       matches.map(match => {
-        const date = dayjs(match.startTime).format('YYYY-MM-DD')
+        const date = dayjs.tz(match.startTime).format('YYYY-MM-DD')
         if (data[date]) {
           data[date] = {
             title: `${title}-${stage.title}`,

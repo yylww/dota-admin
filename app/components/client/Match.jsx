@@ -3,6 +3,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import LocalTime from "./LocalTime"
 
 export default function Match({ data }) {
   const t = useTranslations('button')
@@ -37,7 +38,10 @@ export default function Match({ data }) {
         <div className={clsx(
           "flex items-center justify-center",
           ["", "text-blue-500", "text-gray-400"][status]
-        )}>{ dayjs(startTime).format('HH:mm')}</div>
+        )}>
+          { dayjs(startTime).format('HH:mm')}
+          {/* <LocalTime date={startTime} /> */}
+        </div>
         <div className="flex flex-1 flex-col justify-between gap-1 px-2 md:px-6 border-x border-x-gray-100">
           <div className="flex items-center gap-2 md:gap-4 h-7 md:h-8">
             <Image src={homeTeam.logo} width={0} height={0} sizes="100%" className="w-4 md:w-5 h-auto" alt={homeTeam.tag} />
