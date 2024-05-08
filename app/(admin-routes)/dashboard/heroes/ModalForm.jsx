@@ -62,10 +62,8 @@ const CollectionForm = ({ initialValues, onFormInstanceReady }) => {
             let newFileList = [...fileList]
             newFileList = newFileList.slice(-1)
             newFileList.map(file => {
-              if (file.response.status === 200) {
+              if (file.response && file.response.status === 200) {
                 file.url = file.response.url
-              } else {
-                message.error(file.response.message)
               }
               return file
             })
