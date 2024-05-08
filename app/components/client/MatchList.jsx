@@ -37,7 +37,7 @@ export default function MatchList({ data, width }) {
     const sortDate = Object.keys(formatData).sort((a, b) => dayjs(b).unix() - dayjs(a).unix())
     setFormatData(formatData)
     setSortDate(sortDate)
-  }, [])
+  }, [data])
   return (
     <div className={clsx("flex flex-col gap-2 md:gap-4 p-1 md:p-4", width)}>
       {
