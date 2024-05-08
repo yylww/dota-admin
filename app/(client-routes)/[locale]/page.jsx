@@ -13,13 +13,14 @@ export default async function Page({ searchParams }) {
   const tournaments = await getTournaments()
   const hotTournaments = tournaments.map(item => ({ id: item.id, title: item.title }))
   const tournament = tournamentId ? tournaments.find(item => item.id === tournamentId) : tournaments[0]
+  const matches = tournament.stages.reduce((prev, current) => [...prev, ...current.matches], [])
   return (
     <div className="flex justify-between">
       <div className="hidden md:block">
         <HotTournament title={t('tournament')} data={hotTournaments} activeId={tournamentId || tournament.id} />
       </div>
       <IntlClientProvider>
-        <MatchList data={tournament} width="w-[750px]" />
+        <MatchList data={matches} width="w-[750px]" />
       </IntlClientProvider>
       {/* <ScrollToTop /> */}
     </div>

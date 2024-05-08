@@ -9,25 +9,20 @@ import { useEffect, useState } from "react"
 export default function MatchList({ data, width }) {
   const [formatData, setFormatData] = useState({})
   const [sortDate, setSortDate] = useState([])
-  const handleData = (tournament) => {
-    const { title, stages } = tournament
+  const handleData = (matches) => {
     const data = {}
-    stages.map(stage => {
-      const matches = stage.matches
-      matches.map(match => {
-        const date = dayjs(match.startTime).format('YYYY-MM-DD')
-        if (data[date]) {
-          data[date] = {
-            title: `${title}-${stage.title}`,
-            matches: [...data[date].matches, match],
-          }
-        } else {
-          data[date] = {
-            title: `${title}-${stage.title}`,
-            matches: [match],
-          }
+    matches.map(match => {
+      const { tournament, stage, startTime } = match
+      const date = dayjs(startTime).format('YYYY-MM-DD')
+      const title = `${tournament.title}-${stage.title}`
+      if (data[date]) {
+        data[date].matches = [...data[date].matches, match]
+      } else {
+        data[date] = {
+          title,
+          matches: [match],
         }
-      })
+      }
     })
     return data
   }
@@ -38,6 +33,7 @@ export default function MatchList({ data, width }) {
     setFormatData(formatData)
     setSortDate(sortDate)
   }, [data])
+
   return (
     <div className={clsx("flex flex-col gap-2 md:gap-4 p-1 md:p-4", width)}>
       {

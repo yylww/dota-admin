@@ -76,6 +76,8 @@ export const getTournaments = async () => {
                 startTime: 'asc',
               },
               include: {
+                tournament: true,
+                stage: true,
                 homeTeam: true,
                 awayTeam: true,
                 games: {
