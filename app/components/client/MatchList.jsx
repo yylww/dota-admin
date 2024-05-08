@@ -47,7 +47,7 @@ export default function MatchList({ data, width }) {
             <div className="flex flex-col gap-2 px-2 md:px-4 py-2 md:py-4 border border-gray-200 rounded-md bg-white" key={i}>
               <div className="flex items-center gap-2">
                 <div className="text-base md:text-lg">{ item }</div>
-                { dayjs().format('YYYY-MM-DD') !== item ? <ScrollToToday /> : null }
+                { dayjs().format('YYYY-MM-DD') === item ? <ScrollToToday /> : null }
               </div>
               <div className="font-medium">{ title }</div>
               {
