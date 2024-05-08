@@ -4,20 +4,13 @@ import { useHydration } from "@/app/hooks/useHydration"
 import dayjs from "dayjs"
 import { Suspense } from "react"
 
-var utc = require('dayjs/plugin/utc')
-var timezone = require('dayjs/plugin/timezone')
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
-export default function LocalTime({ date }) {
+export default function LocalTime({ date, format }) {
   const hydrated = useHydration()
   return (
     <Suspense key={hydrated ? 'local' : 'utc'}>
       <time dateTime={new Date(date).toISOString()}>
-        { dayjs(date).format('HH:mm') }
+        { dayjs(date).format(format) }
         { hydrated ? '' : ' (UTC)'}
-        { dayjs.tz.guess() }
       </time>
     </Suspense>
   )

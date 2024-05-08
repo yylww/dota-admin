@@ -22,7 +22,9 @@
   "tips": {
     "develop": "即将上线，敬请期待",
     "notFound": "404: 未找到相关页面",
-    "backHome": "返回首页"
+    "backHome": "返回首页",
+    "today": "今天",
+    "local": "当地时间"
   },
   "button": {
     "data": "比赛数据",

@@ -22,7 +22,9 @@
   "tips": {
     "develop": "Coming soon",
     "notFound": "404: This page could not be found.",
-    "backHome": "Return to homepage"
+    "backHome": "Return to homepage",
+    "today": "Today",
+    "local": "local time"
   },
   "button": {
     "data": "Details",
