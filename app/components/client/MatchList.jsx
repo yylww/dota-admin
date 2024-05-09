@@ -35,7 +35,7 @@ export default function MatchList({ data, width }) {
   }, [data])
 
   return (
-    <div className={clsx("flex flex-col gap-2 md:gap-4 p-1 md:p-4", width)}>
+    <div className={clsx("flex flex-col gap-2 md:gap-4 p-2 md:p-4", width)}>
       {
         sortDate.map((item, i) => {
           const { title, matches } = formatData[item]
