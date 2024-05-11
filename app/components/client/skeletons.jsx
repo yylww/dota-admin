@@ -1,47 +1,70 @@
 // Loading animation
 const shimmer =
-  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
+  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent'
 
-export function CardSkeleton() {
+export function HotTournamentSkeleton() {
   return (
-    <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
-    >
-      <div className="flex p-4">
-        <div className="h-5 w-5 rounded-md bg-gray-200" />
-        <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
+    <div className={`${shimmer} flex flex-col w-full gap-2 p-4 bg-white border border-gray-200 rounded-md`}>
+      <div className="flex gap-2">
+        <div className="h-7 w-8 rounded-sm bg-gray-200" />
+        <div className="h-7 w-[40%] rounded-sm bg-gray-200" />
       </div>
-      <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
-        <div className="h-7 w-20 rounded-md bg-gray-200" />
-      </div>
+      <div className="h-7 w-[80%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[90%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[60%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[70%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[75%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[68%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[85%] rounded-sm bg-gray-200" />
     </div>
-  );
+  )
 }
 
-export function CardsSkeleton() {
+export function MatchSkeleton() {
   return (
-    <>
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
-    </>
-  );
-}
-
-export function RevenueChartSkeleton() {
-  return (
-    <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
-      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
-      <div className="rounded-xl bg-gray-100 p-4">
-        <div className="mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-white p-4 sm:grid-cols-13 md:gap-4" />
-        <div className="flex items-center pb-2 pt-6">
-          <div className="h-5 w-5 rounded-full bg-gray-200" />
-          <div className="ml-2 h-4 w-20 rounded-md bg-gray-200" />
+    <div className={`${shimmer} flex flex-col w-full p-4 gap-2 border border-gray-200 rounded-md bg-white`}>
+      <div className="h-7 w-[30%] rounded-sm bg-gray-200" />
+      <div className="h-7 w-[40%] rounded-sm bg-gray-200" />
+      <div className="flex justify-between gap-4 items-center">
+        <div className="h-7 w-[15%] rounded-sm bg-gray-200"></div>
+        <div className="flex flex-col flex-1 gap-2 justify-between">
+          <div className="flex justify-between">
+            <div className="h-7 w-[40%] rounded-sm bg-gray-200"></div>
+            <div className="h-7 w-[50%] rounded-sm bg-gray-200"></div>
+          </div>
+          <div className="flex justify-between">
+            <div className="h-7 w-[45%] rounded-sm bg-gray-200"></div>
+            <div className="h-7 w-[35%] rounded-sm bg-gray-200"></div>
+          </div>
         </div>
+        <div className="h-7 w-[15%] rounded-sm bg-gray-200"></div>
+      </div>
+      <div className="flex justify-between gap-4 items-center">
+        <div className="h-7 w-[15%] rounded-sm bg-gray-200"></div>
+        <div className="flex flex-col flex-1 gap-2 justify-between">
+          <div className="flex justify-between">
+            <div className="h-7 w-[40%] rounded-sm bg-gray-200"></div>
+            <div className="h-7 w-[40%] rounded-sm bg-gray-200"></div>
+          </div>
+          <div className="flex justify-between">
+            <div className="h-7 w-[45%] rounded-sm bg-gray-200"></div>
+            <div className="h-7 w-[35%] rounded-sm bg-gray-200"></div>
+          </div>
+        </div>
+        <div className="h-7 w-[15%] rounded-sm bg-gray-200"></div>
       </div>
     </div>
-  );
+  )
+}
+
+export function MatchListSkeleton() {
+  return (
+    <div className="flex flex-col gap-2 p-2 md:p-4">
+      <MatchSkeleton />
+      <MatchSkeleton />
+      <MatchSkeleton />
+    </div>
+  )
 }
 
 export function InvoiceSkeleton() {
@@ -56,7 +79,7 @@ export function InvoiceSkeleton() {
       </div>
       <div className="mt-2 h-4 w-12 rounded-md bg-gray-200" />
     </div>
-  );
+  )
 }
 
 export function LatestInvoicesSkeleton() {
@@ -79,7 +102,7 @@ export function LatestInvoicesSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default function DashboardSkeleton() {
@@ -99,7 +122,7 @@ export default function DashboardSkeleton() {
         <LatestInvoicesSkeleton />
       </div>
     </>
-  );
+  )
 }
 
 export function TableRowSkeleton() {
@@ -136,7 +159,7 @@ export function TableRowSkeleton() {
         </div>
       </td>
     </tr>
-  );
+  )
 }
 
 export function InvoicesMobileSkeleton() {
@@ -160,7 +183,7 @@ export function InvoicesMobileSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function InvoicesTableSkeleton() {
@@ -214,5 +237,5 @@ export function InvoicesTableSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

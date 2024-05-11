@@ -10,8 +10,8 @@
     "statistic": "Statistics",
     "time": "Memoirs"
   },
-  "main": {
-    "tournament": "Tournaments"
+  "tournament": {
+    "title": "Tournaments"
   },
   "statistic": {
     "pickRank": "Pick Ranking",

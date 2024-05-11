@@ -10,8 +10,8 @@
     "statistic": "数据统计",
     "time": "时光站"
   },
-  "main": {
-    "tournament": "热门赛事"
+  "tournament": {
+    "title": "热门赛事"
   },
   "statistic": {
     "pickRank": "出场排行榜",

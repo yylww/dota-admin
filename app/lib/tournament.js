@@ -1,6 +1,20 @@
 'use server'
 
-import prisma from "@/app/lib/db";
+import prisma from "@/app/lib/db"
+
+export const getLatestTournamentId = async () => {
+  try {
+    const tournaments = await prisma.tournament.findMany({
+      orderBy: {
+        id: 'desc'
+      },
+      take: 1,
+    })
+    return tournaments[0].id
+  } catch (error) {
+    throw error
+  }
+}
 
 export const getTournament = async (id) => {
   try {
@@ -24,17 +38,22 @@ export const getTournament = async (id) => {
   }
 }
 
-// export const getHotTournaments = async (take) => {
-//   try {
-//     return prisma.tournament.findMany({
-//       orderBy: {
-//         createdAt: 'desc',
-//       },
-//     })
-//   } catch (error) {
-//     throw error
-//   }
-// }
+export const getHotTournaments = async (take = 10) => {
+  try {
+    return prisma.tournament.findMany({
+      take,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        title: true,
+      }
+    })
+  } catch (error) {
+    throw error
+  }
+}
 
 // export const getRecentTournament = async () => {
 //   try {

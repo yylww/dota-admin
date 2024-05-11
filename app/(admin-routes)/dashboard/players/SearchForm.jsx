@@ -13,10 +13,7 @@ export const SearchForm = ({onSubmit, onReset, onCreate}) => {
       form={form}
       name="searchForm"
       onFinish={(values) => {
-        onSubmit({  
-          teamId: values.teamId, 
-          nickname: values.nickname,
-        })
+        onSubmit(values)
       }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-2">
@@ -25,6 +22,9 @@ export const SearchForm = ({onSubmit, onReset, onCreate}) => {
         </Form.Item>
         <Form.Item name="nickname">
           <Input placeholder="选手昵称" />
+        </Form.Item>
+        <Form.Item name="id">
+          <Input placeholder="选手ID" />
         </Form.Item>
         <div className="flex gap-2 mb-6">
           <Button type="primary" htmlType="submit">搜索</Button>

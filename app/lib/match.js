@@ -1,6 +1,27 @@
 'use server'
 
-import prisma from "@/app/lib/db";
+import prisma from "@/app/lib/db"
+
+export const getMatchByTouranamentId = async (tournamentId) => {
+  try {
+    return prisma.match.findMany({ 
+      where: {
+        tournament: {
+          id: tournamentId,
+        },
+      },
+      include: {
+        tournament: true,
+        stage: true,
+        homeTeam: true,
+        awayTeam: true,
+        games: true,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+}
 
 export const getMatch = async (id) => {
   try {

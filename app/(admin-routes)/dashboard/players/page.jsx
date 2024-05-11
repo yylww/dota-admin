@@ -14,7 +14,7 @@ export default function Page() {
   const [id, setId] = useState(null)
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState(null)
-  const filterData = ({ teamId, nickname }) => {
+  const filterData = ({ teamId, nickname, id }) => {
     let result = data
     if (teamId) {
       result = result.filter(item => item.teamId === teamId)
@@ -22,6 +22,13 @@ export default function Page() {
     if (nickname) {
       result = result.filter(item => {
         if (item.nickname.toLowerCase().includes(nickname.toLowerCase())) {
+          return item
+        }
+      })
+    }
+    if (id) {
+      result = result.filter(item => {
+        if (item.id.toString().includes(id)) {
           return item
         }
       })

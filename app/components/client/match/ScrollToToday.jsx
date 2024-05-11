@@ -10,6 +10,6 @@ export default function ScrollToToday() {
     ref.current.scrollIntoView()
   })
   return (
-    <div ref={ref} className="px-2 rounded-md bg-blue-500 text-white scroll-m-[83px]">{ t('today') }</div>
+    <div ref={ref} className="px-2 rounded-md bg-blue-500 text-white scroll-m-[60px] md:scroll-m-[83px]">{ t('today') }</div>
   )
 }
