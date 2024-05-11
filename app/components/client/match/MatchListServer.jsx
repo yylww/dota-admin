@@ -1,4 +1,3 @@
-import clsx from "clsx"
 import MatchListClient from "./MatchListClient"
 import { getMatchByTouranamentId } from "@/app/lib/match"
 import IntlClientProvider from "../IntlClientProvider"
