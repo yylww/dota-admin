@@ -30,8 +30,14 @@ export default function Page({ params }) {
       <Form.Item label="赛事">
         <span>{ data.tournament.title }{ data.title }</span>
       </Form.Item>
+      <Form.Item label="英文">
+        <span>{ data.tournament.title_en }{ data.title_en }</span>
+      </Form.Item>
       <Form.Item label="规则">
         <div>{ data.rule }</div>
+      </Form.Item>
+      <Form.Item label="英文规则">
+        <div>{ data.rule_en }</div>
       </Form.Item>
       <Form.Item label="比赛类型">
         <div>{ ['循环赛', '双败淘汰赛', '单败淘汰赛', 'GSL赛制'][data.mode] }</div>

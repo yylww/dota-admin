@@ -9,7 +9,7 @@ import { message } from "antd"
 
 export default function Page({ params }) {
   const id = Number(params.id)
-  const { data, isLoading, error, mutate } = useSWR(`/api/stages/${id}`, () => getStage(id))
+  const { data, isLoading, error, mutate } = useSWR(`/stages/${id}`, () => getStage(id))
   const router = useRouter()
   if (error) {
     return <div>{ error.message }</div>
@@ -34,7 +34,8 @@ export default function Page({ params }) {
           await updateStage(id, JSON.parse(JSON.stringify(params)))
           message.success('操作成功')
           mutate()
-          router.push('/dashboard/stages')
+          // router.push('/dashboard/stages')
+          router.back()
         } catch (error) {
           message.error(error.message, 10)
         }

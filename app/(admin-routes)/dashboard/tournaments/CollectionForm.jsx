@@ -28,8 +28,22 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         <Input />
       </Form.Item>
       <Form.Item
+        label="英文标题"
+        name="title_en"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
         label="赛事介绍"
         name="description"
+        rules={[{ required: true, message: '必填' }]}
+      >
+        <TextArea rows={2} />
+      </Form.Item>
+      <Form.Item
+        label="英文介绍"
+        name="description_en"
         rules={[{ required: true, message: '必填' }]}
       >
         <TextArea rows={2} />

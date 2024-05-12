@@ -48,6 +48,7 @@ export const getHotTournaments = async (take = 10) => {
       select: {
         id: true,
         title: true,
+        title_en: true,
       }
     })
   } catch (error) {

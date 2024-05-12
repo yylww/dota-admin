@@ -4,8 +4,10 @@ import dayjs from "dayjs"
 import Match from "./Match"
 import ScrollToToday from "./ScrollToToday"
 import { useEffect, useState } from "react"
+import { useLocale } from "next-intl"
 
 export default function MatchListClient({ data }) {
+  const locale = useLocale()
   const [formatData, setFormatData] = useState({})
   const [sortDate, setSortDate] = useState([])
   const handleData = (matches) => {
@@ -14,11 +16,13 @@ export default function MatchListClient({ data }) {
       const { tournament, stage, startTime } = match
       const date = dayjs(startTime).format('YYYY-MM-DD')
       const title = `${tournament.title}-${stage.title}`
+      const title_en = `${tournament.title_en}-${stage.title_en}`
       if (data[date]) {
         data[date].matches = [...data[date].matches, match]
       } else {
         data[date] = {
           title,
+          title_en,
           matches: [match],
         }
       }
@@ -37,14 +41,14 @@ export default function MatchListClient({ data }) {
     <div className="flex flex-col gap-2 md:gap-4 md:p-4">
       {
         sortDate.map((item, i) => {
-          const { title, matches } = formatData[item]
+          const { title, title_en, matches } = formatData[item]
           return (
             <div className="flex flex-col gap-2 px-2 md:px-4 py-2 md:py-4 md:border md:border-gray-200 md:rounded-md bg-white" key={i}>
               <div className="flex items-center gap-2">
                 <div className="text-base md:text-lg">{ item }</div>
                 { dayjs().format('YYYY-MM-DD') === item ? <ScrollToToday /> : null }
               </div>
-              <div className="font-medium">{ title }</div>
+              <div className="font-medium">{ locale === 'en' ? title_en : title }</div>
               {
                 matches.map((match, j) => (
                   <Match key={j} data={match} />

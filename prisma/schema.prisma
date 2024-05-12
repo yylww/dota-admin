@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL") // uses connection pooling
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // uses connection pooling
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -72,19 +72,21 @@ model Player {
 }
 
 model Tournament {
-  id           Int           @id @default(autoincrement())
-  title        String
-  description  String
-  startDate    DateTime
-  endDate      DateTime
-  bonus        Int           @default(0)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  achievements Achievement[]
-  games        Game[]
-  matches      Match[]
-  stages       Stage[]
-  teams        Team[]        @relation("TeamToTournament")
+  id             Int           @id @default(autoincrement())
+  title          String
+  title_en       String        @default("")
+  description    String
+  description_en String        @default("")
+  startDate      DateTime
+  endDate        DateTime
+  bonus          Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  achievements   Achievement[]
+  games          Game[]
+  matches        Match[]
+  stages         Stage[]
+  teams          Team[]        @relation("TeamToTournament")
 }
 
 model Achievement {
@@ -104,6 +106,8 @@ model Stage {
   id           Int        @id @default(autoincrement())
   title        String
   rule         String
+  title_en     String     @default("")
+  rule_en      String     @default("")
   startDate    DateTime
   endDate      DateTime
   groups       Json

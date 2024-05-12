@@ -59,8 +59,14 @@ export default function Page({ params }) {
       <Form.Item label="标题">
         <span>{ data.title }</span>
       </Form.Item>
+      <Form.Item label="英文标题">
+        <span>{ data.title_en }</span>
+      </Form.Item>
       <Form.Item label="赛事介绍">
         <div>{ data.description }</div>
+      </Form.Item>
+      <Form.Item label="英文介绍">
+        <div>{ data.description_en }</div>
       </Form.Item>
       <Form.Item label="赛事奖金">
         <span>{ data.bonus }美元</span>

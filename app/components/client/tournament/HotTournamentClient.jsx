@@ -2,8 +2,10 @@
 
 import { useQueryParams } from "@/app/hooks/useQueryParams"
 import clsx from "clsx"
+import { useLocale } from "next-intl"
 
 export default function HotTournamentClient({ data }) {
+  const locale = useLocale()
   const [searchParams, handleSearchParams] = useQueryParams()
   const activeId = searchParams.tournament ? +searchParams.tournament : data[0].id
   return (
@@ -18,7 +20,7 @@ export default function HotTournamentClient({ data }) {
             onClick={() => handleSearchParams('tournament', item.id)} 
             key={i}
           >
-            { item.title }
+            { locale === 'en' ? item.title_en : item.title }
           </p>
         ))
       }

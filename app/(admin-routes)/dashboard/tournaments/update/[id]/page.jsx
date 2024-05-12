@@ -9,7 +9,7 @@ import { message } from "antd"
 
 export default function Page({ params }) {
   const id = Number(params.id)
-  const { data, isLoading, error, mutate } = useSWR('tournament', () => getTournament(id))
+  const { data, isLoading, error, mutate } = useSWR(`/tournaments/${id}`, () => getTournament(id))
   const router = useRouter()
   if (error) {
     return <div>{ error.message }</div>
