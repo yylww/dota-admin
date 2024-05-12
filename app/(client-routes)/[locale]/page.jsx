@@ -1,4 +1,3 @@
-import { getLatestTournamentId } from "../../lib/tournament"
 import HotTournamentServer from "@/app/components/client/tournament/HotTournamentServer"
 import MatchListServer from "@/app/components/client/match/MatchListServer"
 import { Suspense } from "react"
@@ -6,8 +5,7 @@ import { HotTournamentSkeleton, MatchListSkeleton } from "@/app/components/clien
 
 export const dynamic = 'force-dynamic'
 
-export default async function Page({ searchParams }) {
-  const tournamentId = searchParams.tournament ? Number(searchParams.tournament) : await getLatestTournamentId()
+export default async function Page() {
   return (
     <div className="flex justify-between">
       <div className="relative hidden md:block">
@@ -17,9 +15,10 @@ export default async function Page({ searchParams }) {
           </Suspense>
         </div>
       </div>
-      <div className="w-[750px]">
-        <Suspense key={tournamentId} fallback={<MatchListSkeleton />}>
-          <MatchListServer tournamentId={tournamentId} />
+      <div className="flex flex-col gap-2 md:gap-4 w-full md:w-[750px] md:p-4">
+        <Suspense fallback={<MatchListSkeleton />}>
+          <MatchListServer params={{ status: 1 }} />
+          <MatchListServer params={{ status: 0, orderBy: { startTime: 'asc' } }} />
         </Suspense>
       </div>
     </div>

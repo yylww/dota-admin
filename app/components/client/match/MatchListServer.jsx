@@ -1,9 +1,9 @@
 import MatchListClient from "./MatchListClient"
-import { getMatchByTouranamentId } from "@/app/lib/match"
+import { getMatches } from "@/app/lib/match"
 import IntlClientProvider from "../IntlClientProvider"
 
-export default async function MatchListServer({ tournamentId }) {
-  const data = await getMatchByTouranamentId(tournamentId)
+export default async function MatchListServer({ params }) {
+  const data = await getMatches(params)
 
   return (
     <div className="w-full">

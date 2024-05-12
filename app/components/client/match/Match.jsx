@@ -2,10 +2,11 @@ import dayjs from "dayjs"
 import clsx from "clsx"
 import Link from "next/link"
 import Image from "next/image"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 export default function Match({ data }) {
-  const t = useTranslations('button')
+  const locale = useLocale()
+  const t = useTranslations('match')
   const { id, startTime, status, bo, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
   const homeDots = [...Array(bo)].map((_, i) => {
     if (games[i]) {
@@ -35,11 +36,10 @@ export default function Match({ data }) {
     <div className="flex flex-col item-center gap-2 w-full rounded-sm md:rounded-md border border-gray-200 p-2 md:px-4">
       <div className="flex gap-2 md:gap-6">
         <div className={clsx(
-          "flex items-center justify-center",
+          "flex w-10 items-center justify-center",
           ["", "text-blue-500", "text-gray-400"][status]
         )}>
-          { dayjs(startTime).format('HH:mm')}
-          {/* <LocalTime date={startTime} /> */}
+          { status === 1 ? 'Live' : dayjs(startTime).format('HH:mm') }
         </div>
         <div className="flex flex-1 flex-col justify-between gap-1 px-2 md:px-6 border-x border-x-gray-100">
           <div className="flex items-center gap-2 md:gap-4 h-7 md:h-8">
@@ -82,21 +82,24 @@ export default function Match({ data }) {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <Link href={status === 2 ? `/matches/${id}` : `/battles?ids=${homeTeam.id},${awayTeam.id}`}>
-            <button className="px-2 md:px-4 md:py-1 rounded-full border border-blue-500 text-blue-500 text-sm">
-              { 
-                status === 2 ? 
-                <span>
-                  <span className="hidden md:inline">{ t('data') }</span>
-                  <span className="md:hidden">{ t('data_sm') }</span>
-                </span> : 
-                <span>
-                  <span className="hidden md:inline">{ t('record') }</span>
-                  <span className="md:hidden">{ t('record_sm') }</span>
-                </span> 
-              }
-            </button>
-          </Link>
+          { 
+            status === 0 ? 
+            <Link href={`/battles?ids=${homeTeam.id},${awayTeam.id}`}>
+              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('record') }</button>
+            </Link> : null 
+          }
+          { 
+            status === 1 ? 
+            <Link href={locale === 'en' ? "https://www.twitch.tv/search?term=dota2" : "https://www.huya.com/g/7"} target="_blank">
+              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('live') }</button>
+            </Link> : null 
+          }
+          { 
+            status === 2 ? 
+            <Link href={`/matches/${id}`}>
+              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('data') }</button>
+            </Link> : null 
+          }
         </div>
       </div>
     </div>

@@ -4,10 +4,11 @@ import dayjs from "dayjs"
 import Match from "./Match"
 import ScrollToToday from "./ScrollToToday"
 import { useEffect, useState } from "react"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 export default function MatchListClient({ data }) {
   const locale = useLocale()
+  const t = useTranslations('tips')
   const [formatData, setFormatData] = useState({})
   const [sortDate, setSortDate] = useState([])
   const handleData = (matches) => {
@@ -32,13 +33,13 @@ export default function MatchListClient({ data }) {
   
   useEffect(() => {
     const formatData = handleData(data)
-    const sortDate = Object.keys(formatData).sort((a, b) => dayjs(b).unix() - dayjs(a).unix())
+    const sortDate = Object.keys(formatData).sort((a, b) => dayjs(a).unix() - dayjs(b).unix())
     setFormatData(formatData)
     setSortDate(sortDate)
   }, [data])
 
   return (
-    <div className="flex flex-col gap-2 md:gap-4 md:p-4">
+    <div className="flex flex-col gap-2 md:gap-4">
       {
         sortDate.map((item, i) => {
           const { title, title_en, matches } = formatData[item]
@@ -47,6 +48,7 @@ export default function MatchListClient({ data }) {
               <div className="flex items-center gap-2">
                 <div className="text-base md:text-lg">{ item }</div>
                 { dayjs().format('YYYY-MM-DD') === item ? <ScrollToToday /> : null }
+                { dayjs().add(1, 'day').format('YYYY-MM-DD') === item ? <div className="px-2 rounded-md bg-blue-500 text-white">{ t('tomorrow') }</div> : null }
               </div>
               <div className="font-medium">{ locale === 'en' ? title_en : title }</div>
               {

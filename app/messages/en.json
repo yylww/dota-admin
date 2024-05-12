@@ -24,15 +24,13 @@
     "notFound": "404: This page could not be found.",
     "backHome": "Return to homepage",
     "today": "Today",
+    "tomorrow": "tomorrow",
     "local": "local time"
   },
-  "button": {
-    "data": "Details",
-    "data_sm": "Details",
-    "record": "Records",
-    "record_sm": "Records"
-  },
   "match": {
+    "live": "Twitch",
+    "data": "Details",
+    "record": "Records",
     "duration": "Duration",
     "player": "Player",
     "hero": "Hero",

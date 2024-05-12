@@ -2,31 +2,6 @@
 
 import prisma from "@/app/lib/db"
 
-export const getMatchByTouranamentId = async (tournamentId) => {
-  try {
-    return prisma.match.findMany({ 
-      where: {
-        tournament: {
-          id: tournamentId,
-        },
-      },
-      include: {
-        tournament: true,
-        stage: true,
-        homeTeam: true,
-        awayTeam: true,
-        games: {
-          orderBy: {
-            startTime: 'asc',
-          },
-        },
-      },
-    })
-  } catch (error) {
-    throw error
-  }
-}
-
 export const getMatch = async (id) => {
   try {
     return prisma.match.findUnique({ 
@@ -68,8 +43,11 @@ export const getMatch = async (id) => {
   }
 }
 
-export const getMatches = async ({ status, ids, orderBy, take, skip } = {}) => {
+export const getMatches = async ({ tournamentId, status, ids, orderBy, take, skip } = {}) => {
   const where = {}
+  if (tournamentId) {
+    where.tournament = { id: tournamentId }
+  }
   if (typeof status === 'number') {
     where.status = { equals: status }
   }

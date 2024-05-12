@@ -24,15 +24,13 @@
     "notFound": "404: 未找到相关页面",
     "backHome": "返回首页",
     "today": "今天",
+    "tomorrow": "明天",
     "local": "当地时间"
   },
-  "button": {
-    "data": "比赛数据",
-    "data_sm": "数据",
-    "record": "交手记录",
-    "record_sm": "记录"
-  },
   "match": {
+    "live": "虎牙直播",
+    "data": "比赛数据",
+    "record": "交手记录",
     "duration": "时长",
     "player": "选手",
     "hero": "英雄",
