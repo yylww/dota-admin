@@ -15,7 +15,11 @@ export const getMatchByTouranamentId = async (tournamentId) => {
         stage: true,
         homeTeam: true,
         awayTeam: true,
-        games: true,
+        games: {
+          orderBy: {
+            startTime: 'asc',
+          },
+        },
       },
     })
   } catch (error) {

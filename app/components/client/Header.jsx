@@ -8,7 +8,7 @@ export default function Header({ locale }) {
   const pathname = usePathname()
 
   return (
-    <div className="fixed z-10 flex shrink-0 w-full justify-center h-12 border-b border-b-gray-200 bg-white text-md">
+    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-200 md:border-t-0 md:border-b md:border-b-gray-200 bg-white text-md">
       <div className="flex w-[1000px]">
         <Link href="/" className={clsx(
           "flex flex-1 justify-center items-center h-full",

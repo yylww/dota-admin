@@ -35,14 +35,14 @@ export default function RootLayout({ children, params: { locale } }) {
   }
   const t = useTranslations('header')
   return (
-    <html lang={locale} className="text-[15px] md:text-[16px]">
+    <html lang={locale} className="text-[16px]">
       <head>
         <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>
       <body className="scroll-smooth">
         <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900 text-sm md:text-base">
           <Header locale={{ home: t('home'), statistic: t('statistic'), tournament: t('tournament') }} />
-          <div className="flex-1 w-full md:w-[990px] min-h-full pt-12 pb-4 mx-auto">{ children }</div>
+          <div className="flex-1 w-full md:w-[990px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
           {/* <Footer /> */}
         </div>
       </body>
