@@ -20,9 +20,8 @@ export const ScoreComponent = ({ data }) => {
           <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-6xl", homeScore < awayScore ? "text-green-500" : "")}>{ awayScore }</div>
         </div>
         <div className="text-center text-md">
-          <LocalTime date={startTime} format="MM-DD HH:mm" />
+          <LocalTime data={startTime} format="MM-DD HH:mm" />
         </div>
-        {/* <div className="text-center text-md">已结束</div> */}
       </div>
       <div className="flex justify-center items-center gap-2 md:gap-3 w-[33%] h-24 md:h-32 rounded-md">
         <Image src={awayTeam.logo} width={0} height={0} sizes="100%" className="shrink-0 w-6 md:w-10 h-auto" alt={awayTeam.name} />
