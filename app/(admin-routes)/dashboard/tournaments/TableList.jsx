@@ -1,11 +1,26 @@
 import { Table, Space } from "antd"
 import dayjs from "dayjs"
 import Link from "next/link"
+import Image from "next/image"
 
 export const TableList = ({data, onDelete}) => {
   const columns = [
     { title: 'ID', dataIndex: 'id' },
     { title: '赛事', dataIndex: 'title' },
+    { 
+      title: 'Logo',
+      key: 'logo',
+      render: (_, record) => (
+        <Image
+          src={`${record.logo}`}
+          width={0}
+          height={0}
+          sizes="100%"
+          className="w-32 h-auto"
+          alt={`${record.title}`} 
+        />
+      )
+    },
     { 
       title: '赛程',
       key: 'startDate',

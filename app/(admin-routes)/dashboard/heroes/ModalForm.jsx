@@ -1,4 +1,4 @@
-import { Form, Modal, Input, Upload, Button, InputNumber, message } from "antd"
+import { Form, Modal, Input, Upload, Button, InputNumber } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 

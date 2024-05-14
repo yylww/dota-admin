@@ -1,9 +1,20 @@
-import { Form, Input, Space, Button, DatePicker, InputNumber } from "antd"
+import { Form, Input, Space, Button, DatePicker, InputNumber, Upload } from "antd"
+import { UploadOutlined } from "@ant-design/icons"
+import { useEffect, useState } from "react"
 import { SelectTeam } from "@/app/components/admin/SelectTeam"
 
 export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
   const { TextArea } = Input
   const [form] = Form.useForm()
+  const [fileList, setFileList] = useState([])
+  useEffect(() => {
+    setFileList(initialValues ? [{ 
+      uid: '-1', 
+      name: initialValues.title, 
+      url: initialValues.logo, 
+      status: 'done' 
+    }] : [])
+  }, [])
   return (
     <Form
       form={form}
@@ -17,6 +28,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       initialValues={initialValues}
       onFinish={async () => {
         const values = await form.validateFields()
+        values.logo = values.logo.file ? values.logo.file.response.url : values.logo
         onSubmit(values)
       }}
     >
@@ -47,6 +59,32 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
         rules={[{ required: true, message: '必填' }]}
       >
         <TextArea rows={2} />
+      </Form.Item>
+      <Form.Item
+        label="赛事logo"
+        name="logo"
+        rules={[{ required: true, message: '必填' },]}
+      >
+        <Upload
+          action="/api/upload?des=tournaments"
+          name="file"
+          accept="image/*"
+          listType="picture"
+          fileList={fileList}
+          onChange={({ file, fileList }) => {
+            let newFileList = [...fileList]
+            newFileList = newFileList.slice(-1)
+            newFileList.map(file => {
+              if (file.response && file.response.status === 200) {
+                file.url = file.response.url
+              }
+              return file
+            })
+            setFileList(newFileList)
+          }}
+        >
+          <Button type="primary" icon={<UploadOutlined />}>上传</Button>
+        </Upload>
       </Form.Item>
       <Form.Item
         label="总奖金"

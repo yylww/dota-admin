@@ -1,10 +1,10 @@
-import { getHotTournaments } from "@/app/lib/tournament"
+import { getTournaments } from "@/app/lib/tournament"
 import HotTournamentClient from "./HotTournamentClient"
 import { getTranslations } from "next-intl/server"
 import { TrophyIcon } from "@heroicons/react/24/outline"
 
 export default async function HotTournamentServer() {
-  const data = await getHotTournaments()
+  const data = await getTournaments()
   const t = await getTranslations('tournament')
   return (
     <div className="flex flex-col w-full p-4 border border-gray-200 rounded-md bg-white">

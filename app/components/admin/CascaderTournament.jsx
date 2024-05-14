@@ -3,7 +3,7 @@ import useSWR from "swr"
 import { getTournaments } from "../../lib/tournament"
 
 export const CascaderTournament = ({ level, value, onChange }) => {
-  const { data, isLoading, error } = useSWR('tournaments', getTournaments)
+  const { data, isLoading, error } = useSWR('tournaments', () => getTournaments({ include: true }))
   if (error) {
     return <div>Error</div>
   }

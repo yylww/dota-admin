@@ -38,78 +38,27 @@ export const getTournament = async (id) => {
   }
 }
 
-export const getHotTournaments = async (take = 10) => {
+export const getTournaments = async ({ take, skip, orderBy, include } = {}) => {
   try {
     return prisma.tournament.findMany({
       take,
-      orderBy: {
-        createdAt: 'desc',
-      },
-      select: {
-        id: true,
-        title: true,
-        title_en: true,
-      }
-    })
-  } catch (error) {
-    throw error
-  }
-}
-
-// export const getRecentTournament = async () => {
-//   try {
-//     return prisma.tournament.findFirst({
-//       orderBy: {
-//         createdAt: 'desc',
-//       },
-//       include: {
-//         matches: {
-//           include: {
-//             stage: true,
-//             homeTeam: true,
-//             awayTeam: true,
-//             games: {
-//               orderBy: {
-//                 startTime: 'asc',
-//               },
-//             },
-//           },
-//         },
-//       },
-//     })
-//   } catch (error) {
-//     throw error
-//   }
-// }
-
-export const getTournaments = async () => {
-  try {
-    return prisma.tournament.findMany({
-      orderBy: [
-        { createdAt: 'desc' },
-      ],
-      include: {
+      skip,
+      orderBy: orderBy ?? { startDate: 'desc' },
+      include: include ? {
         stages: {
           include: {
             matches: {
               orderBy: {
-                startTime: 'asc',
+                startTime: 'desc',
               },
               include: {
-                tournament: true,
-                stage: true,
                 homeTeam: true,
                 awayTeam: true,
-                games: {
-                  orderBy: {
-                    startTime: 'asc',
-                  },
-                },
               },
             },
           },
         },
-      },
+      } : undefined,
     })
   } catch (error) {
     throw error
