@@ -85,19 +85,19 @@ export default function Match({ data }) {
           { 
             status === 0 ? 
             <Link href={`/battles?ids=${homeTeam.id},${awayTeam.id}`}>
-              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('record') }</button>
+              <button className="w-[72px] md:w-24 py-1 text-sm text-center rounded-full border border-blue-500 text-blue-500">{ t('record') }</button>
             </Link> : null 
           }
           { 
             status === 1 ? 
             <Link href={locale === 'en' ? "https://www.twitch.tv/search?term=dota2" : "https://www.huya.com/g/7"} target="_blank">
-              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('live') }</button>
+              <button className="w-[72px] md:w-24 py-1 text-sm text-center rounded-full border border-blue-500 text-blue-500">{ t('live') }</button>
             </Link> : null 
           }
           { 
             status === 2 ? 
             <Link href={`/matches/${id}`}>
-              <button className="w-[72px] md:w-24 py-1 text-center rounded-full border border-blue-500 text-blue-500">{ t('data') }</button>
+              <button className="w-[72px] md:w-24 py-1 text-sm text-center rounded-full border border-blue-500 text-blue-500">{ t('data') }</button>
             </Link> : null 
           }
         </div>

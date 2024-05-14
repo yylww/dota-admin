@@ -12,16 +12,16 @@ export default async function Page({ params: { locale } }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-4 bg-white">
       <Ranking data={pickSort}>
-        <div className="text-base">{ t('pickRank') }</div>
+        <div>{ t('pickRank') }</div>
       </Ranking>
       <Ranking data={banSort}>
-        <div className="text-base">{ t('banRank') }</div>
+        <div>{ t('banRank') }</div>
       </Ranking>
       <Ranking data={winSort}>
-        <div className="text-base">{ t('winRank') }</div>
+        <div>{ t('winRank') }</div>
       </Ranking>
       <Ranking data={loseSort} index={loseSort.length - 1}>
-        <div className="text-base">{ t('loseRank') }</div>
+        <div>{ t('loseRank') }</div>
       </Ranking>
     </div>
   )

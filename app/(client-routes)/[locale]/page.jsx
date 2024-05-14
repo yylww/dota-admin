@@ -2,10 +2,12 @@ import HotTournamentServer from "@/app/components/client/tournament/HotTournamen
 import MatchListServer from "@/app/components/client/match/MatchListServer"
 import { Suspense } from "react"
 import { HotTournamentSkeleton, MatchListSkeleton } from "@/app/components/client/skeletons"
+import { getLatestTournamentId } from "@/app/lib/tournament"
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
+  const tournamentId = await getLatestTournamentId()
   return (
     <div className="flex justify-between">
       <div className="relative hidden md:block">
@@ -19,6 +21,7 @@ export default async function Page() {
         <Suspense fallback={<MatchListSkeleton />}>
           <MatchListServer params={{ status: 1 }} />
           <MatchListServer params={{ status: 0, orderBy: { startTime: 'asc' } }} />
+          <MatchListServer params={{ tournamentId, status: 2, orderBy: { startTime: 'desc' } }} />
         </Suspense>
       </div>
     </div>

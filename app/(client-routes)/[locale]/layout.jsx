@@ -40,7 +40,7 @@ export default function RootLayout({ children, params: { locale } }) {
         <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
       </head>
       <body className="scroll-smooth">
-        <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900 text-sm md:text-base">
+        <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900">
           <Header locale={{ home: t('home'), statistic: t('statistic'), tournament: t('tournament') }} />
           <div className="flex-1 w-full md:w-[990px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
           {/* <Footer /> */}
