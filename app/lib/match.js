@@ -48,8 +48,8 @@ export const getMatches = async ({ tournamentId, status, ids, orderBy, take, ski
   if (tournamentId) {
     where.tournament = { id: tournamentId }
   }
-  if (typeof status === 'number') {
-    where.status = { equals: status }
+  if (status) {
+    where.status = { in: status }
   }
   if (ids) {
     where.OR = [

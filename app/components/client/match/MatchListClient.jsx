@@ -15,7 +15,7 @@ export default function MatchListClient({ data }) {
     const data = {}
     matches.map(match => {
       const { tournament, stage, startTime } = match
-      const date = format.dateTime(startTime, { dateStyle: 'full' })
+      const date = format.dateTime(startTime, { dateStyle: 'long' })
       const today = format.dateTime(startTime) === format.dateTime()
       const title = `${tournament.title}-${stage.title}`
       const title_en = `${tournament.title_en}-${stage.title_en}`
