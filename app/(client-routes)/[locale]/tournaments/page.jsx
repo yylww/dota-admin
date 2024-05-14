@@ -1,9 +1,10 @@
 import { Suspense } from "react"
 import TournamentServer from "./TournamentServer"
+import { TournamentsSkeleton } from "@/app/components/client/skeletons"
 
-export default async function Page() {
+export default function Page() {
   return (
-    <Suspense>
+    <Suspense fallback={<TournamentsSkeleton />}>
       <TournamentServer />
     </Suspense>
   )

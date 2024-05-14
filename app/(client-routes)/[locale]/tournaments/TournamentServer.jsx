@@ -4,9 +4,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default async function TournamentServer() {
+  const data = await getTournaments()
+  return (
+    <TournamentList data={data} />
+  )
+}
+
+function TournamentList({ data }) {
   const locale = useLocale()
   const format = useFormatter()
-  const data = await getTournaments()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 md:pt-4">
       {
