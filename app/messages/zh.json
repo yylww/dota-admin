@@ -25,7 +25,8 @@
     "backHome": "返回首页",
     "today": "今天",
     "tomorrow": "明天",
-    "local": "当地时间"
+    "local": "当地时间",
+    "noRecords": "无相关比赛"
   },
   "match": {
     "live": "虎牙直播",

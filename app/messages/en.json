@@ -25,7 +25,8 @@
     "backHome": "Return to homepage",
     "today": "Today",
     "tomorrow": "tomorrow",
-    "local": "local time"
+    "local": "local time",
+    "noRecords": "No records"
   },
   "match": {
     "live": "Twitch",
