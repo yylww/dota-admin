@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 
-export const Standings = ({ list, matches, width = 400 }) => {
+export const Standings = ({ title, list, matches }) => {
   const tableData = list.map((item, i) => {
     const filterMatches = matches.filter(item => !item.extra).filter(match => {
       const teamIds = [match.homeTeamId, match.awayTeamId]
@@ -49,10 +49,10 @@ export const Standings = ({ list, matches, width = 400 }) => {
   })
   
   return (
-    <table className="border-collapse" style={{ width }}>
+    <table className="w-full border-collapse">
       <thead>
         <tr>
-          <th colSpan={7} className="h-[30px] font-bold border text-center">积分榜</th>
+          <th colSpan={7} className="h-[30px] font-medium border text-center">{ title }</th>
         </tr>
       </thead>
       <tbody>

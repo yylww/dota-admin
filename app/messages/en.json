@@ -29,6 +29,7 @@
     "noRecords": "No records"
   },
   "match": {
+    "tab": "Game {number}",
     "live": "Twitch",
     "data": "Details",
     "record": "Records",

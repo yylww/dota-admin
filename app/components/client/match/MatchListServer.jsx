@@ -1,6 +1,5 @@
 import MatchListClient from "./MatchListClient"
 import { getMatches } from "@/app/lib/match"
-import IntlClientProvider from "../IntlClientProvider"
 
 export default async function MatchListServer({ params, children }) {
   const data = await getMatches(params)
@@ -11,9 +10,7 @@ export default async function MatchListServer({ params, children }) {
     <div className="w-full">
       {
         data.length > 0 ?
-        <IntlClientProvider>
-          <MatchListClient data={data} />
-        </IntlClientProvider> :
+        <MatchListClient data={data} /> :
         <div>{ children }</div>
       }
     </div>

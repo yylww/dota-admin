@@ -1,17 +1,13 @@
-// import { Inter } from 'next/font/google'
-import Script from 'next/script'
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { getTranslations } from 'next-intl/server'
-import Footer from "@/app/components/client/Footer";
-import Header from "@/app/components/client/Header";
-import '@/app/globals.css'
-import { useTranslations } from 'next-intl';
-import NextTopLoader from 'nextjs-toploader';
 
-// const inter = Inter({ subsets: ['latin'] })
+import { GoogleAnalytics } from '@next/third-parties/google'
+import { getMessages, getTranslations } from 'next-intl/server'
+import Header from "@/app/components/client/Header"
+import '@/app/globals.css'
+import { NextIntlClientProvider } from 'next-intl'
+import NextTopLoader from 'nextjs-toploader'
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const t = await getTranslations({ locale, namespace: 'metadata' })
 
   return {
     title: t('title'),
@@ -20,26 +16,10 @@ export async function generateMetadata({ params: { locale } }) {
   }
 }
 
-export default function RootLayout({ children, params: { locale } }) {
-  const getBdAnalyticsTag = () => {
-    return {
-      __html: `
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?eb339d1f4a11c93b5890269746291ca3";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-      `,
-    }
-  }
-  const t = useTranslations('header')
+export default async function RootLayout({ children, params: { locale } }) {
+  const messages = await getMessages()
   return (
     <html lang={locale} className="text-[16px]">
-      <head>
-        <Script id='BdAnalytics' dangerouslySetInnerHTML={getBdAnalyticsTag()} />
-      </head>
       <body className="scroll-smooth">
         <NextTopLoader
           color='#3b82f6'
@@ -47,11 +27,12 @@ export default function RootLayout({ children, params: { locale } }) {
           showSpinner={false}
           shadow={false}
         />
-        <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900">
-          <Header locale={{ home: t('home'), statistic: t('statistic'), tournament: t('tournament') }} />
-          <div className="flex-1 w-full md:w-[990px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
-          {/* <Footer /> */}
-        </div>
+        <NextIntlClientProvider messages={messages}>
+          <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900">
+            <Header />
+            <div className="flex-1 w-full md:w-[990px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
+          </div>
+        </NextIntlClientProvider>
       </body>
       <GoogleAnalytics gaId='G-VJSZWKJG6X' />
     </html>

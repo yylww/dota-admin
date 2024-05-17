@@ -2,6 +2,7 @@ import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
 import useSWR from "swr"
 import { getTeams } from "../../lib/team"
+import clsx from "clsx"
 
 export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
   const { data, isLoading, error } = useSWR('teams', getTeams)
@@ -14,8 +15,8 @@ export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
   const { homeScore = 0, awayScore = 0 } = match
   const homeTeam = data.find(item => item.id === teams[0])
   const awayTeam = data.find(item => item.id === teams[1])
-  const upper = { ...homeTeam, score: homeScore }
-  const lower = { ...awayTeam, score: awayScore }
+  const upper = { ...homeTeam, score: homeScore, win: homeScore > awayScore }
+  const lower = { ...awayTeam, score: awayScore, win: awayScore > homeScore }
 
   return (
     <div className="flex flex-col w-full h-full text-sm">
@@ -24,12 +25,12 @@ export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
           <div key={index} className="flex flex-1">
             {
               status === 'display' ? 
-              <div className="flex flex-1 justify-between items-center border">
+              <div className="flex flex-1 justify-between items-center border bg-gray-100">
                 <div className="flex justify-center items-center w-[30px]">
                   { item.logo ? <Image src={item.logo} width={0} height={0} sizes="100%" className="w-4 h-auto" alt={item.name} /> : null }
                 </div>
                 <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
-                  { item.name || 'TBD' }
+                  <span className={clsx({ "font-bold": item.win })}>{ item.tag || 'TBD' }</span>
                 </div>
                 <div className="flex justify-center items-center w-[30px] h-full border-l">
                   { item.score }

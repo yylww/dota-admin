@@ -1,34 +1,23 @@
-'use client'
-
 import clsx from "clsx"
-import { useLocale } from "next-intl"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useTranslations } from "next-intl"
+import Link from "next/link"
 
-export const TabComponent = ({ length, tabIndex }) => {
-  const locale = useLocale()
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const { replace } = useRouter()
-  const handleTabIndex = (number) => {
-    const params = new URLSearchParams(searchParams)
-    params.set('tab', number)
-    replace(`${pathname}?${params.toString()}`)
-  }
-
+export const TabComponent = ({ id, length, tabIndex }) => {
+  const t = useTranslations('match')
   return (
     <div className="flex w-full h-12 bg-white md:text-lg">
       {
         [...Array(length)].map((_, index) => (
-          <div 
+          <Link
+            href={`/matches/${id}?tab=${index+1}`} 
             key={index} 
             className={clsx(
               "flex flex-1 h-full justify-center items-center cursor-pointer border-b-2",
               tabIndex === index ? "text-blue-500 border-b-blue-500" : "border-b-gray-200"
             )}
-            onClick={() => handleTabIndex(index+1)}
           >
-            { locale === 'en' ? `Game ${index+1}` : `第${index+1}场` }
-          </div>
+            { t('tab', { number: index + 1 }) }
+          </Link>
         ))
       }
     </div>

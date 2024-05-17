@@ -1,16 +1,10 @@
-import { getTournaments } from "@/app/lib/tournament"
+'use client'
+
 import { useFormatter, useLocale } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
 
-export default async function TournamentServer() {
-  const data = await getTournaments()
-  return (
-    <TournamentList data={data} />
-  )
-}
-
-function TournamentList({ data }) {
+export default function TournamentListClient({ data }) {
   const locale = useLocale()
   const format = useFormatter()
   return (
@@ -29,7 +23,7 @@ function TournamentList({ data }) {
                 <Image src={logo} width={0} height={0} sizes="100%" priority className="w-full h-auto" alt={title_en} />
                 <div className="flex flex-col gap-2 p-2">
                   <div className="flex justify-between">
-                    <span>{ locale === 'en' ? title_en : title}</span>
+                    <span>{ locale === 'en' ? title_en : title }</span>
                     <span className="text-yellow-500">${ format.number(bonus) }</span>
                   </div>
                   <span>{ rangeDate }</span>

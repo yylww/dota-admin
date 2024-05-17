@@ -123,12 +123,13 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
             { value: 1, label: '双败淘汰赛' },
             { value: 2, label: '单败淘汰赛' },
             { value: 3, label: 'GSL赛制' },
+            { value: 4, label: '瑞士轮' },
           ]}
           onChange={value => setMode(value)}
         />
       </Form.Item>
       {
-        (mode === 0 || mode === 3) ?
+        (mode === 0 || mode === 3 || mode === 4) ?
         <>
           <Form.Item
             label="Bo"

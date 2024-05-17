@@ -10,7 +10,7 @@ export default async function Page({ params, searchParams }) {
     <div className="bg-white">
       <ScoreComponent data={data} />
       {
-        data.games.length > 0 ? <TabComponent length={data.games.length} tabIndex={index} /> : <div className="w-full text-center">暂无比赛数据，请稍后再试。</div>
+        data.games.length > 0 ? <TabComponent id={+params.id} length={data.games.length} tabIndex={index} /> : <div className="w-full text-center">暂无比赛数据，请稍后再试。</div>
       }
       {
         data.games.length > 0 ? <DetailComponent data={data.games[index]} /> : null

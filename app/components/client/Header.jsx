@@ -1,10 +1,12 @@
 'use client'
 
 import clsx from 'clsx'
+import { useTranslations } from 'next-intl'
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 
 export default function Header({ locale }) {
+  const t = useTranslations('header')
   const pathname = usePathname()
 
   return (
@@ -13,15 +15,15 @@ export default function Header({ locale }) {
         <Link href="/" className={clsx(
           "flex flex-1 justify-center items-center h-full",
           pathname === '/' || pathname === '/en' ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ locale.home }</Link>
+        )}>{ t('home') }</Link>
         <Link href="/statistics" className={clsx(
           "flex flex-1 justify-center items-center h-full",
           pathname === '/statistics' || pathname === '/en/statistics' ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ locale.statistic }</Link>
+        )}>{ t('statistic') }</Link>
         <Link href="/tournaments" className={clsx(
           "flex flex-1 justify-center items-center h-full",
           pathname === '/tournaments' || pathname === '/en/tournaments' ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ locale.tournament }</Link>
+        )}>{ t('tournament') }</Link>
         {/* <Link href="/records" className="flex flex-1 justify-center items-center h-full">{ t('time') }</Link> */}
       </div>
     </div>

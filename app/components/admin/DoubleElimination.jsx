@@ -6,7 +6,7 @@ export const DoubleElimination = ({
   status = 'editable',
   matches = [],
   onChange,
-  width = 170, // 比赛组件宽度
+  width = 150, // 比赛组件宽度
   height = 30, // 比赛组件中队伍高度，比赛组件高度为 height * 2
   lineSpacing = 10, // 行间隔
   columnSpacing = 20, // 列间隔
@@ -19,7 +19,7 @@ export const DoubleElimination = ({
   // 根据初始数据中胜者组比赛场次和败者组比赛场次来计算出单列最多组件数量
   const maxComponentNum = upperLen + lowerLen
   // 根据最多组件数量和行间隙计算容器高度
-  const containerHeight = (maxComponentNum + 1) * matchHeight + maxComponentNum * lineSpacing
+  const containerHeight = maxComponentNum * (matchHeight + lineSpacing) + lineSpacing
   // 根据单列组件宽度和列间隙计算容器宽度
   const containerWidth = (width + columnSpacing) * matchMap.length - columnSpacing
   

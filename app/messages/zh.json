@@ -29,6 +29,7 @@
     "noRecords": "无相关比赛"
   },
   "match": {
+    "tab": "第{number}场",
     "live": "虎牙直播",
     "data": "比赛数据",
     "record": "交手记录",

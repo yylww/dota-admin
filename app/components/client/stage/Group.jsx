@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 
-export const Group = ({ list, matches, width = 40 }) => {
+export const Group = ({ list, matches }) => {
   const tableData = []
   const lastRow = [{ color: 'white' }]
   const getMatch = (teamA, teamB, matches) => {
@@ -49,7 +49,7 @@ export const Group = ({ list, matches, width = 40 }) => {
   tableData.push(lastRow)
   
   return (
-    <table className="border-collapse" style={{ width: tableData.length * width }}>
+    <table className="w-full border-collapse">
       <tbody>
         {
           tableData.map((rowData, i) => (
@@ -59,7 +59,6 @@ export const Group = ({ list, matches, width = 40 }) => {
                   return (
                     <td 
                       key={j}
-                      style={{ width }} 
                       className={clsx(`h-[30px] text-center border bg-${colData.color || 'white'}-100`)} 
                     >
                       {

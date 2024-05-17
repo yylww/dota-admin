@@ -1,15 +1,22 @@
 'use client'
 
 import { useHydration } from "@/app/hooks/useHydration"
-import dayjs from "dayjs"
+import { useFormatter } from "next-intl"
 import { Suspense } from "react"
 
-export default function LocalTime({ data, format }) {
+export default function LocalTime({ data }) {
   const hydrated = useHydration()
+  const format = useFormatter()
+  const dateString = format.dateTime(data, {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric', 
+    minute: 'numeric',
+  })
   return (
     <Suspense key={hydrated ? 'local' : 'utc'}>
       <time dateTime={new Date(data).toISOString()}>
-        { dayjs(data).format(format) }
+        { dateString }
         { hydrated ? '' : ' (UTC)'}
       </time>
     </Suspense>

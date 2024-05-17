@@ -26,6 +26,19 @@ export const getTournament = async (id) => {
             teams: true,
           },
         },
+        stages: {
+          orderBy: {
+            startDate: 'asc',
+          },
+          include: {
+            matches: {
+              include: {
+                homeTeam: true,
+                awayTeam: true,
+              },
+            },
+          },
+        },
         teams: {
           include: {
             players: true,
