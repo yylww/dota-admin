@@ -1,14 +1,15 @@
 'use client'
 
-import { useFormatter, useLocale } from "next-intl"
-import SwissSystem from "@/app/components/client/stage/SwissSystem"
+import { useFormatter, useLocale, useTranslations } from "next-intl"
+import SwissSystem from "@/app/components/client/tournament/SwissSystem"
 import { DoubleElimination } from "@/app/components/admin/DoubleElimination"
 import { SingleElimination } from "@/app/components/admin/SingleElimination"
-import { Standings } from "@/app/components/client/stage/Standings"
-import { Group } from "@/app/components/client/stage/Group"
+import { Standings } from "@/app/components/client/tournament/Standings"
+import { Group } from "@/app/components/client/tournament/Group"
 
 export default function TournamentClient({ data }) {
   const locale = useLocale()
+  const t = useTranslations('tips')
   const { title, title_en, startDate, endDate, bonus, stages } = data
   const format = useFormatter()
   const rangeDate = format.dateTimeRange(startDate, endDate, {
@@ -22,7 +23,7 @@ export default function TournamentClient({ data }) {
         <h2 className="font-bold text-lg">{ locale === 'en' ? title_en : title }</h2>
         <p>{ rangeDate }</p>
         <p>
-          <span>Prize pool: </span>
+          <span>{ t('prizePool') }</span>
           <span>${ format.number(bonus) }</span></p>
       </div>
       {

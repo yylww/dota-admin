@@ -1,10 +1,11 @@
 import { getTournament } from "@/app/lib/tournament"
 import { Suspense } from "react"
 import TournamentClient from "./TournamentClient"
+import { MatchListSkeleton } from "@/app/components/client/skeletons"
 
 export default async function Page({ params }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<MatchListSkeleton />}>
       <TournamentServer id={+params.id} />
     </Suspense>
   )

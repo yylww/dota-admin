@@ -26,7 +26,8 @@
     "today": "今天",
     "tomorrow": "明天",
     "local": "当地时间",
-    "noRecords": "无相关比赛"
+    "noRecords": "无相关比赛",
+    "prizePool": "总奖金："
   },
   "match": {
     "tab": "第{number}场",
