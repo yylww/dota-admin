@@ -19,8 +19,7 @@ export default async function Page() {
       </div>
       <div className="flex flex-col gap-2 md:gap-4 w-full md:w-[750px] md:p-4">
         <Suspense fallback={<MatchListSkeleton />}>
-          <MatchListServer params={{ status: [0, 1], orderBy: { startTime: 'asc' } }} />
-          <MatchListServer params={{ tournamentId, status: [2], orderBy: { startTime: 'desc' } }} />
+          <MatchListServer params={{ tournamentId, orderBy: { startTime: 'desc' } }} />
         </Suspense>
       </div>
     </div>
