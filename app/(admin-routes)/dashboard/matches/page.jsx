@@ -176,7 +176,7 @@ export default function Page({ searchParams }) {
               message.error(`ID不匹配: ${gameId}`)
               return false
             }
-            const gameParams = generateData(gameData)
+            const gameParams = await generateData(gameData)
             try {
               await createGame(JSON.parse(JSON.stringify({
                 ...gameParams,

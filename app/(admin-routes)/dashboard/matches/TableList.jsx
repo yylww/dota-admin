@@ -168,7 +168,7 @@ export const TableList = ({
         }
         return (
           <Space size='middle' className="text-blue-500">
-            {/* { flag ? null : <a onClick={() => onAddGame(record)}>添加比赛</a> } */}
+            <a onClick={() => onAddGame(record)}>添加比赛</a>
             <a onClick={() => onUpdateGame(record.id)}>{syncLoading ? <Spin size="small" /> : '更新'}</a>
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}

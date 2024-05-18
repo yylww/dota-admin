@@ -15,7 +15,7 @@ export const getRecentGameIds = async ({ homeTeamId, awayTeamId, bo }) => {
     }
     return gameIds
   } catch (error) {
-    console.log('Failed', error)
+    console.log('getRecentGameIds Failed', error)
     throw error
   }
 }
@@ -25,7 +25,7 @@ export const getGameData = async (id) => {
     const { data } = await axios.get(`https://api.opendota.com/api/matches/${id}`)
     return data
   } catch (error) {
-    console.log('Failed', error)
+    console.log('getGameData Failed', error)
     throw error
   }
 }
