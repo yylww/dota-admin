@@ -1,22 +1,20 @@
 'use client'
 
-// import dayjs from "dayjs"
 import Match from "./Match"
 import ScrollToToday from "./ScrollToToday"
 import { useEffect, useState } from "react"
-import { useFormatter, useLocale, useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
+import dayjs from "dayjs"
 
 export default function MatchListClient({ data }) {
   const locale = useLocale()
-  const format = useFormatter()
   const [formatData, setFormatData] = useState({})
-  // const [sortDate, setSortDate] = useState([])
   const handleData = (matches) => {
     const data = {}
     matches.map(match => {
       const { tournament, stage, startTime } = match
-      const date = format.dateTime(startTime, { dateStyle: 'long' })
-      const today = format.dateTime(startTime) === format.dateTime()
+      const date = dayjs(startTime).format('YYYY-MM-DD')
+      const today = date === dayjs().format('YYYY-MM-DD')
       const title = `${tournament.title}-${stage.title}`
       const title_en = `${tournament.title_en}-${stage.title_en}`
       if (data[date]) {
@@ -35,9 +33,7 @@ export default function MatchListClient({ data }) {
   
   useEffect(() => {
     const formatData = handleData(data)
-    // const sortDate = Object.keys(formatData).sort((a, b) => dayjs(b).unix() - dayjs(a).unix())
     setFormatData(formatData)
-    // setSortDate(sortDate)
   }, [data])
 
   return (

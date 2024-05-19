@@ -1,5 +1,6 @@
 'use client'
 
+import { LocalRangeDate } from "@/app/components/client/LocalTime"
 import { useFormatter, useLocale } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
@@ -26,7 +27,7 @@ export default function TournamentListClient({ data }) {
                     <span>{ locale === 'en' ? title_en : title }</span>
                     <span className="text-yellow-500">${ format.number(bonus) }</span>
                   </div>
-                  <span>{ rangeDate }</span>
+                  <LocalRangeDate data={[startDate, endDate]} />
                 </div>
               </div>
             </Link>

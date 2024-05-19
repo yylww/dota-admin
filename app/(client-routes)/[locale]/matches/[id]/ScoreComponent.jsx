@@ -1,4 +1,4 @@
-import LocalTime from "@/app/components/client/LocalTime"
+import { LocalTime } from "@/app/components/client/LocalTime"
 import clsx from "clsx"
 import Image from "next/image"
 
