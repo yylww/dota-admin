@@ -15,8 +15,8 @@ export default function MatchListClient({ data }) {
       const { tournament, stage, startTime } = match
       const date = dayjs(startTime).format('YYYY-MM-DD')
       const today = date === dayjs().format('YYYY-MM-DD')
-      const title = `${tournament.title}-${stage.title}`
-      const title_en = `${tournament.title_en}-${stage.title_en}`
+      const title = `${tournament.title} - ${stage.title}`
+      const title_en = `${tournament.title_en} - ${stage.title_en}`
       if (data[date]) {
         data[date].matches = [...data[date].matches, match]
       } else {

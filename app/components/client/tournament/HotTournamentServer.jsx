@@ -1,10 +1,13 @@
 import { getTournaments } from "@/app/lib/tournament"
-import HotTournamentClient from "./HotTournamentClient"
 import { getTranslations } from "next-intl/server"
 import { TrophyIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
+import clsx from "clsx"
+import { useLocale } from "next-intl"
 
-export default async function HotTournamentServer() {
+export default async function HotTournamentServer({ tournamentId }) {
   const data = await getTournaments()
+  const locale = useLocale()
   const t = await getTranslations('tournament')
   return (
     <div className="flex flex-col w-full p-4 border border-gray-200 rounded-md bg-white">
@@ -12,7 +15,22 @@ export default async function HotTournamentServer() {
         <TrophyIcon className="w-6 text-blue-500" />
         <p className="font-medium">{ t('title') }</p>
       </div>
-      <HotTournamentClient data={data} />
+      <div>
+        {
+          data.map((item, i) => (
+            <Link
+              href={`/?tournament=${item.id}`} 
+              className={clsx(
+                "py-2 border-t border-t-gray-100 cursor-pointer block hover:text-blue-500",
+                { "text-blue-500": item.id === tournamentId }
+              )} 
+              key={i}
+            >
+              { locale === 'en' ? item.title_en : item.title }
+            </Link>
+          ))
+        }
+      </div>
     </div>
   )
 }

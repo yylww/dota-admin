@@ -22,9 +22,11 @@ export const Standings = ({ title, list, matches }) => {
       if (bo % 2 === 0) {
         if (score[0] > score[1]) {
           matchPoints[0] += 1
-        } else if (score[0] === score[1]) {
+        } 
+        if (score[0] === score[1] && score[0] !== 0) {
           matchPoints[1] += 1
-        } else {
+        } 
+        if (score[0] < score[1]) {
           matchPoints[2] += 1
         }
       } else {

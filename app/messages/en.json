@@ -27,7 +27,9 @@
     "tomorrow": "tomorrow",
     "local": "local time",
     "noRecords": "No records",
-    "prizePool": "Prize Pool:"
+    "prizePool": "Prize Pool:",
+    "previous": "Previous: ",
+    "next": "Next: "
   },
   "match": {
     "tab": "Game {number}",
