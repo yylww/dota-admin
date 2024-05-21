@@ -6,22 +6,18 @@ import { DoubleElimination } from "@/app/components/admin/DoubleElimination"
 import { SingleElimination } from "@/app/components/admin/SingleElimination"
 import { Standings } from "@/app/components/client/tournament/Standings"
 import { Group } from "@/app/components/client/tournament/Group"
+import { LocalRangeDate } from "@/app/components/client/LocalTime"
 
 export default function TournamentClient({ data }) {
   const locale = useLocale()
   const t = useTranslations('tips')
   const { title, title_en, startDate, endDate, bonus, stages } = data
   const format = useFormatter()
-  const rangeDate = format.dateTimeRange(startDate, endDate, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
   return (
     <div className="flex flex-col gap-2 md:gap-4 md:pt-4">
       <div className="bg-white p-2 md:p-4">
         <h2 className="font-bold text-lg">{ locale === 'en' ? title_en : title }</h2>
-        <p>{ rangeDate }</p>
+        <LocalRangeDate data={[startDate, endDate]} />
         <p>
           <span>{ t('prizePool') }</span>
           <span>${ format.number(bonus) }</span></p>
@@ -29,15 +25,12 @@ export default function TournamentClient({ data }) {
       {
         stages.map((stage, i) => {
           const { title, title_en, startDate, endDate, mode, groups, matches } = stage
-          const dateRange = format.dateTimeRange(startDate, endDate, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          })
           return (
             <div className="bg-white p-2 md:p-4" key={i}>
               <p className="font-medium">{ locale === 'en' ? title_en : title }</p>
-              <p className="mb-2">{ dateRange }</p>
+              <div className="mb-2">
+                <LocalRangeDate data={[startDate, endDate]} />
+              </div>
               { 
                 mode === 0 ? 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

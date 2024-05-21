@@ -13,11 +13,6 @@ export default function TournamentListClient({ data }) {
       {
         data.map((item, i) => {
           const { id, title, title_en, logo, startDate, endDate, bonus } = item
-          const rangeDate = format.dateTimeRange(startDate, endDate, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          })
           return (
             <Link href={`/tournaments/${id}`} key={i}>
               <div className="bg-white">

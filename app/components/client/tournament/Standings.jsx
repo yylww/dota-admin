@@ -48,20 +48,29 @@ export const Standings = ({ title, list, matches }) => {
       gamePoints,
       hasExtra,
     }
+  }).sort((a, b) => {
+    if (a.matchPoints[0] === b.matchPoints[0]) {
+      if (a.matchPoints[1] === b.matchPoints[1]) {
+        return a.matchPoints[2] - b.matchPoints[2]
+      } else {
+        return b.matchPoints[1] - a.matchPoints[1]
+      }
+    } else {
+      return b.matchPoints[0] - a.matchPoints[0]
+    }
   })
   
   return (
     <table className="w-full border-collapse">
       <thead>
         <tr>
-          <th colSpan={7} className="h-[30px] font-medium border text-center">{ title }</th>
+          <th colSpan={6} className="h-[30px] font-medium border text-center">{ title }</th>
         </tr>
       </thead>
       <tbody>
         {
           tableData.map((rowData, i) => (
             <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
-              <td className="w-[40px] h-[30px] border text-center">{i + 1}</td>
               <td colSpan={4} className="h-[30px] border text-center">
                 <div className="flex items-center">
                   <div className="relative mx-4 w-[20px] h-[20px]">
