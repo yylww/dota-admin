@@ -29,7 +29,8 @@
     "noRecords": "无相关比赛",
     "prizePool": "总奖金：",
     "previous": "上一个赛事：",
-    "next": "下一个赛事："
+    "next": "下一个赛事：",
+    "ranking": "赛事排名"
   },
   "match": {
     "tab": "第{number}场",

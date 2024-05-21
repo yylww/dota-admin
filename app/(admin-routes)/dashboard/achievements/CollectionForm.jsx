@@ -61,7 +61,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               <div className="flex gap-2 justify-between">
                 <Button
                   type="dashed"
-                  onClick={() => add()}
+                  onClick={() => add({ teams: [] })}
                   icon={<PlusOutlined />}
                   block
                 >
@@ -69,7 +69,7 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
                 </Button>
                 <Button
                   type="dashed"
-                  onClick={() => add(null, 0)}
+                  onClick={() => add({ teams: [] }, 0)}
                   icon={<PlusOutlined />}
                   block
                 >

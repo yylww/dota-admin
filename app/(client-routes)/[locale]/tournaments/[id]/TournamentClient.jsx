@@ -7,11 +7,12 @@ import { SingleElimination } from "@/app/components/admin/SingleElimination"
 import { Standings } from "@/app/components/client/tournament/Standings"
 import { Group } from "@/app/components/client/tournament/Group"
 import { LocalRangeDate } from "@/app/components/client/LocalTime"
+import { Achievements } from "@/app/components/client/tournament/Achievements"
 
 export default function TournamentClient({ data }) {
   const locale = useLocale()
   const t = useTranslations('tips')
-  const { title, title_en, startDate, endDate, bonus, stages } = data
+  const { title, title_en, startDate, endDate, bonus, stages, achievements } = data
   const format = useFormatter()
   return (
     <div className="flex flex-col gap-2 md:gap-4 md:pt-4">
@@ -20,7 +21,8 @@ export default function TournamentClient({ data }) {
         <LocalRangeDate data={[startDate, endDate]} />
         <p>
           <span>{ t('prizePool') }</span>
-          <span>${ format.number(bonus) }</span></p>
+          <span>${ format.number(bonus) }</span>
+        </p>
       </div>
       {
         stages.map((stage, i) => {
@@ -75,6 +77,10 @@ export default function TournamentClient({ data }) {
           )
         })
       } 
+      <div className="bg-white p-2 md:p-4">
+        <p className="font-medium mb-2">{ t('ranking') }</p>
+        <Achievements data={achievements} />
+      </div>
     </div>
   )
 }

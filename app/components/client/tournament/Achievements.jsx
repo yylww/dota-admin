@@ -1,75 +1,49 @@
 
+import { useFormatter } from 'next-intl'
 import Image from 'next/image'
-import clsx from 'clsx'
 
-export const Standings = ({ title, list, matches }) => {
-  const tableData = list.map((item, i) => {
-    const filterMatches = matches.filter(item => !item.extra).filter(match => {
-      const teamIds = [match.homeTeamId, match.awayTeamId]
-      if (teamIds.includes(item.teamId)) {
-        return match
-      }
+export const Achievements = ({ data }) => {
+  const format = useFormatter()
+  const tableData = []
+  data.map(item => {
+    const range = item.rank.split('-')
+    const length = range.length > 1 ? Number(range[1]) - Number(range[0]) + 1 : 1
+    const arr = [...new Array(length)]
+    arr.map((_, i) => {
+      tableData.push({
+        ...item,
+        rank: range[0],
+        team: item.teams.length > 0 ? item.teams[i] : null,
+      })
     })
-    const { bo, homeTeam, homeTeamId, awayTeam } = filterMatches[0]
-    const team = item.teamId === homeTeamId ? homeTeam : awayTeam
-    const hasExtra = matches.filter(item => item.extra).some(({ homeTeamId, awayTeamId }) => homeTeamId === item.teamId || awayTeamId === item.teamId)
-    const matchPoints = (bo % 2 === 0) ? [0, 0, 0] : [0, 0]
-    const gamePoints = [0, 0]
-
-    filterMatches.forEach(match => {
-      const { bo, homeTeamId, homeScore, awayScore } = match
-      const score = item.teamId === homeTeamId ? [homeScore, awayScore] : [awayScore, homeScore] 
-      if (bo % 2 === 0) {
-        if (score[0] > score[1]) {
-          matchPoints[0] += 1
-        } else if (score[0] === score[1]) {
-          matchPoints[1] += 1
-        } else {
-          matchPoints[2] += 1
-        }
-      } else {
-        if (score[0] > score[1]) {
-          matchPoints[0] += 1
-        } else {
-          matchPoints[1] += 1
-        }
-      }
-      
-      gamePoints[0] += score[0]
-      gamePoints[1] += score[1]
-    })
-
-    return {
-      team,
-      status: item.status,
-      matchPoints,
-      gamePoints,
-      hasExtra,
-    }
   })
-  
   return (
     <table className="w-full border-collapse">
       <thead>
         <tr>
-          <th colSpan={7} className="h-[30px] font-medium border text-center">{ title }</th>
+          <td className="h-[30px] font-medium border text-center">#</td>
+          <td className="h-[30px] font-medium border text-left pl-4">Team</td>
+          <td className="h-[30px] font-medium border text-center">$USD</td>
+          { tableData[0].point ? <td className="h-[30px] font-medium border text-center">Points</td> : null }
         </tr>
       </thead>
       <tbody>
         {
           tableData.map((rowData, i) => (
-            <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
-              <td className="w-[40px] h-[30px] border text-center">{i + 1}</td>
-              <td colSpan={4} className="h-[30px] border text-center">
-                <div className="flex items-center">
-                  <div className="relative mx-4 w-[20px] h-[20px]">
-                    <Image src={`${rowData.team.logo}`} fill sizes="100% 100%" alt={rowData.team.name} />
-                  </div>
-                  <span>{ rowData.team.name }{ rowData.hasExtra ? '*' : '' }</span>
-                </div>
+            <tr key={i} className="bg-gray-100 h-12 text-center">
+              <td className="w-[40px] border">{ rowData.rank }</td>
+              <td className="border">
+                { 
+                  rowData.team ?
+                  <div className="flex gap-2 items-center pl-4">
+                    <Image src={`${rowData.team.logo}`} width={0} height={0} sizes="100%" className="w-6 h-auto" alt={rowData.team.name} />
+                    <span>{ rowData.team.tag }</span>
+                  </div> : 
+                  <div className="text-left pl-4">TBD</div>
+                }
               </td>
-              <td className="h-[30px] border text-center">{ rowData.matchPoints.join('-') }</td>
-              <td className="h-[30px] border text-center">{ rowData.gamePoints.join('-') }</td>
+              <td className="h-[30px] border">${ format.number(rowData.bonus) }</td>
+              { rowData.point ? <td className="h-[30px] border">{ rowData.point }</td> : null }
             </tr>
           ))
         }

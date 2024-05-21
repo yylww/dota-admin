@@ -29,7 +29,8 @@
     "noRecords": "No records",
     "prizePool": "Prize Pool:",
     "previous": "Previous: ",
-    "next": "Next: "
+    "next": "Next: ",
+    "ranking": "Ranking"
   },
   "match": {
     "tab": "Game {number}",

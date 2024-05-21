@@ -10,7 +10,7 @@ import { createAchievement, updateAchievement } from "@/app/lib/achievement"
 export default function Page({ searchParams }) {
   const id = Number(searchParams.tournament)
   const router = useRouter()
-  const {data, isLoading, error, mutate} = useSWR('tournament', () => getTournament(id))
+  const {data, isLoading, error, mutate} = useSWR(`/tournament/${id}`, () => getTournament(id))
   if (error) {
     return <div>{ error.message }</div>
   }

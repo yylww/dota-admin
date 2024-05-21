@@ -18,13 +18,12 @@ export default function Header({ locale }) {
         )}>{ t('home') }</Link>
         <Link href="/statistics" className={clsx(
           "flex flex-1 justify-center items-center h-full",
-          pathname === '/statistics' || pathname === '/en/statistics' ? "border-b border-b-blue-500 text-blue-500" : "",
+          pathname.includes('statistics') ? "border-b border-b-blue-500 text-blue-500" : "",
         )}>{ t('statistic') }</Link>
         <Link href="/tournaments" className={clsx(
           "flex flex-1 justify-center items-center h-full",
-          pathname === '/tournaments' || pathname === '/en/tournaments' ? "border-b border-b-blue-500 text-blue-500" : "",
+          pathname.includes('tournaments') ? "border-b border-b-blue-500 text-blue-500" : "",
         )}>{ t('tournament') }</Link>
-        {/* <Link href="/records" className="flex flex-1 justify-center items-center h-full">{ t('time') }</Link> */}
       </div>
     </div>
   )
