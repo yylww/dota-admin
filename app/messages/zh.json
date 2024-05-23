@@ -30,9 +30,11 @@
     "prizePool": "总奖金：",
     "previous": "上一个赛事：",
     "next": "下一个赛事：",
-    "ranking": "赛事排名"
+    "ranking": "赛事排名",
+    "noGames": "暂无比赛数据，请稍后再试。"
   },
   "match": {
+    "extra": "加赛",
     "tab": "第{number}场",
     "live": "虎牙直播",
     "data": "比赛数据",

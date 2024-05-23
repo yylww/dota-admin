@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from "next-intl"
 export default function Match({ data }) {
   const locale = useLocale()
   const t = useTranslations('match')
-  const { id, startTime, status, bo, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
+  const { id, startTime, status, bo, extra, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
   const homeDots = [...Array(bo)].map((_, i) => {
     if (games[i]) {
       const { radiantTeamId, radiantWin } = games[i]
@@ -36,10 +36,11 @@ export default function Match({ data }) {
     <div className="flex flex-col item-center gap-2 w-full rounded-sm md:rounded-md border border-gray-200 p-2 md:px-4">
       <div className="flex gap-2 md:gap-6">
         <div className={clsx(
-          "flex w-10 items-center justify-center",
+          "flex flex-col w-10 items-center justify-center",
           ["", "text-blue-500", "text-gray-400"][status]
         )}>
-          { status === 1 ? 'Live' : dayjs(startTime).format('HH:mm') }
+          <span>{ status === 1 ? 'Live' : dayjs(startTime).format('HH:mm') }</span>
+          { extra ? <span className="text-xs text-gray-400">{ t('extra') }</span> : null }
         </div>
         <div className="flex flex-1 flex-col justify-between gap-1 px-2 md:px-6 border-x border-x-gray-100">
           <div className="flex items-center gap-2 md:gap-4 h-7 md:h-8">

@@ -30,9 +30,11 @@
     "prizePool": "Prize Pool:",
     "previous": "Previous: ",
     "next": "Next: ",
-    "ranking": "Ranking"
+    "ranking": "Ranking",
+    "noGames": "No game data yet, please try again later."
   },
   "match": {
+    "extra": "Extra",
     "tab": "Game {number}",
     "live": "Twitch",
     "data": "Details",
