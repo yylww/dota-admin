@@ -1,9 +1,7 @@
-
-import { useFormatter } from 'next-intl'
 import Image from 'next/image'
 
 export const Achievements = ({ data }) => {
-  const format = useFormatter()
+  const formatter = new Intl.NumberFormat()
   const tableData = []
   data.map(item => {
     const range = item.rank.split('-')
@@ -42,7 +40,7 @@ export const Achievements = ({ data }) => {
                   <div className="text-left pl-4">TBD</div>
                 }
               </td>
-              <td className="h-[30px] border">${ format.number(rowData.bonus) }</td>
+              <td className="h-[30px] border">${ formatter.format(rowData.bonus) }</td>
               { rowData.point ? <td className="h-[30px] border">{ rowData.point }</td> : null }
             </tr>
           ))

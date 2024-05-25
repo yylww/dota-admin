@@ -59,7 +59,7 @@ export const Group = ({ list, matches }) => {
                   return (
                     <td 
                       key={j}
-                      className={clsx(`h-[30px] text-center border bg-${colData.color || 'white'}-100`)} 
+                      className={clsx(`w-10 h-9 text-center border bg-${colData.color || 'white'}-100`)} 
                     >
                       {
                         colData.color === 'gray' ? null :
@@ -67,9 +67,10 @@ export const Group = ({ list, matches }) => {
                           {
                             colData.color ? colData.score :
                             <div className="flex justify-center items-center">
-                              <div className="relative w-[20px] h-[20px]">
+                              {/* <div className="relative w-[20px] h-[20px]">
                                 <Image src={`${colData.logo}`} fill sizes="100% 100%" alt={colData.name} />
-                              </div>
+                              </div> */}
+                              <Image src={`${colData.logo}`} width={0} height={0} sizes="100%" className="max-w-8 w-auto h-6" alt={colData.name} />
                             </div>
                           }
                         </div> 

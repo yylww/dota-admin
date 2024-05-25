@@ -1,3 +1,5 @@
+'use client'
+
 import { SelectTeam } from "./SelectTeam"
 import Image from "next/image"
 import useSWR from "swr"

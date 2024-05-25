@@ -1,4 +1,3 @@
-
 import Image from 'next/image'
 import clsx from 'clsx'
 
@@ -66,17 +65,17 @@ export const Standings = ({ title, list, matches }) => {
       <tbody>
         {
           tableData.map((rowData, i) => (
-            <tr key={i} className={clsx(["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
-              <td colSpan={4} className="h-[30px] border text-center">
-                <div className="flex items-center">
-                  <div className="relative mx-4 w-[20px] h-[20px]">
-                    <Image src={`${rowData.team.logo}`} fill sizes="100% 100%" alt={rowData.team.name} />
+            <tr key={i} className={clsx("h-9", ["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
+              <td colSpan={4} className="border text-center">
+                <div className="flex items-center gap-2">
+                  <div className="flex justify-center items-center w-10">
+                    <Image src={`${rowData.team.logo}`} width={0} height={0} sizes="100%" className="max-w-8 w-auto h-6" alt={rowData.team.name} />
                   </div>
                   <span>{ rowData.team.name }{ rowData.hasExtra ? '*' : '' }</span>
                 </div>
               </td>
-              <td className="h-[30px] border text-center">{ rowData.matchPoints.join('-') }</td>
-              <td className="h-[30px] border text-center">{ rowData.gamePoints.join('-') }</td>
+              <td className="border text-center">{ rowData.matchPoints.join('-') }</td>
+              <td className="border text-center">{ rowData.gamePoints.join('-') }</td>
             </tr>
           ))
         }

@@ -1,19 +1,11 @@
 import { Suspense } from "react"
 import { TournamentsSkeleton } from "@/app/components/client/skeletons"
-import { getTournaments } from "@/app/lib/tournament"
-import TournamentListClient from "./TournamentListClient"
+import TournamentList from "@/app/components/client/tournament/TournamentList"
 
-export default function Page() {
+export default async function Page() {
   return (
     <Suspense fallback={<TournamentsSkeleton />}>
-      <TournamentListServer />
+      <TournamentList />
     </Suspense>
-  )
-}
-
-async function TournamentListServer() {
-  const data = await getTournaments()
-  return (
-    <TournamentListClient data={data} />
   )
 }

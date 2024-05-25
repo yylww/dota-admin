@@ -1,13 +1,13 @@
-'use client'
-
 import { LocalRangeDate } from "@/app/components/client/LocalTime"
-import { useFormatter, useLocale } from "next-intl"
+import { useLocale } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
+import { getTournaments } from "@/app/lib/tournament"
 
-export default function TournamentListClient({ data }) {
+export default async function TournamentList() {
+  const data = await getTournaments()
   const locale = useLocale()
-  const format = useFormatter()
+  const formatter = new Intl.NumberFormat()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 md:pt-4">
       {
@@ -20,7 +20,7 @@ export default function TournamentListClient({ data }) {
                 <div className="flex flex-col gap-2 p-2">
                   <div className="flex justify-between">
                     <span>{ locale === 'en' ? title_en : title }</span>
-                    <span className="text-yellow-500">${ format.number(bonus) }</span>
+                    <span className="text-yellow-500">${ formatter.format(bonus) }</span>
                   </div>
                   <LocalRangeDate data={[startDate, endDate]} />
                 </div>

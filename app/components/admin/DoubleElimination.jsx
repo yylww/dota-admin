@@ -1,3 +1,5 @@
+'use client'
+
 import { Line } from "./LineComponent"
 import { MatchComponent } from "./MatchComponent"
 

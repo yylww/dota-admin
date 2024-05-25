@@ -1,6 +1,4 @@
-'use client'
-
-import { useFormatter, useLocale, useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
 import SwissSystem from "@/app/components/client/tournament/SwissSystem"
 import { DoubleElimination } from "@/app/components/admin/DoubleElimination"
 import { SingleElimination } from "@/app/components/admin/SingleElimination"
@@ -8,20 +6,23 @@ import { Standings } from "@/app/components/client/tournament/Standings"
 import { Group } from "@/app/components/client/tournament/Group"
 import { LocalRangeDate } from "@/app/components/client/LocalTime"
 import { Achievements } from "@/app/components/client/tournament/Achievements"
+import { getTournament } from "@/app/lib/tournament"
+import { getTranslations } from "next-intl/server"
 
-export default function TournamentClient({ data }) {
-  const locale = useLocale()
-  const t = useTranslations('tips')
+export default async function TournamentDetail({ id }) {
+  const data = await getTournament(id)
+  const t = await getTranslations('tips')
   const { title, title_en, startDate, endDate, bonus, stages, achievements } = data
-  const format = useFormatter()
+  const formatter = new Intl.NumberFormat()
+  const locale = useLocale()
   return (
-    <div className="flex flex-col gap-2 md:gap-4 md:pt-4">
+    <div className="flex flex-col gap-2 md:gap-4">
       <div className="bg-white p-2 md:p-4">
         <h2 className="font-bold text-lg">{ locale === 'en' ? title_en : title }</h2>
         <LocalRangeDate data={[startDate, endDate]} />
         <p>
           <span>{ t('prizePool') }</span>
-          <span>${ format.number(bonus) }</span>
+          <span>${ formatter.format(bonus) }</span>
         </p>
       </div>
       {

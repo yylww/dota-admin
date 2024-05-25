@@ -1,4 +1,4 @@
-// 单败淘汰制对阵图
+'use client'
 
 import { Line } from "./LineComponent"
 import { MatchComponent } from "./MatchComponent"
