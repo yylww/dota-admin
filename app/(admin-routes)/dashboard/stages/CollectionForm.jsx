@@ -53,10 +53,6 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
       name="form"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 16 }}
-      style={{
-        maxWidth: 800,
-        marginTop: 24,
-      }}
       initialValues={initialValues}
       onFinish={async () => {
         const values = await form.validateFields()
@@ -231,7 +227,9 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
             </Form.Item>
           }
           <Form.Item label="对阵图" name="groups">
-            <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} />
+            <div className="w-full overflow-x-auto"> 
+              <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} />
+            </div>
           </Form.Item>
         </>
         : null

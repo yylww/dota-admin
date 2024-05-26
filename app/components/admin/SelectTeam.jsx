@@ -15,7 +15,7 @@ export const SelectTeam = ({ mode, value, onChange }) => {
   const options = data.map((item) => {
     return {
       value: item.id,
-      label: item.name,
+      label: item.tag,
       logo: item.logo,
     }
   })

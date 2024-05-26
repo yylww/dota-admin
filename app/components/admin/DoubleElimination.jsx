@@ -8,7 +8,7 @@ export const DoubleElimination = ({
   status = 'editable',
   matches = [],
   onChange,
-  width = 150, // 比赛组件宽度
+  width = 128, // 比赛组件宽度
   height = 30, // 比赛组件中队伍高度，比赛组件高度为 height * 2
   lineSpacing = 10, // 行间隔
   columnSpacing = 20, // 列间隔

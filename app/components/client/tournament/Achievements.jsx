@@ -27,7 +27,7 @@ export const Achievements = ({ data }) => {
       </thead>
       <tbody>
         {
-          tableData.map((rowData, i) => (
+          tableData.sort((a, b) => Number(a.rank) - Number(b.rank)).map((rowData, i) => (
             <tr key={i} className="bg-gray-100 h-12 text-center">
               <td className="w-[40px] border">{ rowData.rank }</td>
               <td className="border">
