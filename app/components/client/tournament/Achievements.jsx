@@ -35,7 +35,7 @@ export const Achievements = ({ data }) => {
                             <div className="flex justify-center items-center w-10">
                               <Image src={`${team.logo}`} width={0} height={0} sizes="100%" className="w-auto h-5" alt={team.name} />
                             </div>
-                            <span className="text-sm">{ team.name }</span>
+                            <span className="text-sm md:text-base">{ team.name }</span>
                           </div>
                         ))
                       }
