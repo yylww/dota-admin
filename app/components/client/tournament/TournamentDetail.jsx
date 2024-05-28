@@ -25,6 +25,10 @@ export default async function TournamentDetail({ id }) {
           <span>${ formatter.format(bonus) }</span>
         </p>
       </div>
+      <div className="bg-white p-2 md:p-4">
+        <p className="font-medium mb-2">{ t('ranking') }</p>
+        <Achievements data={achievements} />
+      </div>
       {
         stages.map((stage, i) => {
           const { title, title_en, startDate, endDate, mode, groups, matches } = stage
@@ -78,10 +82,6 @@ export default async function TournamentDetail({ id }) {
           )
         })
       } 
-      <div className="bg-white p-2 md:p-4">
-        <p className="font-medium mb-2">{ t('ranking') }</p>
-        <Achievements data={achievements} />
-      </div>
     </div>
   )
 }

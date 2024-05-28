@@ -31,7 +31,9 @@
     "previous": "上一个赛事：",
     "next": "下一个赛事：",
     "ranking": "赛事排名",
-    "noGames": "暂无比赛数据，请稍后再试。"
+    "noGames": "暂无比赛数据，请稍后再试。",
+    "expand": "展开",
+    "shrink": "收起"
   },
   "match": {
     "extra": "加赛",

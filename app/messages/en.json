@@ -31,7 +31,9 @@
     "previous": "Previous: ",
     "next": "Next: ",
     "ranking": "Ranking",
-    "noGames": "No game data yet, please try again later."
+    "noGames": "No game data yet, please try again later.",
+    "expand": "Expand",
+    "shrink": "Shrink"
   },
   "match": {
     "extra": "Extra",
