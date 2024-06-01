@@ -2,7 +2,49 @@
 
 import prisma from "@/app/lib/db"
 
-export const getStatistics = async () => {
+export const getStatisticData = async ({ tournamentId, teamId }) => {
+  const whereCondition = {}
+  if (tournamentId) {
+    whereCondition.tournamentId = tournamentId
+  }
+  if (teamId) {
+    whereCondition.or = [
+      { radiantTeamId: teamId },
+      { direTeamId: teamId },
+    ]
+  }
+  try {
+    return prisma.game.findMany({
+      where: whereCondition,
+      include: {
+        bans: {
+          include: {
+            hero: true,
+          },
+        },
+        picks: {
+          include: {
+            hero: true,
+          },
+        },
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getStatistics = async ({ tournamentId, teamId }) => {
+  const whereCondition = {}
+  if (tournamentId) {
+    whereCondition.tournamentId = tournamentId
+  }
+  if (teamId) {
+    whereCondition.or = [
+      { radiantTeamId: teamId },
+      { direTeamId: teamId },
+    ]
+  }
   try {
     const games = await prisma.game.findMany({
       include: {

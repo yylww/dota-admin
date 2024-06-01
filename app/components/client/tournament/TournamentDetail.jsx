@@ -8,6 +8,7 @@ import { LocalRangeDate } from "@/app/components/client/LocalTime"
 import { Achievements } from "@/app/components/client/tournament/Achievements"
 import { getTournament } from "@/app/lib/tournament"
 import { getTranslations } from "next-intl/server"
+import TournamentStatictis from "./TournamentStatictis"
 
 export default async function TournamentDetail({ id }) {
   const data = await getTournament(id)
@@ -15,6 +16,9 @@ export default async function TournamentDetail({ id }) {
   const { title, title_en, startDate, endDate, bonus, stages, achievements } = data
   const formatter = new Intl.NumberFormat()
   const locale = useLocale()
+  const games = stages
+                  .reduce((prev, current) => [...prev, ...current.matches], [])
+                  .reduce((prev, current) => [...prev, ...current.games], [])
   return (
     <div className="flex flex-col gap-2 md:gap-4">
       <div className="bg-white p-2 md:p-4">
@@ -29,6 +33,7 @@ export default async function TournamentDetail({ id }) {
         <p className="font-medium mb-2">{ t('ranking') }</p>
         <Achievements data={achievements} />
       </div>
+      <TournamentStatictis data={games} />
       {
         stages.map((stage, i) => {
           const { title, title_en, startDate, endDate, mode, groups, matches } = stage

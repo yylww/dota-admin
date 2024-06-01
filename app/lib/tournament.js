@@ -35,6 +35,20 @@ export const getTournament = async (id) => {
               include: {
                 homeTeam: true,
                 awayTeam: true,
+                games: {
+                  include: {
+                    bans: {
+                      include: {
+                        hero: true,
+                      },
+                    },
+                    picks: {
+                      include: {
+                        hero: true,
+                      },
+                    },
+                  },
+                }
               },
             },
           },
