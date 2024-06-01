@@ -20,6 +20,10 @@ export default async function RootLayout({ children, params: { locale } }) {
   const messages = await getMessages()
   return (
     <html lang={locale} className="text-[16px]">
+      <head>
+        <link rel="alternate" hreflang="en" href="https://www.playdota2.com/en" />
+        <link rel="alternate" hreflang="x-default" href="https://www.playdota2.com/" />
+      </head>
       <body className="scroll-smooth">
         <NextTopLoader
           color='#3b82f6'
