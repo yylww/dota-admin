@@ -6,70 +6,63 @@ export default async function sitemap() {
   const tournamentData = getTournaments()
   const [matches, tournaments] = await Promise.all([matchData, tournamentData])
   const matchesMap = matches.map(item => ({
-    url: `https://playdota2.com/matches/${item.id}`,
+    url: `https://www.playdota2.com/matches/${item.id}`,
     lastModified: item.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
-  const enMatchesMap = matches.map(item => ({
-    url: `https://playdota2.com/en/matches/${item.id}`,
-    lastModified: item.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.8,
+    changeFrequency: 'yearly',
+    priority: 0.6,
+    alternates: {
+      languages: {
+        en: `https://www.playdota2.com/en/matches/${item.id}`,
+      },
+    },
   }))
   const tournamentsMap = tournaments.map(item => ({
-    url: `https://playdota2.com/tournaments/${item.id}`,
+    url: `https://www.playdota2.com/tournaments/${item.id}`,
     lastModified: item.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
-  const enTournamentsMap = tournaments.map(item => ({
-    url: `https://playdota2.com/en/tournaments/${item.id}`,
-    lastModified: item.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.8,
+    changeFrequency: 'yearly',
+    priority: 0.6,
+    alternates: {
+      languages: {
+        en: `https://www.playdota2.com/en/tournaments/${item.id}`,
+      },
+    },
   }))
 
   return [
     {
-      url: 'https://playdota2.com',
+      url: 'https://www.playdota2.com',
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'hourly',
       priority: 1,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en',
+        },
+      },
     },
     {
-      url: 'https://playdota2.com/en',
+      url: 'https://www.playdota2.com/statistics',
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
+      changeFrequency: 'hourly',
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en/statistics',
+        },
+      },
     },
     {
-      url: 'https://playdota2.com/statistics',
+      url: 'https://www.playdota2.com/tournaments',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
-    },
-    {
-      url: 'https://playdota2.com/en/statistics',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: 'https://playdota2.com/tournaments',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: 'https://playdota2.com/en/tournaments',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en/tournaments',
+        },
+      },
     },
     ...matchesMap,
-    ...enMatchesMap,
     ...tournamentsMap,
-    ...enTournamentsMap,
   ]
 }
