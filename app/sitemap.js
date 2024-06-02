@@ -9,25 +9,23 @@ export default async function sitemap() {
     url: `https://www.playdota2.com/matches/${item.id}`,
     lastModified: item.updatedAt,
     changeFrequency: 'yearly',
-    priority: 0.8,
-  }))
-  const enMatchesMap = matches.map(item => ({
-    url: `https://www.playdota2.com/en/matches/${item.id}`,
-    lastModified: item.updatedAt,
-    changeFrequency: 'yearly',
-    priority: 0.8,
+    priority: 0.6,
+    alternates: {
+      languages: {
+        en: `https://www.playdota2.com/en/matches/${item.id}`,
+      },
+    },
   }))
   const tournamentsMap = tournaments.map(item => ({
     url: `https://www.playdota2.com/tournaments/${item.id}`,
     lastModified: item.updatedAt,
     changeFrequency: 'yearly',
-    priority: 0.8,
-  }))
-  const enTournamentsMap = tournaments.map(item => ({
-    url: `https://www.playdota2.com/en/tournaments/${item.id}`,
-    lastModified: item.updatedAt,
-    changeFrequency: 'yearly',
-    priority: 0.8,
+    priority: 0.6,
+    alternates: {
+      languages: {
+        en: `https://www.playdota2.com/en/tournaments/${item.id}`,
+      },
+    },
   }))
 
   return [
@@ -36,40 +34,35 @@ export default async function sitemap() {
       lastModified: new Date(),
       changeFrequency: 'hourly',
       priority: 1,
-    },
-    {
-      url: 'https://www.playdota2.com/en',
-      lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 1,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en',
+        },
+      },
     },
     {
       url: 'https://www.playdota2.com/statistics',
       lastModified: new Date(),
       changeFrequency: 'hourly',
-      priority: 1,
-    },
-    {
-      url: 'https://www.playdota2.com/en/statistics',
-      lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 1,
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en/statistics',
+        },
+      },
     },
     {
       url: 'https://www.playdota2.com/tournaments',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
-    },
-    {
-      url: 'https://www.playdota2.com/en/tournaments',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
+      alternates: {
+        languages: {
+          en: 'https://www.playdota2.com/en/tournaments',
+        },
+      },
     },
     ...matchesMap,
-    ...enMatchesMap,
     ...tournamentsMap,
-    ...enTournamentsMap,
   ]
 }
