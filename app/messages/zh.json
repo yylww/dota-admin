@@ -56,5 +56,8 @@
     "xpm": "XPM",
     "heroDamage": "英雄伤害",
     "towerDamage": "塔伤害"
+  },
+  "TournamentDetail": {
+    "statictis": "赛事数据"
   }
 }

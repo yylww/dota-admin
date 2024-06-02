@@ -1,7 +1,9 @@
 import { getHeroes } from "@/app/lib/hero"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 
 export default async function TournamentStatictis({ data }) {
+  const t = useTranslations('TournamentDetail')
   const heroes = await getHeroes()
   const radiantWinGames = data.filter(item => item.radiantWin)
   const direWinGames = data.filter(item => !item.radiantWin)
@@ -43,10 +45,10 @@ export default async function TournamentStatictis({ data }) {
   })
   const pickHeroIds = Object.keys(pickObj).map(item => +item)
   const noPickHeroIds = heroes.filter((hero) => !pickHeroIds.includes(hero.id))
-  const rateRanking = Object.values(pickObj).filter(item => item.count >= 5).map(item => ({ ...item, percent: (item.winCount / item.count).toFixed(4) }))
+  const rateRanking = Object.values(pickObj).filter(item => item.count >= 5).map(item => ({ ...item, percent: (item.winCount / item.count * 100).toFixed(1) }))
   return (
     <div className="bg-white p-2 md:p-4">
-      <h2 className="mb-2 font-medium">赛事数据</h2>
+      <h2 className="mb-2 font-medium">{t('statictis')}</h2>
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ data.length }</span>
@@ -89,10 +91,10 @@ export default async function TournamentStatictis({ data }) {
       </div>
       <div className="mt-2">
         <h3 className="mb-1">Pick最多</h3>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-6 gap-1">
           {
-            Object.values(pickObj).sort((a, b) => b.count - a.count).slice(0, 5).map((item, i) => (
-              <div className="flex flex-col items-center w-[19%]" key={i}>
+            Object.values(pickObj).sort((a, b) => b.count - a.count).slice(0, 6).map((item, i) => (
+              <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
                 <span className="text-sm text-gray-600">{ item.count }次</span>
               </div>
@@ -100,10 +102,10 @@ export default async function TournamentStatictis({ data }) {
           }
         </div>
         <h3 className="mt-2 mb-1">Ban最多</h3>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-6 gap-1">
           {
-            Object.values(banObj).sort((a, b) => b.count - a.count).slice(0, 5).map((item, i) => (
-              <div className="flex flex-col items-center w-[19%]" key={i}>
+            Object.values(banObj).sort((a, b) => b.count - a.count).slice(0, 6).map((item, i) => (
+              <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
                 <span className="text-sm text-gray-600">{ item.count }次</span>
               </div>
@@ -111,23 +113,23 @@ export default async function TournamentStatictis({ data }) {
           }
         </div>
         <h3 className="mt-2 mb-1">胜率最高</h3>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-6 gap-1">
           {
-            rateRanking.sort((a, b) => b.percent - a.percent).slice(0, 5).map((item, i) => (
-              <div className="flex flex-col items-center w-[19%]" key={i}>
+            rateRanking.sort((a, b) => b.percent - a.percent).slice(0, 6).map((item, i) => (
+              <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
-                <span className="text-sm text-gray-600">{ item.percent * 100 }%</span>
+                <span className="text-sm text-gray-600">{ item.percent }%</span>
               </div>
             ))
           }
         </div>
         <h3 className="mt-2 mb-1">胜率最低</h3>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-6 gap-1">
           {
-            rateRanking.sort((a, b) => a.percent - b.percent).slice(0, 5).map((item, i) => (
-              <div className="flex flex-col items-center w-[19%]" key={i}>
+            rateRanking.sort((a, b) => a.percent - b.percent).slice(0, 6).map((item, i) => (
+              <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
-                <span className="text-sm text-gray-600">{ item.percent * 100 }%</span>
+                <span className="text-sm text-gray-600">{ item.percent }%</span>
               </div>
             ))
           }

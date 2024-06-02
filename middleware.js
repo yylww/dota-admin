@@ -40,7 +40,7 @@ const middleware = (req) => {
 }
  
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/([\\w-]+)?/main/(.+)']
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
 }
 
 export default middleware

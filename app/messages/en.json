@@ -56,5 +56,8 @@
     "xpm": "XPM",
     "heroDamage": "HD",
     "towerDamage": "TD"
+  },
+  "TournamentDetail": {
+    "statictis": "Tournament stats"
   }
 }
