@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default async function TournamentRouter({ current }) {
   const locale = useLocale()
-  const t = await getTranslations('tips')
+  const t = await getTranslations()
   const tournaments = await getTournaments()
   const currentIndex = tournaments.findIndex((item) => item.id === current)
   const prevTournament = currentIndex > 0 ? tournaments[currentIndex - 1] : null
@@ -15,7 +15,7 @@ export default async function TournamentRouter({ current }) {
       {
         currentIndex !== 0 ?
         <div>
-          <span>{ t('previous') }</span>
+          <span>{ t('Tournament.next') }</span>
           <Link className="text-blue-500" href={`?tournament=${tournaments[currentIndex-1].id}`}>{ locale === 'en' ? prevTournament.title_en : prevTournament.title }</Link>
         </div> :
         <span></span>
@@ -23,7 +23,7 @@ export default async function TournamentRouter({ current }) {
       {
         (currentIndex < tournaments.length - 1) ?
         <div>
-          <span>{ t('next') }</span>
+          <span>{ t('Tournament.previous') }</span>
           <Link className="text-blue-500" href={`?tournament=${tournaments[currentIndex+1].id}`}>{ locale === 'en' ? nextTournament.title_en : nextTournament.title }</Link>
         </div> :
         <span></span>

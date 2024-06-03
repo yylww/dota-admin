@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl'
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 
-export default function Header({ locale }) {
-  const t = useTranslations('header')
+export default function Header() {
+  const t = useTranslations('Header')
   const pathname = usePathname()
 
   return (

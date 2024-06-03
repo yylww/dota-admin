@@ -7,12 +7,11 @@ import { NextIntlClientProvider } from 'next-intl'
 import NextTopLoader from 'nextjs-toploader'
 
 export async function generateMetadata({ params: { locale } }) {
-  const t = await getTranslations({ locale, namespace: 'metadata' })
+  const t = await getTranslations({ locale })
 
   return {
-    title: t('title'),
-    description: t('description'),
-    keywords: t('keywords').split(',')
+    title: t('Index.metadata.title'),
+    description: t('Index.metadata.description'),
   }
 }
 
@@ -21,8 +20,8 @@ export default async function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} className="text-[16px]">
       <head>
-        <link rel="alternate" hreflang="en" href="https://www.playdota2.com/en" />
-        <link rel="alternate" hreflang="x-default" href="https://www.playdota2.com/" />
+        <link rel="alternate" hrefLang="en" href="https://www.playdota2.com/en" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.playdota2.com/" />
       </head>
       <body className="scroll-smooth">
         <NextTopLoader

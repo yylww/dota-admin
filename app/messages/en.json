@@ -1,47 +1,40 @@
 {
-  "metadata": {
-    "title": "Dota 2 Stats",
-    "description": "A website that records and displays data related to Dota2 events",
-    "keywords": "dota, dota 2, dota2, dota 2 stats, dota 2 statistics, dota event, dota schedule, game data, match history"
+  "Index": {
+    "metadata": {
+      "title": "Dota 2 Events",
+      "description": "Dota2 event website, including event previews, event statistics, team information, player data, hero usage data rankings and other content."
+    },
+    "hotTournaments": "Tournaments"
   },
-  "header": {
-    "home": "Home",
-    "tournament": "Tournaments",
-    "statistic": "Statistics",
-    "time": "Memoirs"
-  },
-  "tournament": {
-    "title": "Tournaments"
-  },
-  "statistic": {
-    "pickRank": "Pick Ranking",
-    "banRank": "Ban Ranking",
-    "winRank": "Win Rate Ranking(high to low)",
-    "loseRank": "Win Rate Ranking(low to high)"
-  },
-  "tips": {
-    "develop": "Coming soon",
-    "notFound": "404: This page could not be found.",
-    "backHome": "Return to homepage",
-    "today": "Today",
-    "tomorrow": "tomorrow",
-    "local": "local time",
-    "noRecords": "No records",
-    "prizePool": "Prize Pool:",
-    "previous": "Previous: ",
-    "next": "Next: ",
+  "Tournament": {
+    "metadata": {
+      "title": "Dota2 Tournaments"
+    },
+    "prizePool": "Prize Pool: ",
     "ranking": "Ranking",
-    "noGames": "No game data yet, please try again later.",
     "expand": "Expand",
-    "shrink": "Shrink"
+    "shrink": "Shrink",
+    "previous": "Prev: ",
+    "next": "Next: "
   },
-  "match": {
+  "Battle": {
+    "metadata": {
+      "title": "Battle Records",
+      "description": "It includes the historical match data of the two teams, and also shows the heroes or hero combinations that the two teams are good at, as well as the heroes that the team players are good at and related data statistics."
+    },
+    "noRecords": "No records"
+  },
+  "Match": {
+    "noGames": "No game data yet, please try again later.",
+    "today": "Today",
     "extra": "Extra",
     "tab": "Game {number}",
     "live": "Twitch",
     "data": "Details",
     "record": "Records",
-    "duration": "Duration",
+    "upper": "Upper Bracket",
+    "lower": "Lower Bracket",
+    "final": "Grand Final",
     "player": "Player",
     "hero": "Hero",
     "level": "LVL",
@@ -56,5 +49,24 @@
     "xpm": "XPM",
     "heroDamage": "HD",
     "towerDamage": "TD"
+  },
+  "Statistic": {
+    "metadata": {
+      "title": "Dota 2 Tournament Stats",
+      "description": "Comprehensive Dota2 event statistics, including detailed statistics of multiple parameters in multiple dimensions such as events, teams, players, heroes, etc."
+    },
+    "pickRank": "Pick Ranking",
+    "banRank": "Ban Ranking",
+    "winRank": "Win Rate Ranking(high to low)",
+    "loseRank": "Win Rate Ranking(low to high)"
+  },
+  "Header": {
+    "home": "Home",
+    "tournament": "Tournaments",
+    "statistic": "Statistics"
+  },
+  "NotFound": {
+    "notFound": "404: This page could not be found.",
+    "backHome": "Return to homepage"
   }
 }
