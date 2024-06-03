@@ -17,20 +17,20 @@ export default async function TournamentDetail({ id }) {
   const formatter = new Intl.NumberFormat()
   const locale = useLocale()
   const games = stages
-                  .reduce((prev, current) => [...prev, ...current.matches], [])
-                  .reduce((prev, current) => [...prev, ...current.games], [])
+    .reduce((prev, current) => [...prev, ...current.matches], [])
+    .reduce((prev, current) => [...prev, ...current.games], [])
   return (
     <div className="flex flex-col gap-2 md:gap-4">
       <div className="bg-white p-2 md:p-4">
-        <h2 className="font-bold text-lg">{ locale === 'en' ? title_en : title }</h2>
+        <h2 className="font-bold text-lg">{locale === 'en' ? title_en : title}</h2>
         <LocalRangeDate data={[startDate, endDate]} />
         <p>
-          <span>{ t('Tournament.prizePool') }</span>
-          <span>${ formatter.format(bonus) }</span>
+          <span>{t('Tournament.prizePool')}</span>
+          <span>${formatter.format(bonus)}</span>
         </p>
       </div>
       <div className="bg-white p-2 md:p-4">
-        <p className="font-medium mb-2">{ t('Tournament.ranking') }</p>
+        <p className="font-medium mb-2">{t('Tournament.ranking')}</p>
         <Achievements data={achievements} />
       </div>
       <TournamentStatictis data={games} />
@@ -39,54 +39,54 @@ export default async function TournamentDetail({ id }) {
           const { title, title_en, startDate, endDate, mode, groups, matches } = stage
           return (
             <div className="bg-white p-2 md:p-4" key={i}>
-              <p className="font-medium">{ locale === 'en' ? title_en : title }</p>
+              <p className="font-medium">{locale === 'en' ? title_en : title}</p>
               <div className="mb-2">
                 <LocalRangeDate data={[startDate, endDate]} />
               </div>
-              { 
-                mode === 0 ? 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {
-                    groups.map((group, j) => (
-                      <div className="flex flex-col gap-2" key={j}>
-                        <Standings title={['Group A', 'Group B', 'Group C', 'Group D'][j]} list={group.list} matches={matches} />
-                        <Group list={group.list} matches={matches.filter(item => !item.extra)} />
-                      </div>
-                    ))
-                  }
-                </div> : null 
+              {
+                mode === 0 ?
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {
+                      groups.map((group, j) => (
+                        <div className="flex flex-col gap-2" key={j}>
+                          <Standings title={['Group A', 'Group B', 'Group C', 'Group D'][j]} list={group.list} matches={matches} />
+                          <Group list={group.list} matches={matches.filter(item => !item.extra)} />
+                        </div>
+                      ))
+                    }
+                  </div> : null
               }
-              { 
-                mode === 1 ? 
-                <div className="w-full py-2 overflow-x-auto"> 
-                  <DoubleElimination width={128} matchMap={groups} matches={matches} status="display" />
-                </div> : null 
+              {
+                mode === 1 ?
+                  <div className="w-full py-2 overflow-x-auto">
+                    <DoubleElimination width={128} matchMap={groups} matches={matches} status="display" />
+                  </div> : null
               }
-              { 
-                mode === 2 ? 
-                <div className="w-full py-4 overflow-x-auto"> 
-                  <SingleElimination width={128} matchMap={groups} matches={matches} status="display" />
-                </div> : null 
+              {
+                mode === 2 ?
+                  <div className="w-full py-4 overflow-x-auto">
+                    <SingleElimination width={128} matchMap={groups} matches={matches} status="display" />
+                  </div> : null
               }
-              { 
-                mode === 3 ? 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {
-                    groups.map((group, j) => (
-                      <div key={j}>
-                        <Standings title={['Group A', 'Group B', 'Group C', 'Group D'][j]} list={group.list} matches={matches} />
-                      </div>
-                    ))
-                  }
-                </div> : null 
+              {
+                mode === 3 ?
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {
+                      groups.map((group, j) => (
+                        <div key={j}>
+                          <Standings title={['Group A', 'Group B', 'Group C', 'Group D'][j]} list={group.list} matches={matches} />
+                        </div>
+                      ))
+                    }
+                  </div> : null
               }
-              { 
-                mode === 4 ? <SwissSystem data={stage} /> : null 
+              {
+                mode === 4 ? <SwissSystem data={stage} /> : null
               }
             </div>
           )
         })
-      } 
+      }
     </div>
   )
 }

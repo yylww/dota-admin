@@ -15,7 +15,19 @@
     "expand": "Expand",
     "shrink": "Shrink",
     "previous": "Prev: ",
-    "next": "Next: "
+    "next": "Next: ",
+    "statistic": "Statistics",
+    "matches": "Matches",
+    "notPlayed": "Not played",
+    "played": "Played heroes",
+    "aveTime": "Average time",
+    "maxTime": "Longest time",
+    "minTime": "Shortest time",
+    "radiantRate": "Radiant rate",
+    "direRate": "Dire rate",
+    "winRate": "High win rate (At least 5 appearances)",
+    "loseRate": "Low win rate (At least 5 appearances)",
+    "remark": "The statistics are based on this site's current event."
   },
   "Battle": {
     "metadata": {

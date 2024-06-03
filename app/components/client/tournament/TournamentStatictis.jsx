@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl"
 import Image from "next/image"
 
 export default async function TournamentStatictis({ data }) {
-  const t = useTranslations('TournamentDetail')
+  const t = useTranslations('Tournament')
   const heroes = await getHeroes()
   const radiantWinGames = data.filter(item => item.radiantWin)
   const direWinGames = data.filter(item => !item.radiantWin)
@@ -48,71 +48,65 @@ export default async function TournamentStatictis({ data }) {
   const rateRanking = Object.values(pickObj).filter(item => item.count >= 5).map(item => ({ ...item, percent: (item.winCount / item.count * 100).toFixed(1) }))
   return (
     <div className="bg-white p-2 md:p-4">
-      <h2 className="mb-2 font-medium">{t('statictis')}</h2>
+      <h2 className="mb-1 font-medium">{t('statistic')}</h2>
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ data.length }</span>
-          <span className="text-gray-500 text-xs">比赛场次</span>
+          <span className="text-gray-500 text-xs">{t('matches')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ pickHeroIds.length }</span>
-          <span className="text-gray-500 text-xs">上场英雄</span>
+          <span className="text-gray-500 text-xs">{t('played')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ noPickHeroIds.length }</span>
-          <span className="text-gray-500 text-xs">未上场</span>
+          <span className="text-gray-500 text-xs">{t('notPlayed')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(duration / 60) }:{ duration % 60 }</span>
-          <span className="text-gray-500 text-xs">场均时长</span>
+          <span className="text-gray-500 text-xs">{t('aveTime')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(maxDuration / 60) }:{ maxDuration % 60 }</span>
-          <span className="text-gray-500 text-xs">最长时长</span>
+          <span className="text-gray-500 text-xs">{t('maxTime')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(minDuration / 60) }:{ minDuration % 60 }</span>
-          <span className="text-gray-500 text-xs">最短时长</span>
+          <span className="text-gray-500 text-xs">{t('minTime')}</span>
         </div>
       </div>
       <div className="flex justify-between mt-2 mb-1">
-        <div>
-          <span>天辉胜率：</span>
-          <span className="text-blue-500">{ radiantWinRate }%</span>
-        </div>
-        <div>
-          <span>夜魇胜率：</span>
-          <span className="text-blue-500">{ 100 - radiantWinRate }%</span>
-        </div>
+        <span>{t('radiantRate')}</span>
+        <div>{t('direRate')}</div>
       </div>
       <div className="flex items-center text-gray-500">
-        <div style={{ width: `${radiantWinRate}%` }} className="h-6 pl-1 bg-green-200">{ radiantWinGames.length }</div>
-        <div style={{ width: `${100 - radiantWinRate}%` }} className="h-6 pr-1 text-right bg-red-200">{ direWinGames.length }</div>
+        <div style={{ width: `${radiantWinRate}%` }} className="h-6 pl-1 bg-green-200">{ radiantWinRate }%</div>
+        <div style={{ width: `${100 - radiantWinRate}%` }} className="h-6 pr-1 text-right bg-red-200">{ 100 - radiantWinRate }%</div>
       </div>
       <div className="mt-2">
-        <h3 className="mb-1">Pick最多</h3>
+        <h3 className="mb-1">Picks</h3>
         <div className="grid grid-cols-6 gap-1">
           {
             Object.values(pickObj).sort((a, b) => b.count - a.count).slice(0, 6).map((item, i) => (
               <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
-                <span className="text-sm text-gray-600">{ item.count }次</span>
+                <span className="text-sm text-gray-600">{ item.count }</span>
               </div>
             ))
           }
         </div>
-        <h3 className="mt-2 mb-1">Ban最多</h3>
+        <h3 className="mt-2 mb-1">Bans</h3>
         <div className="grid grid-cols-6 gap-1">
           {
             Object.values(banObj).sort((a, b) => b.count - a.count).slice(0, 6).map((item, i) => (
               <div className="flex flex-col items-center" key={i}>
                 <Image src={item.avatar} width={0} height={0} sizes="100%" className="w-full h-auto" alt={item.name} />
-                <span className="text-sm text-gray-600">{ item.count }次</span>
+                <span className="text-sm text-gray-600">{ item.count }</span>
               </div>
             ))
           }
         </div>
-        <h3 className="mt-2 mb-1">胜率最高</h3>
+        <h3 className="mt-2 mb-1">{t('winRate')}</h3>
         <div className="grid grid-cols-6 gap-1">
           {
             rateRanking.sort((a, b) => b.percent - a.percent).slice(0, 6).map((item, i) => (
@@ -123,7 +117,7 @@ export default async function TournamentStatictis({ data }) {
             ))
           }
         </div>
-        <h3 className="mt-2 mb-1">胜率最低</h3>
+        <h3 className="mt-2 mb-1">{t('loseRate')}</h3>
         <div className="grid grid-cols-6 gap-1">
           {
             rateRanking.sort((a, b) => a.percent - b.percent).slice(0, 6).map((item, i) => (
@@ -135,6 +129,7 @@ export default async function TournamentStatictis({ data }) {
           }
         </div>
       </div>
+      <div className="mt-3 text-xs text-gray-300">*{t('remark')}</div>
     </div>
   )
 }

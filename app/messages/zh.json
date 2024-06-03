@@ -15,7 +15,19 @@
     "expand": "展开",
     "shrink": "收起",
     "previous": "上一个赛事：",
-    "next": "下一个赛事："
+    "next": "下一个赛事：",
+    "statistic": "数据统计",
+    "matches": "比赛场次",
+    "notPlayed": "未上场",
+    "played": "上场英雄",
+    "aveTime": "场均时长",
+    "maxTime": "最长时长",
+    "minTime": "最短时长",
+    "radiantRate": "天辉胜率",
+    "direRate": "夜魇胜率",
+    "winRate": "胜率最高(至少出场5次)",
+    "loseRate": "胜率最低(至少出场5次)",
+    "remark": "统计数据基于本站本次赛事"
   },
   "Battle": {
     "metadata": {
