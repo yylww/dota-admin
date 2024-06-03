@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import { useEffect, useRef } from "react"
 
 export default function ScrollToToday() {
-  const t = useTranslations('tips')
+  const t = useTranslations('Match')
   const ref = useRef(null)
   useEffect(() => {
     ref.current.scrollIntoView()

@@ -1,46 +1,40 @@
 {
-  "metadata": {
-    "title": "Dota2赛事",
-    "description": "一个记录和展示Dota2赛事相关数据的网站",
-    "keywords": "Dota, Dota2, 比赛, 赛事, 预告, 赛程, 数据, xg, ar, ig"
+  "Index": {
+    "metadata": {
+      "title": "Dota2赛事",
+      "description": "Dota2赛事网站，包含了赛事预告、赛事数据统计、战队信息、选手数据、英雄使用数据排行等内容。"
+    },
+    "hotTournaments": "热门赛事"
   },
-  "header": {
-    "home": "首页",
-    "tournament": "赛事信息",
-    "statistic": "数据统计",
-    "time": "时光站"
-  },
-  "tournament": {
-    "title": "热门赛事"
-  },
-  "statistic": {
-    "pickRank": "出场排行榜",
-    "banRank": "禁用排行榜",
-    "winRank": "胜率排行榜（由高到低）",
-    "loseRank": "胜率排行榜（由低到高）"
-  },
-  "tips": {
-    "develop": "即将上线，敬请期待",
-    "notFound": "404: 未找到相关页面",
-    "backHome": "返回首页",
-    "today": "今天",
-    "tomorrow": "明天",
-    "local": "当地时间",
-    "noRecords": "无相关比赛",
+  "Tournament": {
+    "metadata": {
+      "title": "Dota2赛事列表"
+    },
     "prizePool": "总奖金：",
-    "previous": "上一个赛事：",
-    "next": "下一个赛事：",
     "ranking": "赛事排名",
-    "noGames": "暂无比赛数据，请稍后再试。",
     "expand": "展开",
-    "shrink": "收起"
+    "shrink": "收起",
+    "previous": "上一个赛事：",
+    "next": "下一个赛事："
   },
-  "match": {
+  "Battle": {
+    "metadata": {
+      "title": "对战记录",
+      "description": "包含了两支队伍历史交手数据，另外展示了两支队伍所擅长的英雄或英雄组合，还包括队伍选手所擅长的英雄及相关数据统计。"
+    },
+    "noRecords": "无相关比赛"
+  },
+  "Match": {
+    "noGames": "暂无比赛数据，请稍后再试。",
+    "today": "今天",
     "extra": "加赛",
     "tab": "第{number}场",
     "live": "虎牙直播",
     "data": "比赛数据",
     "record": "交手记录",
+    "upper": "胜者组",
+    "lower": "败者组",
+    "final": "总决赛",
     "duration": "时长",
     "player": "选手",
     "hero": "英雄",
@@ -57,7 +51,23 @@
     "heroDamage": "英雄伤害",
     "towerDamage": "塔伤害"
   },
-  "TournamentDetail": {
-    "statictis": "赛事数据"
+  "Statistic": {
+    "metadata": {
+      "title": "Dota2赛事 - 数据统计",
+      "description": "全面的Dota2赛事数据统计，包含了赛事、队伍、选手、英雄等多个维度的多项参数的详细统计。"
+    },
+    "pickRank": "出场排行榜",
+    "banRank": "禁用排行榜",
+    "winRank": "胜率排行榜（由高到低）",
+    "loseRank": "胜率排行榜（由低到高）"
+  },
+  "Header": {
+    "home": "首页",
+    "tournament": "赛事信息",
+    "statistic": "数据统计"
+  },
+  "NotFound": {
+    "notFound": "404: 未找到相关页面",
+    "backHome": "返回首页"
   }
 }

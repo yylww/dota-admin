@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export const DetailComponent = ({ data }) => {
   const locale = useLocale()
-  const t = useTranslations('match')
+  const t = useTranslations('Match')
   const { duration, radiant, dire, radiantScore, direScore, records, bans, picks } = data
   const radiants = records.filter(item => item.radiant)
   const dires = records.filter(item => !item.radiant)

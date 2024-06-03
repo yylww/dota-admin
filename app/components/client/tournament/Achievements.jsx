@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 export const Achievements = ({ data }) => {
-  const t = useTranslations('tips')
+  const t = useTranslations('Tournament')
   const formatter = new Intl.NumberFormat()
   const [expand, setExpand] = useState(false)
   return (

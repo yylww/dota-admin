@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl"
 
 export default function Match({ data }) {
   const locale = useLocale()
-  const t = useTranslations('match')
+  const t = useTranslations('Match')
   const { id, startTime, status, bo, extra, homeTeam, homeTeamId, awayTeam, awayTeamId, homeScore, awayScore, games } = data
   const homeDots = [...Array(bo)].map((_, i) => {
     if (games[i]) {

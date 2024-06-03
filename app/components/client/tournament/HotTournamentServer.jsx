@@ -8,12 +8,12 @@ import { useLocale } from "next-intl"
 export default async function HotTournamentServer({ tournamentId }) {
   const data = await getTournaments()
   const locale = useLocale()
-  const t = await getTranslations('tournament')
+  const t = await getTranslations()
   return (
     <div className="flex flex-col w-full p-4 border border-gray-200 rounded-md bg-white">
       <div className="flex gap-2 pb-2 text-lg">
         <TrophyIcon className="w-6 text-blue-500" />
-        <p className="font-medium">{ t('title') }</p>
+        <p className="font-medium">{ t('Index.hotTournaments') }</p>
       </div>
       <div>
         {

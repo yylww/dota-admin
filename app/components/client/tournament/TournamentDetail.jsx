@@ -12,7 +12,7 @@ import TournamentStatictis from "./TournamentStatictis"
 
 export default async function TournamentDetail({ id }) {
   const data = await getTournament(id)
-  const t = await getTranslations('tips')
+  const t = await getTranslations()
   const { title, title_en, startDate, endDate, bonus, stages, achievements } = data
   const formatter = new Intl.NumberFormat()
   const locale = useLocale()
@@ -25,12 +25,12 @@ export default async function TournamentDetail({ id }) {
         <h2 className="font-bold text-lg">{ locale === 'en' ? title_en : title }</h2>
         <LocalRangeDate data={[startDate, endDate]} />
         <p>
-          <span>{ t('prizePool') }</span>
+          <span>{ t('Tournament.prizePool') }</span>
           <span>${ formatter.format(bonus) }</span>
         </p>
       </div>
       <div className="bg-white p-2 md:p-4">
-        <p className="font-medium mb-2">{ t('ranking') }</p>
+        <p className="font-medium mb-2">{ t('Tournament.ranking') }</p>
         <Achievements data={achievements} />
       </div>
       <TournamentStatictis data={games} />
