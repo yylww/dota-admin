@@ -11,7 +11,7 @@ export default function Header() {
   const pathname = usePathname()
 
   return (
-    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-indigo-200 text-xs md:text-base">
+    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-14 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-indigo-200 text-xs md:text-base">
       <div className="flex items-center w-full md:w-[1000px]">
         <Link href="/" className="flex flex-1 justify-center items-center h-full">
           <div className="flex flex-col md:flex-row md:gap-1 justify-center items-center">
