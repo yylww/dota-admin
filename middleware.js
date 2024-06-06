@@ -2,14 +2,13 @@ import { NextResponse } from "next/server"
 import NextAuth from "next-auth"
 import { authConfig } from "./auth.config"
 import createMiddleware from 'next-intl/middleware'
-import { locales, defaultLocale, localePrefix } from "./app/messages/config"
+// import { locales, defaultLocale, localePrefix } from "./app/messages/config"
+import { locales, localePrefix } from './app/messages/navigation'
 
 const intlMiddleware = createMiddleware({
-  // A list of all locales that are supported
-  locales,
-  // Used when no locale matches
-  defaultLocale,
+  defaultLocale: 'zh',
   localePrefix,
+  locales,
 })
 
 const { auth } = NextAuth(authConfig)
