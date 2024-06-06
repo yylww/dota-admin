@@ -18,7 +18,7 @@ export async function generateMetadata({ params: { locale } }) {
 export default async function RootLayout({ children, params: { locale } }) {
   const messages = await getMessages()
   return (
-    <html lang={locale} className="text-[16px]">
+    <html lang={locale} className="text-[14px] md:text-[16px]">
       <head>
         <link rel="alternate" hrefLang="en" href="https://www.playdota2.com/en" />
         <link rel="alternate" hrefLang="x-default" href="https://www.playdota2.com/" />

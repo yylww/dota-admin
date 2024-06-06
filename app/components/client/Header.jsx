@@ -1,29 +1,46 @@
 'use client'
 
-import clsx from 'clsx'
-import { useTranslations } from 'next-intl'
+import { ChartBarIcon, HomeIcon, LanguageIcon, TrophyIcon } from '@heroicons/react/24/outline'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 
 export default function Header() {
+  const locale = useLocale()
   const t = useTranslations('Header')
   const pathname = usePathname()
+  const langLink = pathname.startsWith('/en') ? pathname.replace('en', 'zh') : `/en${pathname}`
 
   return (
-    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-200 md:border-t-0 md:border-b md:border-b-gray-200 bg-white text-md">
-      <div className="flex w-[1000px]">
-        <Link href="/" className={clsx(
-          "flex flex-1 justify-center items-center h-full",
-          pathname === '/' || pathname === '/en' ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ t('home') }</Link>
-        <Link href="/statistics" className={clsx(
-          "flex flex-1 justify-center items-center h-full",
-          pathname.includes('statistics') ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ t('statistic') }</Link>
-        <Link href="/tournaments" className={clsx(
-          "flex flex-1 justify-center items-center h-full",
-          pathname.includes('tournaments') ? "border-b border-b-blue-500 text-blue-500" : "",
-        )}>{ t('tournament') }</Link>
+    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-indigo-200 text-xs md:text-base">
+      <div className="flex items-center w-full md:w-[1000px]">
+        <Link href="/" className="flex flex-1 justify-center items-center h-full">
+          <div className="flex flex-col md:flex-row md:gap-1 justify-center items-center">
+            <HomeIcon className="w-5" />
+            <span>{ t('home') }</span>
+          </div>
+        </Link>
+        <div className="w-[1px] h-6 bg-gray-100"></div>
+        <Link href="/tournaments" className="flex flex-1 justify-center items-center h-full">
+          <div className="flex flex-col md:flex-row md:gap-1 justify-center items-center">
+            <TrophyIcon className="w-5" />
+            <span>{ t('tournament') }</span>
+          </div>
+        </Link>
+        <div className="w-[1px] h-6 bg-gray-100"></div>
+        <Link href="/statistics" className="flex flex-1 justify-center items-center h-full">
+          <div className="flex flex-col md:flex-row md:gap-1 justify-center items-center">
+            <ChartBarIcon className="w-5" />
+            <span>{ t('statistic') }</span>
+          </div>
+        </Link>
+        <div className="w-[1px] h-6 bg-gray-100"></div>
+        <Link href={langLink} scroll={false} className="flex flex-1 justify-center items-center h-full">
+          <div className="flex flex-col md:flex-row md:gap-1 justify-center items-center">
+            <LanguageIcon className="w-5" />
+            <span>{t('language')}</span>
+          </div>
+        </Link>
       </div>
     </div>
   )

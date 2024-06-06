@@ -13,7 +13,7 @@ export async function generateMetadata({ params: { id, locale } }) {
 
 export default async function Page() {
   const t = await getTranslations()
-  const { banRanking, pickRanking, rateRanking } = await getStatistics()
+  const { banRanking, pickRanking, rateRanking } = await getStatistics({})
   const banSort = banRanking.sort((a, b) => b.count - a.count).slice(0, 20)
   const pickSort = pickRanking.sort((a, b) => b.count - a.count).slice(0, 20)
   const winSort = rateRanking.filter(item => item.count > 3).sort((a, b) => b.percent - a.percent).slice(0, 20)

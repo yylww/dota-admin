@@ -76,7 +76,8 @@
   "Header": {
     "home": "首页",
     "tournament": "赛事信息",
-    "statistic": "数据统计"
+    "statistic": "数据统计",
+    "language": "语言"
   },
   "NotFound": {
     "notFound": "404: 未找到相关页面",

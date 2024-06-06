@@ -75,7 +75,8 @@
   "Header": {
     "home": "Home",
     "tournament": "Tournaments",
-    "statistic": "Statistics"
+    "statistic": "Statistics",
+    "language": "Language"
   },
   "NotFound": {
     "notFound": "404: This page could not be found.",
