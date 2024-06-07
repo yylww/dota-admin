@@ -61,7 +61,15 @@
     "gpm": "GPM",
     "xpm": "XPM",
     "heroDamage": "英雄伤害",
-    "towerDamage": "塔伤害"
+    "towerDamage": "塔伤害",
+    "radiant": "天辉",
+    "dire": "夜魇",
+    "win": "胜利",
+    "lose": "失败",
+    "kill": "击败",
+    "money": "金钱",
+    "damage": "伤害",
+    "notFound": "ID为{id}的比赛不存在"
   },
   "Statistic": {
     "metadata": {
@@ -75,12 +83,16 @@
   },
   "Header": {
     "home": "首页",
-    "tournament": "赛事信息",
+    "tournament": "赛事中心",
     "statistic": "数据统计",
     "language": "English"
   },
   "NotFound": {
     "notFound": "404: 未找到相关页面",
     "backHome": "返回首页"
+  },
+  "Error": {
+    "error": "出错了！",
+    "reset": "重试"
   }
 }

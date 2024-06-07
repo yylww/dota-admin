@@ -18,7 +18,7 @@ export default async function Page({ searchParams }) {
           </Suspense>
         </div>
       </div>
-      <div className="flex flex-col gap-2 md:gap-4 w-full md:w-[750px] md:p-4">
+      <div className="flex flex-col gap-2 md:gap-4 w-full md:w-[650px] md:p-4">
         <Suspense fallback={<MatchListSkeleton />}>
           <MatchListServer params={{ tournamentId, orderBy: { startTime: 'desc' } }} />
         </Suspense>

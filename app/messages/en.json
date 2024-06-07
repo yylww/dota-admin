@@ -60,7 +60,15 @@
     "gpm": "GPM",
     "xpm": "XPM",
     "heroDamage": "HD",
-    "towerDamage": "TD"
+    "towerDamage": "TD",
+    "radiant": "Radiant",
+    "dire": "Dire",
+    "win": "Win",
+    "lose": "Lose",
+    "kill": "Kill",
+    "money": "Money",
+    "damage": "Damage",
+    "notFound": "The match with ID {id} does not exist."
   },
   "Statistic": {
     "metadata": {
@@ -81,5 +89,9 @@
   "NotFound": {
     "notFound": "404: This page could not be found.",
     "backHome": "Return to homepage"
+  },
+  "Error": {
+    "error": "Something went wrong!\t",
+    "reset": "Try again"
   }
 }

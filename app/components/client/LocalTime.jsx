@@ -7,11 +7,11 @@ import { Suspense } from "react"
 var utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
 
-export function LocalTime({ data, format }) {
+export function LocalTime({ data, format, className }) {
   const hydrated = useHydration()
   return (
     <Suspense key={hydrated ? 'local' : 'utc'}>
-      <span>
+      <span className={className}>
         { dayjs(data).format(format) }
         { hydrated ? '' : ' (UTC)'}
       </span>
@@ -19,11 +19,11 @@ export function LocalTime({ data, format }) {
   )
 }
 
-export function LocalRangeDate({ data }) {
+export function LocalRangeDate({ data, className }) {
   const hydrated = useHydration()
   return (
     <Suspense key={hydrated ? 'local' : 'utc'}>
-      <div>
+      <div className={className}>
         <span>{ dayjs(data[0]).utcOffset(8).format('YYYY/MM/DD') }</span>
         <span> - </span>
         <span>{ dayjs(data[1]).utcOffset(8).format('YYYY/MM/DD') }</span>

@@ -1,32 +1,47 @@
 import { LocalTime } from "@/app/components/client/LocalTime"
+import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
+import { useLocale } from "next-intl"
 import Image from "next/image"
+import Link from "next/link"
 
 export const ScoreComponent = ({ data }) => {
-  const { startTime, homeTeam, homeScore, awayTeam, awayScore } = data
+  const locale = useLocale()
+  const { startTime, bo, tournament, homeTeam, homeScore, awayTeam, awayScore } = data
   return (
-    <div className="flex justify-center gap-3 md:gap-6 w-full mb-2 py-2 md:py-6">
-      <div className="flex justify-center items-center gap-2 md:gap-3 w-[33%] h-24 md:h-32 rounded-md">
-        <div className="flex-1 md:text-2xl text-right">{homeTeam.name}</div>
-        <Image src={homeTeam.logo} width={0} height={0} sizes="100%" className="shrink-0 w-6 md:w-10 h-auto" alt={homeTeam.name} />
-      </div>
-      <div className="flex flex-col justify-center w-[25%] md:w-32 h-24 md:h-32">
-        <div className="flex justify-between w-full">
-          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-6xl", homeScore > awayScore ? "text-green-500" : "")}>{ homeScore }</div>
-          <div className="flex flex-col justify-center gap-1 md:gap-3 h-16 md:h-20">
-            <div className="w-2 h-2 rounded-full bg-gray-900"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-900"></div>
+    <section className="py-4 md:pt-6">
+      <div className="flex justify-center mb-4">
+        <Link href={`/tournaments/${tournament.id}`} className="flex text-black/60">
+          <h1>{ locale === 'en' ? tournament.title_en : tournament.title }</h1>
+          <ChevronDoubleRightIcon className="w-4" />
+        </Link>
+      </div>  
+      <div className="flex gap-10 md:gap-20 justify-center items-center">
+        <div className="flex flex-col gap-3 justify-center items-center w-[60px]">
+          <div className="relative w-12 h-12">
+            <Image src={homeTeam.logo} fill className="object-contain" alt={homeTeam.name} />
           </div>
-          <div className={clsx("flex justify-center items-center w-10 md:w-16 h-16 md:h-20 rounded-sm text-6xl", homeScore < awayScore ? "text-green-500" : "")}>{ awayScore }</div>
+          <div>{homeTeam.tag}</div>
         </div>
-        <div className="text-center text-md">
-          <LocalTime data={startTime} format="MM-DD HH:mm" />
+        <div className="flex flex-col justify-center text-center">
+          <div className="flex justify-center gap-2">
+            <div className={clsx("flex justify-center items-center text-5xl", homeScore > awayScore ? "" : "opacity-50")}>{ homeScore }</div>
+            <div className="flex flex-col justify-center gap-[6px]">
+              <div className="w-[5px] h-[5px] rounded-full bg-black/60"></div>
+              <div className="w-[5px] h-[5px] rounded-full bg-black/60"></div>
+            </div>
+            <div className={clsx("flex justify-center items-center text-5xl", homeScore > awayScore ? "opacity-50" : "")}>{ awayScore }</div>
+          </div>
+          <LocalTime data={startTime} format="MM-DD HH:mm" className="text-sm text-black/60" />
+          <div className="text-sm text-black/60">BO{bo}</div>
+        </div>
+        <div className="flex flex-col gap-3 justify-center items-center w-[60px]">
+          <div className="relative w-12 h-12">
+            <Image src={awayTeam.logo} fill className="object-contain" alt={awayTeam.name} />
+          </div>
+          <div>{awayTeam.tag}</div>
         </div>
       </div>
-      <div className="flex justify-center items-center gap-2 md:gap-3 w-[33%] h-24 md:h-32 rounded-md">
-        <Image src={awayTeam.logo} width={0} height={0} sizes="100%" className="shrink-0 w-6 md:w-10 h-auto" alt={awayTeam.name} />
-        <div className="flex-1 md:text-2xl">{awayTeam.name}</div>
-      </div>
-    </div>
+    </section>
   )
 }

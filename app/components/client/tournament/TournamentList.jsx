@@ -22,7 +22,7 @@ export default async function TournamentList() {
                     <span>{ locale === 'en' ? title_en : title }</span>
                     <span className="text-yellow-500">${ formatter.format(bonus) }</span>
                   </div>
-                  <LocalRangeDate data={[startDate, endDate]} />
+                  <LocalRangeDate data={[startDate, endDate]} className="text-sm text-black/60" />
                 </div>
               </div>
             </Link>

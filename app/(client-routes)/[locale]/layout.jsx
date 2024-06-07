@@ -31,9 +31,9 @@ export default async function RootLayout({ children, params: { locale } }) {
           shadow={false}
         />
         <NextIntlClientProvider messages={messages}>
-          <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-gray-900">
+          <div id="main" className="flex flex-col w-full min-h-full bg-gray-100 text-black/80">
             <Header />
-            <div className="flex-1 w-full md:w-[990px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
+            <div className="flex-1 w-full md:w-[900px] min-h-full pb-14 md:pt-12 md:pb-4 mx-auto">{ children }</div>
           </div>
         </NextIntlClientProvider>
       </body>
