@@ -5,8 +5,6 @@ import { HotTournamentSkeleton, MatchListSkeleton } from "@/app/components/clien
 import { getLatestTournamentId } from "@/app/lib/tournament"
 import TournamentRouter from "@/app/components/client/tournament/TournamentRouter"
 
-export const dynamic = 'force-dynamic'
-
 export default async function Page({ searchParams }) {
   const tournamentId = searchParams.tournament ? +searchParams.tournament : await getLatestTournamentId()
   return (
