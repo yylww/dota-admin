@@ -33,7 +33,7 @@ export const PlayerData = ({ data, radiant }) => {
             return (
               <div className="flex gap-2 p-2 md:p-4 border-b last:border-0 border-b-black/5" key={i}>
                 <div className="relative w-[80px] md:w-[96px] h-[45px] md:h-[54px] mt-[2px] rounded-[4px] overflow-hidden">
-                  <Image src={hero.avatar} fill className="w-full h-full" alt={hero.name} />
+                  <Image src={hero.avatar} fill sizes="100%" className="w-full h-full" alt={hero.name} />
                   <div className="absolute bottom-0 px-[2px] bg-black/60 text-xs text-white/95">{ level }</div>
                 </div>
                 <div className="flex flex-1 flex-col text-xs">

@@ -19,7 +19,7 @@ export const ScoreComponent = ({ data }) => {
       <div className="flex gap-10 md:gap-20 justify-center items-center">
         <div className="flex flex-col gap-3 justify-center items-center w-[60px]">
           <div className="relative w-12 h-12">
-            <Image src={homeTeam.logo} fill className="object-contain" alt={homeTeam.name} />
+            <Image src={homeTeam.logo} fill sizes="100%" className="object-contain" alt={homeTeam.name} />
           </div>
           <div>{homeTeam.tag}</div>
         </div>
@@ -37,7 +37,7 @@ export const ScoreComponent = ({ data }) => {
         </div>
         <div className="flex flex-col gap-3 justify-center items-center w-[60px]">
           <div className="relative w-12 h-12">
-            <Image src={awayTeam.logo} fill className="object-contain" alt={awayTeam.name} />
+            <Image src={awayTeam.logo} fill sizes="100%" className="object-contain" alt={awayTeam.name} />
           </div>
           <div>{awayTeam.tag}</div>
         </div>

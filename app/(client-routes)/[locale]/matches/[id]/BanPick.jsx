@@ -14,7 +14,7 @@ export const BanPick = ({ data }) => {
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-1 gap-3 justify-start items-center">
           <div className="relative w-8 md:w-10 h-8 md:h-10">
-            <Image src={radiant.logo} fill className="object-contain" alt={radiant.name} />
+            <Image src={radiant.logo} fill sizes="100%" className="object-contain" alt={radiant.name} />
           </div>
           <div>{radiant.tag}</div>
         </div>
@@ -22,7 +22,7 @@ export const BanPick = ({ data }) => {
         <div className="flex flex-1 gap-3 justify-end items-center">
           <div>{dire.tag}</div>
           <div className="relative w-8 md:w-10 h-8 md:h-10">
-            <Image src={dire.logo} fill className="object-contain" alt={dire.name} />
+            <Image src={dire.logo} fill sizes="100%" className="object-contain" alt={dire.name} />
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@ export const BanPick = ({ data }) => {
         <div className="flex gap-[1px]">
           {
             radiantBans.map((item, i) => (
-              <div className="flex flex-col w-[23px] md:w-[48px] text-center">
+              <div className="flex flex-col w-[23px] md:w-[48px] text-center" key={i}>
                 <div className="flex relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden brightness-75" key={i}>
                   <Image src={item.hero.avatar} width={60} height={36} className="object-cover" alt={item.hero.name} />
                 </div>
@@ -42,7 +42,7 @@ export const BanPick = ({ data }) => {
         <div className="flex gap-[1px]">
           {
             direBans.map((item, i) => (
-              <div className="flex flex-col w-[23px] md:w-[48px] text-center">
+              <div className="flex flex-col w-[23px] md:w-[48px] text-center" key={i}>
                 <div className="flex relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden brightness-75" key={i}>
                   <Image src={item.hero.avatar} width={60} height={36} className="object-cover" alt={item.hero.name} />
                 </div>
@@ -56,7 +56,7 @@ export const BanPick = ({ data }) => {
         <div className="flex gap-[1px]">
           {
             radiantPicks.map((item, i) => (
-              <div className="flex flex-col w-[23px] md:w-[48px] text-center">
+              <div className="flex flex-col w-[23px] md:w-[48px] text-center" key={i}>
                 <div className="flex relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden" key={i}>
                   <Image src={item.hero.avatar} width={60} height={36} className="object-cover" alt={item.hero.name} />
                 </div>
@@ -68,7 +68,7 @@ export const BanPick = ({ data }) => {
         <div className="flex gap-[1px]">
           {
             direPicks.map((item, i) => (
-              <div className="flex flex-col w-[23px] md:w-[48px] text-center">
+              <div className="flex flex-col w-[23px] md:w-[48px] text-center" key={i}>
                 <div className="flex relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden" key={i}>
                   <Image src={item.hero.avatar} width={60} height={36} className="object-cover" alt={item.hero.name} />
                 </div>
