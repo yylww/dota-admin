@@ -43,8 +43,8 @@ export const BanPick = ({ data }) => {
           {
             direBans.map((item, i) => (
               <div className="flex flex-col w-[23px] md:w-[48px] text-center" key={i}>
-                <div className="flex relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden brightness-75" key={i}>
-                  <Image src={item.hero.avatar} width={60} height={36} className="object-cover" alt={item.hero.name} />
+                <div className="relative w-[23px] md:w-[48px] h-[23px] md:h-[27px] rounded-sm overflow-hidden brightness-75" key={i}>
+                  <Image src={item.hero.avatar} width={0} height={0} sizes="100%" className="w-full h-full object-cover" alt={item.hero.name} />
                 </div>
                 <div className="mt-[-2px] text-black/60 text-[10px] md:text-xs">{ item.order + 1 }</div>
               </div>
