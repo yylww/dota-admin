@@ -31,48 +31,50 @@ export const PlayerData = ({ data, radiant }) => {
             const { hero, level, player, heroDamage, netWorth, kills, deaths, assists, items } = item
             const { equipments, neutral = {}, scepter = 0, shard = 0 } = items
             return (
-              <div className="flex gap-2 p-2 md:p-4 border-b last:border-0 border-b-black/5" key={i}>
-                <div className="relative w-[80px] md:w-[96px] h-[45px] md:h-[54px] mt-[2px] rounded-[4px] overflow-hidden">
-                  <Image src={hero.avatar} fill sizes="100%" className="w-full h-full" alt={hero.name} />
-                  <div className="absolute bottom-0 px-[2px] bg-black/60 text-xs text-white/95">{ level }</div>
-                </div>
-                <div className="flex flex-1 flex-col text-xs">
-                  <div className={clsx("text-base", radiant ? "text-[#aac660]" : "text-[#f38365]")}>{ player.nickname }</div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="text-black/60">{t('money')} </span><span className="font-bold">{ netWorth }</span>
+              <div className="p-2 md:p-4 border-b last:border-0 border-b-black/5" key={i}>
+                <div className="flex gap-2 h-[45px] md:h-[54px]">
+                  <div className="relative h-full rounded-[4px] overflow-hidden">
+                    <Image src={hero.avatar} width={0} height={0} sizes="100%" className="block h-full w-auto" alt={hero.name} />
+                    <div className="absolute bottom-0 px-[2px] bg-black/60 text-xs text-white/95">{ level }</div>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between text-xs">
+                    <div className={clsx("text-sm md:text-base", radiant ? "text-[#aac660]" : "text-[#f38365]")}>{ player.nickname }</div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="text-black/60">{t('money')} </span><span className="font-bold">{ netWorth }</span>
+                      </div>
+                      <div className="flex text-center">
+                        <span>{kills} / {deaths} / {assists}</span>
+                      </div>
                     </div>
-                    <div className="flex text-center">
-                      <div className="w-[16px]">{kills}</div>/<div className="w-[16px]">{deaths}</div>/<div className="w-[16px]">{assists}</div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="text-black/60">{t('damage')} </span><span className="font-bold">{ heroDamage }</span>
+                      </div>
+                      <div>
+                        <span className="text-black/60">KDA </span><span className="font-bold">{ deaths > 0 ? ((kills + assists) / deaths).toFixed(1) : (kills + assists) }</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="text-black/60">{t('damage')} </span><span className="font-bold">{ heroDamage }</span>
+                  <div className="flex gap-[2px] h-full">
+                    <div className="flex flex-col justify-between">
+                      <div className="flex flex-col justify-center items-center">
+                        <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="scepter" />
+                        <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="shard" />
+                      </div>
+                      <div className="rounded-sm overflow-hidden" title={locale === 'en' ? neutral.name : neutral.cname}>
+                        <Image src={neutral.image} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt={neutral.cname} />
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-black/60">KDA </span><span className="font-bold">{ deaths > 0 ? ((kills + assists) / deaths).toFixed(1) : (kills + assists) }</span>
+                    <div className="grid grid-cols-3 gap-[2px] w-[90px] md:w-[100px] h-full">
+                      {
+                        equipments.map((item, i) => (
+                          <div key={i} className="relative rounded-sm overflow-hidden" title={locale === 'en' ? item.name : item.cname}>
+                            <Image src={item.image} fill sizes="100%" className="w-full h-full" alt={item.cname} />
+                          </div>
+                        ))
+                      }
                     </div>
-                  </div>
-                </div>
-                <div className="flex gap-[2px]">
-                  <div className="flex flex-col">
-                    <div className="flex flex-col justify-center items-center">
-                      <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="scepter" />
-                      <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="shard" />
-                    </div>
-                    <div className="rounded-sm overflow-hidden" title={locale === 'en' ? neutral.name : neutral.cname}>
-                      <Image src={neutral.image} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt={neutral.cname} />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-[2px]">
-                    {
-                      equipments.map((item, i) => (
-                        <div key={i} className="rounded-sm overflow-hidden" title={locale === 'en' ? item.name : item.cname}>
-                          <Image src={item.image} width={0} height={0} sizes="100%" className="w-auto h-[21px] md:h-[26px]" alt={item.cname} />
-                        </div>
-                      ))
-                    }
                   </div>
                 </div>
               </div>
