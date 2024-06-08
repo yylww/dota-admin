@@ -1,25 +1,32 @@
+'use client'
+
+import { useQueryParams } from "@/app/hooks/useQueryParams"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
-import Link from "next/link"
+// import Link from "next/link"
 
-export const TabComponent = ({ id, length, tabIndex }) => {
+// export const TabComponent = ({ id, length, tabIndex }) => {
+export const TabComponent = ({ length }) => {
   const t = useTranslations('Match')
+  const [searchParams, handleSearchParams] = useQueryParams()
+  const tabIndex = searchParams.tab ? Number(searchParams.tab) : 1
   return (
     <section className="p-2 md:px-4">
       <div className="flex w-full h-9 p-1 rounded-sm text-black/60 bg-black/5">
         {
           [...Array(length)].map((_, index) => (
-            <Link
-              href={`/matches/${id}?tab=${index+1}`} 
-              replace
+            <div
+              // href={`/matches/${id}?tab=${index+1}`} 
+              // replace
+              onClick={() => handleSearchParams('tab', index + 1)}
               key={index} 
               className={clsx(
                 "flex flex-1 h-full justify-center items-center cursor-pointer rounded-sm",
-                tabIndex === index ? "bg-white text-black" : ""
+                tabIndex === index + 1 ? "bg-white text-black" : ""
               )}
             >
               { t('tab', { number: index + 1 }) }
-            </Link>
+            </div>
           ))
         }
       </div>
