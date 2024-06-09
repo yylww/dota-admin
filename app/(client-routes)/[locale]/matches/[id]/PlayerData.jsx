@@ -59,8 +59,8 @@ export const PlayerData = ({ data, radiant }) => {
                   <div className="flex gap-[2px] h-full">
                     <div className="flex flex-col justify-between">
                       <div className="flex flex-col justify-center items-center">
-                        <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="scepter" />
-                        <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt="shard" />
+                        <Image src={`/items/scepter_${scepter}.png`} width={0} height={0} sizes="100%" className="w-[18px] md:w-[21px] h-auto" alt="scepter" />
+                        <Image src={`/items/shard_${shard}.png`} width={0} height={0} sizes="100%" className="w-[18px] md:w-[21px] h-auto" alt="shard" />
                       </div>
                       <div className="rounded-sm overflow-hidden" title={locale === 'en' ? neutral.name : neutral.cname}>
                         <Image src={neutral.image} width={0} height={0} sizes="100%" className="w-[20px] md:w-[23px] h-auto" alt={neutral.cname} />

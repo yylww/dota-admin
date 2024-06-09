@@ -3,9 +3,7 @@
 import { useQueryParams } from "@/app/hooks/useQueryParams"
 import clsx from "clsx"
 import { useTranslations } from "next-intl"
-// import Link from "next/link"
 
-// export const TabComponent = ({ id, length, tabIndex }) => {
 export const TabComponent = ({ length }) => {
   const t = useTranslations('Match')
   const [searchParams, handleSearchParams] = useQueryParams()
@@ -16,8 +14,6 @@ export const TabComponent = ({ length }) => {
         {
           [...Array(length)].map((_, index) => (
             <div
-              // href={`/matches/${id}?tab=${index+1}`} 
-              // replace
               onClick={() => handleSearchParams('tab', index + 1)}
               key={index} 
               className={clsx(
@@ -31,6 +27,5 @@ export const TabComponent = ({ length }) => {
         }
       </div>
     </section>
-    
   )
 } 

@@ -9,14 +9,14 @@ export const BanPick = ({ data }) => {
   return (
     <section className="p-2 md:p-4">
       <div className="flex justify-between items-center mb-3">
-        <div className="flex flex-1 gap-3 justify-start items-center">
+        <div className="flex flex-1 gap-2 md:gap-3 justify-start items-center">
           <div className="relative w-8 md:w-10 h-8 md:h-10">
             <Image src={radiant.logo} fill sizes="100%" className="object-contain" alt={radiant.name} />
           </div>
           <div>{radiant.tag}</div>
         </div>
         <div className="text-black/60 flex-1 text-center text-sm">{ Math.floor(duration / 60) }m:{ (duration % 60) > 9 ? (duration % 60) : `0${duration % 60}` }s</div>
-        <div className="flex flex-1 gap-3 justify-end items-center">
+        <div className="flex flex-1 gap-2 md:gap-3 justify-end items-center">
           <div>{dire.tag}</div>
           <div className="relative w-8 md:w-10 h-8 md:h-10">
             <Image src={dire.logo} fill sizes="100%" className="object-contain" alt={dire.name} />

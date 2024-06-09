@@ -40,7 +40,6 @@ export default async function Page({ params, searchParams }) {
         data.games.length > 0 ? 
         <div className="pb-2">
           <TabComponent length={data.games.length} />
-          {/* <TabComponent id={+params.id} length={data.games.length} tabIndex={index} /> */}
           <BanPick data={data.games[index]} />
           <div className="flex flex-col md:flex-row md:gap-4">
             <PlayerData data={radiants} radiant={true} />
