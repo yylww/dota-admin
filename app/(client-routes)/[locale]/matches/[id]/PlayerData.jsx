@@ -15,13 +15,14 @@ export const PlayerData = ({ data, radiant }) => {
           <span className="text-sm">{ radiant ? t('radiant') : t('dire') }</span>
           <span>{ data[0].win ? t('win') : t('lose') }</span>
         </div>
-        <div className="flex justify-end items-center gap-2 pr-2 text-xs">
+        <div className="flex justify-end items-center gap-2 pr-2 text-sm">
+          <div className="flex items-center">
+            <div className="text-black/60">{t('kill')}</div>
+            <div className="font-bold">{kills}</div>
+          </div>
           <span className="flex items-center">
-            <span className="text-black/60">{t('kill')}</span>
-            <span className="text-sm font-bold">{kills}</span></span>
-          <span className="flex items-center">
-            <CircleStackIcon className="w-3 text-yellow-500" />
-            <span className="text-sm font-bold">{ money }</span>
+            <CircleStackIcon className="w-[12px] text-yellow-500" />
+            <span className="font-bold">{ money }</span>
           </span>
         </div>
       </div>
