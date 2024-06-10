@@ -79,7 +79,18 @@
     "pickRank": "出场排行榜",
     "banRank": "禁用排行榜",
     "winRank": "胜率排行榜（由高到低）",
-    "loseRank": "胜率排行榜（由低到高）"
+    "loseRank": "胜率排行榜（由低到高）",
+    "hero": "英雄",
+    "picks": "选择次数",
+    "rate": "选择胜率",
+    "banned": "被禁用数",
+    "bans": "禁用数",
+    "banRate": "禁用率",
+    "bannedWinRate": "被禁用时胜率",
+    "all": "全部",
+    "selectTournament": "选择赛事",
+    "selectTeam": "选择队伍",
+    "noData": "无相关数据"
   },
   "Header": {
     "home": "首页",

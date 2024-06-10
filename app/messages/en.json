@@ -78,7 +78,18 @@
     "pickRank": "Pick Ranking",
     "banRank": "Ban Ranking",
     "winRank": "Win Rate Ranking(high to low)",
-    "loseRank": "Win Rate Ranking(low to high)"
+    "loseRank": "Win Rate Ranking(low to high)",
+    "hero": "Hero",
+    "picks": "Picks",
+    "rate": "Pick WR",
+    "banned": "Banned",
+    "bans": "Bans",
+    "banRate": "BanRate",
+    "bannedWinRate": "Banned WR",
+    "all": "All",
+    "selectTournament": "Select Tournament",
+    "selectTeam": "Select Team",
+    "noData": "No data found"
   },
   "Header": {
     "home": "Home",

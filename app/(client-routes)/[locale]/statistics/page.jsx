@@ -1,37 +1,57 @@
-import { getStatistics } from "@/app/lib/statistics"
-import Ranking from "./Ranking"
 import { getTranslations } from "next-intl/server"
+import DataList from "./DataList"
+import { getStatisticData } from "@/app/lib/statistics"
+import { getTournaments } from "@/app/lib/tournament"
+import { getTeams } from "@/app/lib/team"
+import Picker from "@/app/components/client/Picker"
 
-export async function generateMetadata({ params: { id, locale } }) {
+export async function generateMetadata() {
   const t = await getTranslations()
- 
   return {
     title: t('Statistic.metadata.title'),
     description: t('Statistic.metadata.description')
   }
 }
 
-export default async function Page() {
+export default async function Page({ params: { locale }, searchParams }) {
+  const tournamentId = searchParams.tournament ? Number(searchParams.tournament) : null
+  const teamId = searchParams.team ? Number(searchParams.team) : null
+  const statisticData = getStatisticData({ tournamentId, teamId })
+  const tournamentData = getTournaments()
+  const teamData = getTeams()
+  const [statistics, tournaments, teams] = await Promise.all([statisticData, tournamentData, teamData])
   const t = await getTranslations()
-  const { banRanking, pickRanking, rateRanking } = await getStatistics({})
-  const banSort = banRanking.sort((a, b) => b.count - a.count).slice(0, 20)
-  const pickSort = pickRanking.sort((a, b) => b.count - a.count).slice(0, 20)
-  const winSort = rateRanking.filter(item => item.count > 3).sort((a, b) => b.percent - a.percent).slice(0, 20)
-  const loseSort = rateRanking.filter(item => item.count > 3).sort((a, b) => a.percent - b.percent).slice(0, 20)
+  const tournamentArr = [
+    { value: null, label: t('Statistic.all') },
+    ...tournaments.map(({id, title, title_en, logo}) => ({ value: id, label: locale === 'en' ? title_en : title, logo })),
+  ]
+  const teamArr = [
+    { value: null, label: t('Statistic.all') },
+    ...teams.map(({id, name, logo}) => ({ value: id, label: name, logo })),
+  ]
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-4 bg-white">
-      <Ranking data={pickSort}>
-        <div>{ t('Statistic.pickRank') }</div>
-      </Ranking>
-      <Ranking data={banSort}>
-        <div>{ t('Statistic.banRank') }</div>
-      </Ranking>
-      <Ranking data={winSort}>
-        <div>{ t('Statistic.winRank') }</div>
-      </Ranking>
-      <Ranking data={loseSort} index={loseSort.length - 1}>
-        <div>{ t('Statistic.loseRank') }</div>
-      </Ranking>
-    </div>
+    <section className="bg-white">
+      <div className="z-30 sticky top-0 flex gap-1 p-2 md:p-4 bg-white">
+        <div className="w-[58%]">
+          <Picker 
+            type="tournament" 
+            placeholder={t('Statistic.selectTournament')}
+            data={tournamentArr} 
+          />
+        </div>
+        <div className="w-[42%]">
+          <Picker 
+            type="team" 
+            placeholder={t('Statistic.selectTeam')}
+            data={teamArr} 
+          />
+        </div>
+      </div>
+      {
+        statistics.length === 0 ?
+        <div className="min-h-20 flex justify-center items-center">{t('Statistic.noData')}</div> :
+        <DataList data={statistics} teamId={teamId} />
+      }
+    </section>
   )
 }

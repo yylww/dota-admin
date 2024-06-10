@@ -12,12 +12,12 @@ export default function Header() {
   const pathname = usePathname()
 
   return (
-    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-14 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-white text-xs md:text-base">
+    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-slate-50 text-xs md:text-base">
       <div className="flex justify-around items-center w-full md:w-[900px] px-2">
         <Link href="/" className="flex justify-center items-center h-full">
           <div className={clsx(
             "flex flex-col md:flex-row md:gap-1 justify-center items-center py-1 px-2 md:px-4 rounded-lg",
-            pathname === '/' || pathname === '/en' ? "text-blue-500 font-bold border-0 md:border-b-2 border-b-blue-500" : ""
+            pathname === '/' || pathname === '/en' ? "text-blue-500" : ""
           )}>
             <HomeIcon className="w-5" />
             <span>{ t('home') }</span>
@@ -27,7 +27,7 @@ export default function Header() {
         <Link href="/tournaments" className="flex justify-center items-center h-full">
           <div className={clsx(
             "flex flex-col md:flex-row md:gap-1 justify-center items-center py-1 px-2 md:px-4 rounded-lg",
-            pathname.includes('tournaments') ? "text-blue-500 font-bold border-0 md:border-b-2 border-b-blue-500" : ""
+            pathname.includes('tournaments') ? "text-blue-500" : ""
           )}>
             <TrophyIcon className="w-5" />
             <span>{ t('tournament') }</span>
@@ -37,7 +37,7 @@ export default function Header() {
         <Link href="/statistics" className="flex justify-center items-center h-full">
           <div className={clsx(
             "flex flex-col md:flex-row md:gap-1 justify-center items-center py-1 px-2 md:px-4 rounded-lg",
-            pathname.includes('statistics') ? "text-blue-500 font-bold border-0 md:border-b-2 border-b-blue-500" : ""
+            pathname.includes('statistics') ? "text-blue-500" : ""
           )}>
             <ChartBarIcon className="w-5" />
             <span>{ t('statistic') }</span>

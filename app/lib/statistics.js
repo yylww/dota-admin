@@ -2,13 +2,13 @@
 
 import prisma from "@/app/lib/db"
 
-export const getStatisticData = async ({ tournamentId, teamId }) => {
+export const getStatisticData = async ({ tournamentId, teamId, take, skip } = {}) => {
   const whereCondition = {}
   if (tournamentId) {
     whereCondition.tournamentId = tournamentId
   }
   if (teamId) {
-    whereCondition.or = [
+    whereCondition.OR = [
       { radiantTeamId: teamId },
       { direTeamId: teamId },
     ]
@@ -16,6 +16,8 @@ export const getStatisticData = async ({ tournamentId, teamId }) => {
   try {
     return prisma.game.findMany({
       where: whereCondition,
+      take,
+      skip,
       include: {
         bans: {
           include: {
@@ -40,7 +42,7 @@ export const getStatistics = async ({ tournamentId, teamId }) => {
     whereCondition.tournamentId = tournamentId
   }
   if (teamId) {
-    whereCondition.or = [
+    whereCondition.OR = [
       { radiantTeamId: teamId },
       { direTeamId: teamId },
     ]

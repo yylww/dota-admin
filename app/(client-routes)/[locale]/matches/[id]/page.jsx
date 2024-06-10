@@ -1,10 +1,10 @@
 import { ScoreComponent } from "./ScoreComponent"
-import { TabComponent } from "./TabComponent"
 import { getMatch } from "@/app/lib/match"
 import { getTranslations } from "next-intl/server"
 import { BanPick } from "./BanPick"
 import { PlayerData } from "./PlayerData"
 import { NotFound } from "./NotFound"
+import Tabs from "@/app/components/client/Tabs"
 
 export async function generateMetadata({ params: { id, locale } }) {
   const data = await getMatch(+id)
@@ -33,13 +33,14 @@ export default async function Page({ params, searchParams }) {
   const index = searchParams.tab ? Number(searchParams.tab) - 1 : 0
   const radiants = data.games[index].records.filter(item => item.radiant).sort((a, b) => Number(a.player.position) - Number(b.player.position))
   const dires = data.games[index].records.filter(item => !item.radiant).sort((a, b) => Number(a.player.position) - Number(b.player.position))
+  const tabData = [...Array(data.games.length)].map((_, i) => t('Match.tab', { number: i+1 }))
   return (
     <div className="bg-white">
       <ScoreComponent data={data} />
       {
         data.games.length > 0 ? 
         <div className="pb-2">
-          <TabComponent length={data.games.length} />
+          <Tabs data={tabData} />
           <BanPick data={data.games[index]} />
           <div className="flex flex-col md:flex-row md:gap-4">
             <PlayerData data={radiants} radiant={true} />
