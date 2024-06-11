@@ -23,11 +23,11 @@ export default async function Page({ params: { locale }, searchParams }) {
   const t = await getTranslations()
   const tournamentArr = [
     { value: null, label: t('Statistic.all') },
-    ...tournaments.map(({id, title, title_en, logo}) => ({ value: id, label: locale === 'en' ? title_en : title, logo })),
+    ...tournaments.map(({id, title, title_en}) => ({ value: id, label: locale === 'en' ? title_en : title })),
   ]
   const teamArr = [
     { value: null, label: t('Statistic.all') },
-    ...teams.map(({id, name, logo}) => ({ value: id, label: name, logo })),
+    ...teams.map(({id, name, logo}) => ({ value: id, label: name, logo })).sort((a, b) => a.label.localeCompare(b.label)),
   ]
   return (
     <section className="bg-white">

@@ -8,7 +8,7 @@ import { useState } from "react"
 
 export default function Picker({ type, data, placeholder }) {
   const [searchParams, handleSearchParams] = useQueryParams()
-  const id = searchParams[type] ? Number(searchParams[type]) : null
+  const id = searchParams[type] ? Number(searchParams[type]) : undefined
   const itemData = data.find(item => item.value === id)
   const pickerText = itemData ? itemData.label : placeholder
   const [text, setText] = useState(pickerText)
@@ -24,15 +24,18 @@ export default function Picker({ type, data, placeholder }) {
         <span className="text-black/70 text-sm">{text}</span>
         { open ? <CaretUpOutlined /> : <CaretDownOutlined /> }
       </div>
-      <div className={clsx("fixed top-0 left-0 flex flex-col justify-end w-full h-full bg-black/50", open ? "block" : "hidden")}>
-        <div className="flex flex-col gap-2 max-h-[50%] overflow-y-auto py-4 bg-white">
+      <div className={clsx("fixed top-0 left-0 flex flex-col justify-end w-full h-full bg-black/50", open ? "block" : "hidden")} onClickCapture={() => setOpen(false)}>
+        <div className="flex flex-col gap-3 max-h-[40%] overflow-y-auto py-4 bg-white text-black/70">
           {
             data.map((item, i) => (
-              <div className="flex pl-[25%] text-sm md:text-base cursor-pointer" onClick={() => handleClick(item)} key={i}>
+              <div className="flex justify-center text-xl md:text-base cursor-pointer" onClick={() => handleClick(item)} key={i}>
                 <div className="flex gap-1 items-center">
-                  <div className={clsx("relative", type === 'tournament' ? "w-11 h-4" : "w-6 h-4")}>
-                    <Image src={item.logo ?? '/teams/Dota2_logo.png'} fill sizes="100%" className="object-contain" alt={item.label} />
-                  </div>
+                  {
+                    type === 'team' ? 
+                    <div className="relative w-6 h-4">
+                      <Image src={item.logo ?? '/teams/Dota2_logo.png'} fill sizes="100%" className="object-contain" alt={item.label} />
+                    </div> : null
+                  }
                   <span>{ item.label }</span>
                 </div>
               </div>
