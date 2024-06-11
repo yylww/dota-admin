@@ -94,22 +94,39 @@ export default function DataList({ data, teamId }) {
       }
     })
     const formatData = Object.values(heroObj)
+      .filter(item => {
+        if (sort === 'winRate' && item.picks === 0) {
+          return false
+        }
+        if (sort === 'bannedWinRate' && item.banned === 0) {
+          return false
+        }
+        return true
+      })
       .map(item => ({ 
         ...item, 
-        winRate: item.picks > 0 ? (item.win / item.picks * 100).toFixed(1) : 0,
-        bannedWinRate: item.banned > 0 ? (item.bannedWin / item.banned * 100).toFixed(1) : 0, 
+        winRate: item.win > 0 ? (item.win / item.picks * 100).toFixed(1) : 0,
+        bannedWinRate: item.bannedWin > 0  ? (item.bannedWin / item.banned * 100).toFixed(1) : 0, 
       }))
     return formatData.sort((a, b) => {
       if (sort === 'picks') {
         return order === 'asc' ? a.picks - b.picks : b.picks - a.picks
       } else if (sort === 'winRate') {
-        return order === 'asc' ? a.winRate - b.winRate : b.winRate - a.winRate
+        if (a.winRate === b.winRate) {
+          return order === 'asc' ? a.picks - b.picks : b.picks - a.picks
+        } else {
+          return order === 'asc' ? a.winRate - b.winRate : b.winRate - a.winRate
+        }
       } else if (sort === 'bans') {
         return order === 'asc' ? a.bans - b.bans : b.bans - a.bans
       } else if (sort === 'banned') {
         return order === 'asc' ? a.banned - b.banned : b.banned - a.banned
       } else if (sort === 'bannedWinRate') {
-        return order === 'asc' ? a.bannedWinRate - b.bannedWinRate : b.bannedWinRate - a.bannedWinRate
+        if (a.bannedWinRate === b.bannedWinRate) {
+          return order === 'asc' ? a.banned - b.banned : b.banned - a.banned
+        } else {
+          return order === 'asc' ? a.bannedWinRate - b.bannedWinRate : b.bannedWinRate - a.bannedWinRate
+        }
       }
     })
   }
