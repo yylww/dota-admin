@@ -28,14 +28,14 @@ export default async function Page({ params: { locale }, searchParams }) {
       <div className="z-30 sticky top-0 flex gap-1 p-2 md:p-4 bg-white">
         <div className="w-[58%]">
           <Picker 
-            type="tournament" 
+            query="tournament" 
             placeholder={t('Statistic.selectTournament')}
             data={tournamentArr} 
           />
         </div>
         <div className="w-[42%]">
           <Picker 
-            type="team" 
+            query="team" 
             placeholder={t('Statistic.selectTeam')}
             data={teamArr} 
           />

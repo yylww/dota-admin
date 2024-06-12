@@ -6,9 +6,9 @@ import clsx from "clsx"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
-export default function Picker({ type, data, placeholder }) {
+export default function Picker({ query, data, placeholder }) {
   const [searchParams, handleSearchParams] = useQueryParams()
-  const id = searchParams[type] ? Number(searchParams[type]) : undefined
+  const id = searchParams[query] ? Number(searchParams[query]) : undefined
   const itemData = data.find(item => item.value === id)
   const pickerText = itemData ? itemData.label : placeholder
   const [text, setText] = useState(pickerText)
@@ -16,17 +16,17 @@ export default function Picker({ type, data, placeholder }) {
   const ref = useRef(null)
   const handleClick = ({value, label}) => {
     if (label === text) {
-      handleSearchParams(type, null)
+      handleSearchParams(query, null)
       setText(placeholder)
     } else {
-      handleSearchParams(type, value)
+      handleSearchParams(query, value)
       setText(label)
     }
     setOpen(false)
   }
   useEffect(() => {
     if (ref.current) {
-      ref.current.scrollIntoView()
+      ref.current.scrollIntoView({ block: 'center' })
     }
   }, [open])
   return (
@@ -47,7 +47,7 @@ export default function Picker({ type, data, placeholder }) {
               <div className="flex justify-center text-xl md:text-base cursor-pointer" onClick={() => handleClick(item)} key={i}>
                 <div className="flex gap-1 items-center">
                   {
-                    type === 'team' ? 
+                    query === 'team' ? 
                     <div className="relative w-6 h-4">
                       <Image src={item.logo ?? '/teams/Dota2_logo.png'} fill sizes="100%" className="object-contain" alt={item.label} />
                     </div> : null

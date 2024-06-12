@@ -40,7 +40,7 @@ export default async function Page({ params, searchParams }) {
       {
         data.games.length > 0 ? 
         <div className="pb-2">
-          <Tabs data={tabData} />
+          <Tabs data={tabData} query="tab" />
           <BanPick data={data.games[index]} />
           <div className="flex flex-col md:flex-row md:gap-4">
             <PlayerData data={radiants} radiant={true} />
