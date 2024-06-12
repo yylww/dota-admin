@@ -3,13 +3,16 @@
 import { HomeIcon, ChartBarIcon, LanguageIcon, TrophyIcon } from '@heroicons/react/20/solid'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link } from "@/app/messages/navigation"
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import clsx from 'clsx'
 
 export default function Header() {
   const locale = useLocale()
   const t = useTranslations('Header')
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams)
+  const href = `${pathname.replace('/en', '/zh')}?${params.toString()}`
 
   return (
     <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-slate-50 text-xs md:text-base">
@@ -44,7 +47,7 @@ export default function Header() {
           </div>
         </Link>
         <div className="w-[1px] h-6 bg-gray-100"></div>
-        <Link href={pathname.replace('/en', '/zh')} locale={locale === 'en' ? 'zh' : 'en'} className="flex justify-center items-center h-full">
+        <Link href={href} locale={locale === 'en' ? 'zh' : 'en'} className="flex justify-center items-center h-full">
           <div className="flex md:gap-1 justify-center items-center">
             <LanguageIcon className="w-5" />
             <span>{t('language')}</span>
