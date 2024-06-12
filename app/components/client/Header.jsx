@@ -15,7 +15,7 @@ export default function Header() {
   const href = `${pathname.replace('/en', '/zh')}?${params.toString()}`
 
   return (
-    <div className="fixed bottom-0 md:top-0 z-10 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-slate-50 text-xs md:text-base">
+    <div className="fixed bottom-0 md:top-0 z-10 md:z-40 flex shrink-0 w-full justify-center h-12 border-t border-t-gray-100 md:border-t-0 md:border-b md:border-b-gray-100 bg-slate-50 text-xs md:text-base">
       <div className="flex justify-around items-center w-full md:w-[900px] px-2">
         <Link href="/" className="flex justify-center items-center h-full">
           <div className={clsx(

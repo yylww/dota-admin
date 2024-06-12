@@ -21,14 +21,8 @@ export default async function Page({ params: { locale }, searchParams }) {
   const teamData = getTeams()
   const [statistics, tournaments, teams] = await Promise.all([statisticData, tournamentData, teamData])
   const t = await getTranslations()
-  const tournamentArr = [
-    { value: null, label: t('Statistic.all') },
-    ...tournaments.map(({id, title, title_en}) => ({ value: id, label: locale === 'en' ? title_en : title })),
-  ]
-  const teamArr = [
-    { value: null, label: t('Statistic.all') },
-    ...teams.map(({id, name, logo}) => ({ value: id, label: name, logo })).sort((a, b) => a.label.localeCompare(b.label)),
-  ]
+  const tournamentArr = tournaments.map(({id, title, title_en}) => ({ value: id, label: locale === 'en' ? title_en : title }))
+  const teamArr = teams.map(({id, name, logo}) => ({ value: id, label: name, logo })).sort((a, b) => a.label.localeCompare(b.label))
   return (
     <section className="bg-white">
       <div className="z-30 sticky top-0 flex gap-1 p-2 md:p-4 bg-white">
