@@ -104,5 +104,11 @@
   "Error": {
     "error": "Something went wrong!\t",
     "reset": "Try again"
+  },
+  "Team": {
+    "notFound": "Team with {id} not found.",
+    "region": "Region: {region}",
+    "position": "Position {position}",
+    "info": "Team Information"
   }
 }

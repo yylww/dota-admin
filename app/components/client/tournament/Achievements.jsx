@@ -23,17 +23,17 @@ export const Achievements = ({ data }) => {
         <tbody>
           {
             data.slice(0, expand ? data.length : 4).map((rowData, i) => (
-              <tr key={i} className="bg-gray-100 text-center">
-                <td className="w-[45px] border">{ rowData.rank }</td>
+              <tr key={i} className="text-center">
+                <td className="w-[48px] border">{ rowData.rank }</td>
                 <td className="border">
                   { 
                     rowData.teams.length > 0 ?
                     <div className="flex flex-col gap-1 py-2">
                       {
                         rowData.teams.map((team, j) => (
-                          <div key={j} className="flex gap-2 items-center pl-1">
-                            <div className="flex justify-center items-center w-10">
-                              <Image src={`${team.logo}`} width={0} height={0} sizes="100%" className="w-auto h-5" alt={team.name} />
+                          <div key={j} className="flex gap-2 items-center pl-1 md:pl-4">
+                            <div className="flex justify-center items-center relative w-6 h-6">
+                              <Image src={`${team.logo}`} fill className="object-contain" alt={team.name} />
                             </div>
                             <span className="text-sm md:text-base">{ team.name }</span>
                           </div>

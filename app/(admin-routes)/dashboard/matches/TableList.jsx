@@ -173,7 +173,7 @@ export const TableList = ({
             <a onClick={() => onSyncGame(record)}>{syncLoading ? <Spin size="small" /> : '同步'}</a>
             {/* { flag ? null : <a onClick={() => onAuto(record.id)}>{record.sync ? '暂停' : '开启'}</a> } */}
             <Link href={`/dashboard/matches/update/${record.id}`}>编辑</Link>
-            { record.games.length > 0 ? <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link> : <a onClick={() => onDelete(record.id)}>删除</a> }
+            { (record.homeScore > 0 || record.awayScore > 0) ? <Link href={`/dashboard/games?matchId=${record.id}`}>详情</Link> : <a onClick={() => onDelete(record.id)}>删除</a> }
           </Space>
         )
       }

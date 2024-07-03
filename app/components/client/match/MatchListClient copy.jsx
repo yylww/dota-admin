@@ -1,6 +1,7 @@
 'use client'
 
 import Match from "./Match"
+import ScrollToToday from "./ScrollToToday"
 import { useEffect, useState } from "react"
 import { useLocale } from "next-intl"
 import dayjs from "dayjs"
@@ -36,23 +37,22 @@ export default function MatchListClient({ data }) {
   }, [data])
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 md:gap-4">
       {
         Object.keys(formatData).map((item, i) => {
-          const { title, title_en, matches } = formatData[item]
+          const { title, title_en, today, matches } = formatData[item]
           return (
-            <div className="flex flex-col gap-2 md:rounded-md bg-white p-2 md:p-4" key={i}>
-              <div className="flex items-center gap-2 text-sm">
-                <div className="font-medium">{ item }</div>
-                <div className="text-gray-500">{ locale === 'en' ? title_en : title }</div>
+            <div className="flex flex-col gap-2 px-2 md:px-4 py-2 md:py-4 md:border md:border-gray-200 md:rounded-md bg-white" key={i}>
+              <div className="flex items-center gap-2">
+                <div className="md:text-lg">{ item }</div>
+                { today ? <ScrollToToday /> : null }
               </div>
-              <div>
-                {
-                  matches.map((match, j) => (
-                    <Match key={j} data={match} />
-                  ))
-                }
-              </div>
+              <div className="font-medium">{ locale === 'en' ? title_en : title }</div>
+              {
+                matches.map((match, j) => (
+                  <Match key={j} data={match} />
+                ))
+              }
             </div>
           )
         })

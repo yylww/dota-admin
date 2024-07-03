@@ -9,6 +9,7 @@ import { Achievements } from "@/app/components/client/tournament/Achievements"
 import { getTournament } from "@/app/lib/tournament"
 import { getTranslations } from "next-intl/server"
 import TournamentStatictis from "./TournamentStatictis"
+import MatchListServer from "../match/MatchListServer"
 
 export default async function TournamentDetail({ id }) {
   const data = await getTournament(id)
@@ -29,11 +30,14 @@ export default async function TournamentDetail({ id }) {
           <span>${formatter.format(bonus)}</span>
         </p>
       </div>
-      <div className="bg-white p-2 md:p-4">
-        <p className="font-medium mb-2">{t('Tournament.ranking')}</p>
-        <Achievements data={achievements} />
-      </div>
-      <TournamentStatictis data={games} />
+      {
+        achievements.length > 0 ?
+        <div className="bg-white p-2 md:p-4">
+          <p className="font-medium mb-2">{t('Tournament.ranking')}</p>
+          <Achievements data={achievements} />
+        </div> : null 
+      }
+      { games.length > 0 ? <TournamentStatictis data={games} /> : null }
       {
         stages.map((stage, i) => {
           const { title, title_en, startDate, endDate, mode, groups, matches } = stage
@@ -87,6 +91,7 @@ export default async function TournamentDetail({ id }) {
           )
         })
       }
+      <MatchListServer params={{ tournamentId: id, status: [2] }} />
     </div>
   )
 }

@@ -105,5 +105,11 @@
   "Error": {
     "error": "出错了！",
     "reset": "重试"
+  },
+  "Team": {
+    "notFound": "没有找到ID为{id}的队伍",
+    "region": "赛区: {region}",
+    "position": "{position}号位",
+    "info": "队伍信息"
   }
 }

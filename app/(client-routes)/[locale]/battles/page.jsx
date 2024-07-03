@@ -14,11 +14,11 @@ export async function generateMetadata({ params: { locale } }) {
 
 export default function Page({ searchParams }) {
   const t = useTranslations('Battle')
-  const ids = searchParams.ids.split(',').map(id => +id)
+  const teamIds = searchParams.teamIds.split(',').map(id => +id)
   return (
     <div className="md:pt-4">
       <Suspense fallback={<MatchListSkeleton />}>
-        <MatchListServer params={{ status: [2], ids }}>
+        <MatchListServer params={{ status: [2], teamIds }}>
           <div className="flex justify-center items-center h-16">{ t('noRecords') }</div>
         </MatchListServer>
       </Suspense>

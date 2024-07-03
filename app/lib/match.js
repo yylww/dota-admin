@@ -43,19 +43,33 @@ export const getMatch = async (id) => {
   }
 }
 
-export const getMatches = async ({ tournamentId, status, ids, orderBy, take, skip } = {}) => {
+export const getMatches = async ({ 
+  tournamentId,
+  teamId,
+  teamIds,
+  status, 
+  orderBy, 
+  take, 
+  skip,
+} = {}) => {
   const where = {}
   if (tournamentId) {
     where.tournament = { id: tournamentId }
   }
+  if (teamId) {
+    where.OR = [
+      { homeTeamId: teamId },
+      { awayTeamId: teamId },
+    ]
+  }
+  if (teamIds) {
+    where.OR = [
+      { homeTeamId: teamIds[0], awayTeamId: teamIds[1] },
+      { homeTeamId: teamIds[1], awayTeamId: teamIds[0] },
+    ]
+  }
   if (status) {
     where.status = { in: status }
-  }
-  if (ids) {
-    where.OR = [
-      { homeTeamId: ids[0], awayTeamId: ids[1] },
-      { homeTeamId: ids[1], awayTeamId: ids[0] },
-    ]
   }
   try {
     return prisma.match.findMany({
@@ -68,11 +82,6 @@ export const getMatches = async ({ tournamentId, status, ids, orderBy, take, ski
         stage: true,
         homeTeam: true,
         awayTeam: true,
-        games: {
-          orderBy: {
-            startTime: 'asc',
-          },
-        },
       },
     })
   } catch (error) {

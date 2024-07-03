@@ -67,9 +67,9 @@ export const Standings = ({ title, list, matches }) => {
           tableData.map((rowData, i) => (
             <tr key={i} className={clsx("h-9", ["bg-green-100", "bg-red-100", "bg-blue-100", "bg-green-100", "bg-yellow-100", "bg-gray-100"][rowData.status])}>
               <td colSpan={4} className="border text-center">
-                <div className="flex items-center gap-2">
-                  <div className="flex justify-center items-center w-10">
-                    <Image src={`${rowData.team.logo}`} width={0} height={0} sizes="100%" className="max-w-8 w-auto h-6" alt={rowData.team.name} />
+                <div className="flex items-center gap-2 pl-2">
+                  <div className="relative w-6 h-6">
+                    <Image src={`${rowData.team.logo}`} fill className="object-contain" alt={rowData.team.name} />
                   </div>
                   <span>{ rowData.team.name }{ rowData.hasExtra ? '*' : '' }</span>
                 </div>

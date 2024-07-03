@@ -6,6 +6,13 @@ export const getTeam = async (id) => {
   try {
     return prisma.team.findUnique({ 
       where: { id },
+      include: {
+        achievements: true,
+        region: true,
+        players: {
+          orderBy: { position: 'asc' },
+        },
+      }
     })
   } catch (error) {
     throw error

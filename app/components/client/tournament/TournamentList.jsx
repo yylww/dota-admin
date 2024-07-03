@@ -9,13 +9,13 @@ export default async function TournamentList() {
   const locale = useLocale()
   const formatter = new Intl.NumberFormat()
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 md:pt-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 p-2 md:p-0 md:pt-4">
       {
         data.map((item, i) => {
           const { id, title, title_en, logo, startDate, endDate, bonus } = item
           return (
             <Link href={`/tournaments/${id}`} key={i}>
-              <div className="bg-white">
+              <div className="bg-white rounded-md overflow-hidden">
                 <Image src={logo} width={0} height={0} sizes="100%" priority className="w-full h-auto" alt={title_en} />
                 <div className="flex flex-col gap-2 p-2">
                   <div className="flex justify-between">
