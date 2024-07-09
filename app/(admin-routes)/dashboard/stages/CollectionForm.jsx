@@ -226,11 +226,11 @@ export const CollectionForm = ({ initialValues, onSubmit, onCancel }) => {
               </Flex>
             </Form.Item>
           }
-          <Form.Item label="对阵图" name="groups">
-            <div className="w-full overflow-x-auto"> 
+          <div className="w-full overflow-x-auto"> 
+            <Form.Item label="对阵图" name="groups">
               <DoubleElimination matchMap={matchMap} matches={initialValues.matches} editable={true} />
-            </div>
-          </Form.Item>
+            </Form.Item>
+          </div>
         </>
         : null
       }
