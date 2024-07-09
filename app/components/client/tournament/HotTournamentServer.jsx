@@ -3,11 +3,11 @@ import { getTranslations } from "next-intl/server"
 import { TrophyIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import clsx from "clsx"
-import { useLocale } from "next-intl"
+import { getLocale } from "next-intl/server"
 
 export default async function HotTournamentServer({ tournamentId }) {
   const data = await getTournaments()
-  const locale = useLocale()
+  const locale = await getLocale()
   const t = await getTranslations()
   return (
     <div className="flex flex-col w-full p-4 rounded-md bg-white">

@@ -67,7 +67,7 @@ export const Group = ({ list, matches }) => {
                           {
                             colData.color ? colData.score :
                             <div className="relative w-6 h-6">
-                              <Image src={`${colData.logo}`} fill className="object-contain" alt={colData.name} />
+                              <Image src={`${colData.logo}`} fill sizes="100%" className="object-contain" alt={colData.name} />
                             </div>
                           }
                         </div> 

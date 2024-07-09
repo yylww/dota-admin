@@ -28,8 +28,8 @@ export const MatchComponent = ({ onChange, status, teams, match = {} }) => {
             {
               status === 'display' ? 
               <div className="flex flex-1 justify-between items-center border bg-gray-100">
-                <div className="flex justify-center items-center w-[30px]">
-                  { item.logo ? <Image src={item.logo} width={0} height={0} sizes="100%" className="w-4 h-auto" alt={item.name} /> : null }
+                <div className="relative flex justify-center items-center w-5 h-5 mx-2">
+                  { item.logo ? <Image src={item.logo} fill sizes="100%" className="object-contain" alt={item.name} /> : null }
                 </div>
                 <div className="flex-1 overflow-hidden whitespace-nowrap text-ellipsis">
                   <span className={clsx({ "font-bold": item.win })}>{ item.tag || 'TBD' }</span>

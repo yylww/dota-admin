@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 
 import clsx from "clsx"
 import Image from "next/image"
@@ -64,7 +64,9 @@ export default function SwissSystem({ data }) {
                   { "bg-slate-200": status === 5 },
                 )}>
                   <div className="flex flex-col justify-center items-center">
-                    <Image src={team.logo} width={0} height={0} sizes="100%" className="w-5 h-auto" alt={team.name} />
+                    <div className="relative w-5 h-5">
+                      <Image src={team.logo} fill sizes="100%" className="object-contain" alt={team.name} />
+                    </div>
                     <span className="text-sm">{ team.tag }</span>
                   </div>
                 </td>
@@ -90,8 +92,8 @@ export default function SwissSystem({ data }) {
                           { "bg-red-200": matchScores[0] < matchScores[1] },
                         )} key={j}>
                           <Link className="flex flex-col items-center" href={`/matches/${id}`}>
-                            <div className="flex justify-center items-center w-5 h-10 hover:cursor-pointer">
-                              <Image src={opponent.logo} width={0} height={0} sizes="100%" className="w-full h-auto" alt={opponent.name} />
+                            <div className="relative flex justify-center items-center w-5 h-5 hover:cursor-pointer">
+                              <Image src={opponent.logo} fill sizes="100%" className="object-contain" alt={opponent.name} />
                             </div>
                             <span className="hover:text-blue-500">{ matchScores.join(':') }</span>
                           </Link>

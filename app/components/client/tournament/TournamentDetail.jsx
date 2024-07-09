@@ -1,4 +1,4 @@
-import { useLocale } from "next-intl"
+import { getLocale } from "next-intl/server"
 import SwissSystem from "@/app/components/client/tournament/SwissSystem"
 import { DoubleElimination } from "@/app/components/admin/DoubleElimination"
 import { SingleElimination } from "@/app/components/admin/SingleElimination"
@@ -12,11 +12,11 @@ import TournamentStatictis from "./TournamentStatictis"
 import MatchListServer from "../match/MatchListServer"
 
 export default async function TournamentDetail({ id }) {
-  const data = await getTournament(id)
   const t = await getTranslations()
+  const data = await getTournament(id)
   const { title, title_en, startDate, endDate, bonus, stages, achievements } = data
   const formatter = new Intl.NumberFormat()
-  const locale = useLocale()
+  const locale = await getLocale()
   const games = stages
     .reduce((prev, current) => [...prev, ...current.matches], [])
     .reduce((prev, current) => [...prev, ...current.games], [])

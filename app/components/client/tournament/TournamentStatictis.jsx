@@ -1,9 +1,9 @@
 import { getHeroes } from "@/app/lib/hero"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import Image from "next/image"
 
 export default async function TournamentStatictis({ data }) {
-  const t = useTranslations('Tournament')
+  const t = await getTranslations()
   const heroes = await getHeroes()
   const radiantWinGames = data.filter(item => item.radiantWin)
   const direWinGames = data.filter(item => !item.radiantWin)
@@ -48,36 +48,36 @@ export default async function TournamentStatictis({ data }) {
   const rateRanking = Object.values(pickObj).filter(item => item.count >= 5).map(item => ({ ...item, percent: (item.winCount / item.count * 100).toFixed(1) }))
   return (
     <div className="bg-white p-2 md:p-4">
-      <h2 className="mb-1 font-medium">{t('statistic')}</h2>
+      <h2 className="mb-1 font-medium">{t('Tournament.statistic')}</h2>
       <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ data.length }</span>
-          <span className="text-gray-500 text-xs">{t('matches')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.matches')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ pickHeroIds.length }</span>
-          <span className="text-gray-500 text-xs">{t('played')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.played')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ noPickHeroIds.length }</span>
-          <span className="text-gray-500 text-xs">{t('notPlayed')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.notPlayed')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(duration / 60) }:{ duration % 60 }</span>
-          <span className="text-gray-500 text-xs">{t('aveTime')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.aveTime')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(maxDuration / 60) }:{ maxDuration % 60 }</span>
-          <span className="text-gray-500 text-xs">{t('maxTime')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.maxTime')}</span>
         </div>
         <div className="flex flex-col items-center gap-1 p-2 bg-gray-200">
           <span className="font-medium text-base">{ Math.floor(minDuration / 60) }:{ minDuration % 60 }</span>
-          <span className="text-gray-500 text-xs">{t('minTime')}</span>
+          <span className="text-gray-500 text-xs">{t('Tournament.minTime')}</span>
         </div>
       </div>
       <div className="flex justify-between mt-2 mb-1">
-        <span>{t('radiantRate')}</span>
-        <div>{t('direRate')}</div>
+        <span>{t('Tournament.radiantRate')}</span>
+        <div>{t('Tournament.direRate')}</div>
       </div>
       <div className="flex items-center text-gray-500">
         <div style={{ width: `${radiantWinRate}%` }} className="h-6 pl-1 bg-green-200">{ radiantWinRate }%</div>
@@ -111,7 +111,7 @@ export default async function TournamentStatictis({ data }) {
           </div>
         </div>
         <div>
-          <h3 className="mt-2 mb-1">{t('winRate')}</h3>
+          <h3 className="mt-2 mb-1">{t('Tournament.winRate')}</h3>
           <div className="grid grid-cols-6 gap-1">
             {
               rateRanking.sort((a, b) => b.percent - a.percent).slice(0, 6).map((item, i) => (
@@ -124,7 +124,7 @@ export default async function TournamentStatictis({ data }) {
           </div>
         </div>
         <div>
-          <h3 className="mt-2 mb-1">{t('loseRate')}</h3>
+          <h3 className="mt-2 mb-1">{t('Tournament.loseRate')}</h3>
           <div className="grid grid-cols-6 gap-1">
             {
               rateRanking.sort((a, b) => a.percent - b.percent).slice(0, 6).map((item, i) => (
@@ -137,7 +137,7 @@ export default async function TournamentStatictis({ data }) {
           </div>
         </div>
       </section>
-      <div className="mt-3 text-xs text-gray-300">*{t('remark')}</div>
+      <div className="mt-3 text-xs text-gray-300">*{t('Tournament.remark')}</div>
     </div>
   )
 }

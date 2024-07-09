@@ -35,7 +35,7 @@ export const Achievements = ({ data }) => {
                         rowData.teams.map((team, j) => (
                           <div key={j} className="flex gap-2 items-center pl-1 md:pl-4">
                             <div className="flex justify-center items-center relative w-6 h-6">
-                              <Image src={`${team.logo}`} fill className="object-contain" alt={team.name} />
+                              <Image src={`${team.logo}`} fill sizes="100%" className="object-contain" alt={team.name} />
                             </div>
                             <span className="text-sm md:text-base">{ team.name }</span>
                           </div>

@@ -1,12 +1,12 @@
 import { LocalRangeDate } from "@/app/components/client/LocalTime"
-import { useLocale } from "next-intl"
+import { getLocale } from "next-intl/server"
 import Image from "next/image"
 import Link from "next/link"
 import { getTournaments } from "@/app/lib/tournament"
 
 export default async function TournamentList() {
   const data = await getTournaments()
-  const locale = useLocale()
+  const locale = await getLocale()
   const formatter = new Intl.NumberFormat()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 p-2 md:p-0 md:pt-4">

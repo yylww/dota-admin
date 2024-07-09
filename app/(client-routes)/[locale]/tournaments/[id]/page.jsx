@@ -11,7 +11,7 @@ export async function generateMetadata({ params: { id, locale } }) {
   }
 }
  
-export default function Page({ params }) {
+export default async function Page({ params }) {
   return (
     <div className="md:p-4">
       <Suspense fallback={<MatchListSkeleton />}>

@@ -1,10 +1,10 @@
-import { getTournaments } from "@/app/lib/tournament";
-import { useLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
-import Link from "next/link";
+import { getTournaments } from "@/app/lib/tournament"
+import { getLocale } from "next-intl/server"
+import { getTranslations } from "next-intl/server"
+import Link from "next/link"
 
 export default async function TournamentRouter({ current }) {
-  const locale = useLocale()
+  const locale = await getLocale()
   const t = await getTranslations()
   const tournaments = await getTournaments()
   const currentIndex = tournaments.findIndex((item) => item.id === current)

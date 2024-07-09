@@ -48,14 +48,10 @@ export const Standings = ({ title, list, matches }) => {
       hasExtra,
     }
   }).sort((a, b) => {
-    if (a.status === b.status) {
-      if (a.gamePoints[0] === b.gamePoints[0]) {
-        return b.gamePoints[1] - a.gamePoints[1]
-      } else {
-        return b.gamePoints[0] - a.gamePoints[0]
-      }
+    if (a.gamePoints[0] === b.gamePoints[0]) {
+      return b.gamePoints[1] - a.gamePoints[1]
     } else {
-      return a.status - b.status
+      return b.gamePoints[0] - a.gamePoints[0]
     }
   })
   
@@ -73,7 +69,7 @@ export const Standings = ({ title, list, matches }) => {
               <td colSpan={4} className="border text-center">
                 <div className="flex items-center gap-2 pl-2">
                   <div className="relative w-6 h-6">
-                    <Image src={`${rowData.team.logo}`} fill className="object-contain" alt={rowData.team.name} />
+                    <Image src={`${rowData.team.logo}`} fill sizes="100%" className="object-contain" alt={rowData.team.name} />
                   </div>
                   <span>{ rowData.team.name }{ rowData.hasExtra ? '*' : '' }</span>
                 </div>
