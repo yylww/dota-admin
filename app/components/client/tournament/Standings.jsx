@@ -48,10 +48,14 @@ export const Standings = ({ title, list, matches }) => {
       hasExtra,
     }
   }).sort((a, b) => {
-    if (a.gamePoints[0] === b.gamePoints[0]) {
-      return b.gamePoints[1] - a.gamePoints[1]
+    if (a.status === b.status) {
+      if (a.gamePoints[0] === b.gamePoints[0]) {
+        return b.gamePoints[1] - a.gamePoints[1]
+      } else {
+        return b.gamePoints[0] - a.gamePoints[0]
+      }
     } else {
-      return b.gamePoints[0] - a.gamePoints[0]
+      return a.status - b.status
     }
   })
   

@@ -22,7 +22,9 @@ export const Achievements = ({ data }) => {
         </thead>
         <tbody>
           {
-            data.slice(0, expand ? data.length : 4).map((rowData, i) => (
+            data.sort((a, b) => {
+              return Number(a.rank.split('-')[0]) - Number(b.rank.split('-')[0])
+            }).slice(0, expand ? data.length : 4).map((rowData, i) => (
               <tr key={i} className="text-center">
                 <td className="w-[48px] border">{ rowData.rank }</td>
                 <td className="border">
