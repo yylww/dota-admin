@@ -4,6 +4,7 @@ import Match from "./Match"
 import { useEffect, useState } from "react"
 import { useLocale } from "next-intl"
 import dayjs from "dayjs"
+import ScrollToToday from "./ScrollToToday"
 
 export default function MatchListClient({ data }) {
   const locale = useLocale()
@@ -36,13 +37,14 @@ export default function MatchListClient({ data }) {
   }, [data])
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 md:gap-4">
       {
         Object.keys(formatData).map((item, i) => {
-          const { title, title_en, matches } = formatData[item]
+          const { title, title_en, matches, today } = formatData[item]
           return (
             <div className="flex flex-col gap-2 md:rounded-md bg-white p-2 md:p-4" key={i}>
               <div className="flex items-center gap-2 text-sm">
+                { today ? <ScrollToToday /> : null }
                 <div className="font-medium">{ item }</div>
                 <div className="text-gray-500">{ locale === 'en' ? title_en : title }</div>
               </div>
