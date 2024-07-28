@@ -21,7 +21,7 @@ export const DoubleElimination = ({
   // 根据初始数据中胜者组比赛场次和败者组比赛场次来计算出单列最多组件数量
   const maxComponentNum = upperLen + lowerLen
   // 根据最多组件数量和行间隙计算容器高度
-  const containerHeight = maxComponentNum * (matchHeight + lineSpacing) + lineSpacing
+  const containerHeight = maxComponentNum * (matchHeight + lineSpacing) + height
   // 根据单列组件宽度和列间隙计算容器宽度
   const containerWidth = (width + columnSpacing) * matchMap.length - columnSpacing
   
@@ -55,16 +55,26 @@ export const DoubleElimination = ({
           // 上一轮胜者组数据
           const prevUpper = result[i - 1] && result[i - 1].upper.length > 0 ? result[i - 1].upper : (result[i - 2] && result[i - 2].upper.length > 0 ? result[i - 2].upper : null)
           if (prevUpper) {
-            const gap = prevUpper[j * 2 + 1].top - (prevUpper[j * 2].top + matchHeight)
-            top = prevUpper[j * 2 + 1].top - (gap / 2) - height
-            const left = i === 1 && upper.length > 0 ? (width + columnSpacing) : ((width + columnSpacing) * 2)
-            prevUpper[j * 2].position[1] = {
-              top: top + height / 2,
-              left,
-            }
-            prevUpper[j * 2 + 1].position[1] = {
-              top: prevUpper[j * 2].position[1].top + height,
-              left,
+            if (prevUpper.length === upper.length) {
+              // 如果上一轮数量跟本轮相同，下一轮败者组比赛根据上一轮位置上调 height / 2
+              top = prevUpper[j].top - (height / 2)
+              prevUpper[j].position[1] = {
+                top: top + (height / 2) * 3,
+                left: width + columnSpacing,
+              }
+            } else {
+              // 如果上一轮数量跟本轮不相同，下一轮比赛位置为上一轮的两组比赛的居中位置
+              const gap = prevUpper[j * 2 + 1].top - (prevUpper[j * 2].top + matchHeight)
+              top = prevUpper[j * 2 + 1].top - (gap / 2) - height
+              const left = i === 1 && upper.length > 0 ? (width + columnSpacing) : ((width + columnSpacing) * 2)
+              prevUpper[j * 2].position[1] = {
+                top: top + height / 2,
+                left,
+              }
+              prevUpper[j * 2 + 1].position[1] = {
+                top: prevUpper[j * 2].position[1].top + height,
+                left,
+              }
             }
           }
           result[i].upper[j].top = top
@@ -128,7 +138,7 @@ export const DoubleElimination = ({
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', width: containerWidth, height: containerHeight }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: height/2, width: containerWidth, height: containerHeight }}>
       {
         dataWithPosition.map(({ upper, lower, final }, i) => (
           <div key={i} style={{ position: 'relative', width }}>
