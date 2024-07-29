@@ -31,7 +31,8 @@ export const Standings = ({ title, list, matches }) => {
       } else {
         if (score[0] > score[1]) {
           matchPoints[0] += 1
-        } else {
+        } 
+        if (score[0] < score[1]) {
           matchPoints[1] += 1
         }
       }
