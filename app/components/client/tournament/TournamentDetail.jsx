@@ -53,8 +53,8 @@ export default async function TournamentDetail({ id }) {
                     {
                       groups.map((group, j) => (
                         <div className="flex flex-col gap-2" key={j}>
-                          <Standings title={['Group A', 'Group B', 'Group C', 'Group D'][j]} list={group.list} matches={matches} />
-                          <Group list={group.list} matches={matches.filter(item => !item.extra)} />
+                          <Standings title={group.name} list={group.list} matches={matches.filter(item => !item.extra)} />
+                          {/* <Group list={group.list} matches={matches.filter(item => !item.extra)} /> */}
                         </div>
                       ))
                     }

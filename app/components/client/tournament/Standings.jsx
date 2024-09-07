@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 export const Standings = ({ title, list, matches }) => {
   const tableData = list.map((item, i) => {
-    const filterMatches = matches.filter(item => !item.extra && item.status === 2).filter(match => {
+    const filterMatches = matches.filter(match => {
       const teamIds = [match.homeTeamId, match.awayTeamId]
       if (teamIds.includes(item.teamId)) {
         return match
